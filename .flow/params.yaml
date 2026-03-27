@@ -1,0 +1,18 @@
+# Flow project configuration for ToysSandbox.
+# Update verify.* once the Godot project and automation scripts exist.
+
+project:
+  name: ToysSandbox
+  description: Child-focused Godot 4 sandbox MVP where stylized toy objects interact with simple 2D physics.
+  language: GDScript (Godot 4)
+  package_manager: godot
+  default_branch: main
+
+verify:
+  tests: 'printf "No automated tests configured yet; scaffold the Godot project first.\n"'
+  lint: 'printf "No automated lint configured yet; add a GDScript lint command after scaffolding.\n"'
+
+task_system:
+  kind: file
+  project_key: TOYS
+  task_url_template: "SPECS/Workplan.md#{task_id}-{task_name_slug}"
