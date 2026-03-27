@@ -16,7 +16,7 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	var spawn_position := _get_spawn_position(event)
+	var spawn_position: Variant = _get_spawn_position(event)
 
 	if spawn_position == null:
 		return
