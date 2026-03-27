@@ -22,6 +22,16 @@
   - Sandbox can spawn at least one configured toy from data
   - Spawn flow works with both mouse and touch-oriented input events
 
+#### P1-T3: Add Godot Validation And Flow Quality Gates
+- **Description:** Replace placeholder Flow verification commands with a real local automation path that validates the Godot scaffold and future scene/script changes.
+- **Priority:** P1
+- **Dependencies:** P1-T1
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - The repo has a documented command or script for headless Godot validation
+  - `.flow/params.yaml` no longer uses placeholder `verify.tests` and `verify.lint` commands
+  - Validation prerequisites are documented for local and CI usage
+
 ## Phase 2: Core Sandbox
 
 #### P2-T1: Build Sandbox Scene And Toy Shelf UI
