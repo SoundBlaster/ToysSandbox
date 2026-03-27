@@ -4,7 +4,9 @@
 **Phase:** Foundation
 **Effort:** 8-12 hours
 **Dependencies:** P1-T1
-**Status:** Selected
+**Status:** In Progress
+**Branch:** `feature/P1-T2-define-toy-data-model-and-spawn-pipeline`
+**Review Subject:** `p1-t2-define-toy-data-model-and-spawn-pipeline`
 
 ## Description
 
@@ -12,7 +14,7 @@ Establish reusable toy definitions, archetype presets, and the first spawn path 
 
 ## Next Step
 
-Run the PLAN command to produce the implementation-ready PRD for `P1-T2`.
+Create the task PRD, implement the shared toy data and spawn path, then archive the completed task artifacts.
 
 ## Recently Archived
 
