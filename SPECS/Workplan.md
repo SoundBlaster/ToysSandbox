@@ -2,7 +2,7 @@
 
 ## Phase 1: Foundation
 
-#### P1-T1: Scaffold Godot Project Shell
+#### P1-T1: Scaffold Godot Project Shell ✅ Complete
 - **Description:** Create the initial Godot 4 project, folder layout, and bootstrap scenes needed to move from planning docs into an executable sandbox prototype.
 - **Priority:** P0
 - **Dependencies:** None
@@ -21,6 +21,16 @@
   - Toy definitions encode behavior archetype, scale presets, and reaction hooks
   - Sandbox can spawn at least one configured toy from data
   - Spawn flow works with both mouse and touch-oriented input events
+
+#### P1-T3: Add Godot Validation And Flow Quality Gates
+- **Description:** Replace placeholder Flow verification commands with a real local automation path that validates the Godot scaffold and future scene/script changes.
+- **Priority:** P1
+- **Dependencies:** P1-T1
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - The repo has a documented command or script for headless Godot validation
+  - `.flow/params.yaml` no longer uses placeholder `verify.tests` and `verify.lint` commands
+  - Validation prerequisites are documented for local and CI usage
 
 ## Phase 2: Core Sandbox
 
