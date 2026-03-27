@@ -81,3 +81,7 @@ Given the environment does not currently provide Godot editor automation, valida
 - Future tasks should preserve the toy-definition contract unless a migration plan is documented.
 - `P2-T1` should bind the catalog to a shelf UI instead of inventing a second toy source.
 - `P2-T2` should reuse the spawned toy scene for manipulation verbs rather than replacing it.
+
+---
+**Archived:** 2026-03-28
+**Verdict:** PARTIAL

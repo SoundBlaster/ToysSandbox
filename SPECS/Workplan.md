@@ -12,7 +12,7 @@
   - Repository has a clear runtime structure for scenes, scripts, assets, and audio
   - Main entry path supports a menu scene and a sandbox scene
 
-#### P1-T2: Define Toy Data Model And Spawn Pipeline
+#### P1-T2: Define Toy Data Model And Spawn Pipeline ✅ Complete
 - **Description:** Establish reusable toy definitions, archetype presets, and a spawn path that can instantiate toys into the sandbox from one shared data source.
 - **Priority:** P0
 - **Dependencies:** P1-T1
