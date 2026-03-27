@@ -37,7 +37,8 @@ func _spawn_selected_toy(spawn_position: Vector2) -> void:
 		return
 
 	var toy_instance: RigidBody2D = TOY_INSTANCE_SCENE.instantiate()
-	toy_instance.position = _clamp_to_play_area(spawn_position)
+	var half_extents: Vector2 = definition.get("size", Vector2(72.0, 72.0)) * 0.5
+	toy_instance.position = _clamp_to_play_area(spawn_position, half_extents)
 	spawn_root.add_child(toy_instance)
 	toy_instance.call("configure", definition)
 
@@ -54,10 +55,13 @@ func _get_spawn_position(event: InputEvent) -> Variant:
 	return null
 
 
-func _clamp_to_play_area(point: Vector2) -> Vector2:
+func _clamp_to_play_area(point: Vector2, half_extents: Vector2 = Vector2.ZERO) -> Vector2:
+	var min_point := PLAY_AREA_RECT.position + half_extents
+	var max_point := PLAY_AREA_RECT.end - half_extents
+
 	return Vector2(
-		clampf(point.x, PLAY_AREA_RECT.position.x, PLAY_AREA_RECT.end.x),
-		clampf(point.y, PLAY_AREA_RECT.position.y, PLAY_AREA_RECT.end.y)
+		clampf(point.x, min_point.x, max_point.x),
+		clampf(point.y, min_point.y, max_point.y)
 	)
 
 
