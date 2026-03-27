@@ -19,3 +19,4 @@
 | Date | Task ID | Action |
 |------|---------|--------|
 | 2026-03-27 | P1-T1 | Archived `Scaffold Godot Project Shell` with verdict `PARTIAL` |
+| 2026-03-27 | P1-T1 | Archived review report `REVIEW_p1-t1-scaffold-godot-project-shell.md` |
