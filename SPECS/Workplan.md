@@ -2,7 +2,7 @@
 
 ## Phase 1: Foundation
 
-#### P1-T1: Scaffold Godot Project Shell
+#### P1-T1: Scaffold Godot Project Shell **INPROGRESS**
 - **Description:** Create the initial Godot 4 project, folder layout, and bootstrap scenes needed to move from planning docs into an executable sandbox prototype.
 - **Priority:** P0
 - **Dependencies:** None
