@@ -4,6 +4,26 @@ set -euo pipefail
 mode="${1:-tests}"
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
+print_usage() {
+  cat <<'EOF'
+Usage: bash scripts/ci/flow_validate.sh [tests|lint]
+
+Modes:
+  tests   Validate the curated baseline scene/script set.
+  lint    Recursively validate all .gd and .tscn files under scenes/ and scripts/.
+EOF
+}
+
+case "${mode}" in
+  tests|lint)
+    ;;
+  *)
+    echo "Unknown validation mode: ${mode}" >&2
+    print_usage >&2
+    exit 2
+    ;;
+esac
+
 godot_binary="${GODOT_BIN:-}"
 if [[ -z "${godot_binary}" ]]; then
   for candidate in godot godot4 /Applications/Godot.app/Contents/MacOS/Godot; do

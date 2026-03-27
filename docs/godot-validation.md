@@ -7,6 +7,8 @@ This project uses a small repo-local validation harness so Flow can run Godot ch
 - Tests: `bash scripts/ci/flow_validate.sh tests`
 - Lint: `bash scripts/ci/flow_validate.sh lint`
 
+Any mode other than `tests` or `lint` exits non-zero and prints a short usage message.
+
 ## Prerequisites
 
 - Godot 4 editor binary available as `godot`, `godot4`, or through `GODOT_BIN`
