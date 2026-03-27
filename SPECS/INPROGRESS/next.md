@@ -1,19 +1,20 @@
-# Next Task: P1-T2 — Define Toy Data Model And Spawn Pipeline
+# Next Task: P1-T3 — Add Godot Validation And Flow Quality Gates
 
-**Priority:** P0
+**Priority:** P1
 **Phase:** Foundation
-**Effort:** 8-12 hours
+**Effort:** 4-6 hours
 **Dependencies:** P1-T1
 **Status:** Selected
 
 ## Description
 
-Establish reusable toy definitions, archetype presets, and the first spawn path so the sandbox can instantiate toys from shared data instead of hardcoded scene-specific values.
+Replace Flow placeholder verification commands with a documented local validation path that can check the Godot scaffold and future scene or script changes.
 
 ## Next Step
 
-Run the PLAN command to produce the implementation-ready PRD for `P1-T2`.
+Run the PLAN command to produce the implementation-ready PRD for `P1-T3`.
 
 ## Recently Archived
 
+- `2026-03-28` — `P1-T2` archived with verdict `PARTIAL`
 - `2026-03-27` — `P1-T1` archived with verdict `PARTIAL`
