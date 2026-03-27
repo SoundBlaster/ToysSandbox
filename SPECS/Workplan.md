@@ -22,7 +22,7 @@
   - Sandbox can spawn at least one configured toy from data
   - Spawn flow works with both mouse and touch-oriented input events
 
-#### P1-T3: Establish Asset Pipeline For Sprites, Icons, And Placeholder Audio
+#### P1-T3: Establish Asset Pipeline For Sprites, Icons, And Placeholder Audio ✅ Complete
 - **Description:** Create a consistent import and naming pipeline for toy sprites, UI icons, backgrounds, VFX textures, and temporary sounds so the later art pass can swap files without changing gameplay code.
 - **Priority:** P1
 - **Dependencies:** P1-T1, P1-T2
