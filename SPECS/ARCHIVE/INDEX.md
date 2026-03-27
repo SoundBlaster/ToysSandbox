@@ -19,6 +19,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P1-T2 | Archived review report `REVIEW_p1-t2-define-toy-data-model-and-spawn-pipeline.md` |
 | 2026-03-28 | P1-T2 | Archived `Define Toy Data Model And Spawn Pipeline` with verdict `PARTIAL` |
 | 2026-03-27 | P1-T1 | Archived `Scaffold Godot Project Shell` with verdict `PARTIAL` |
 | 2026-03-27 | P1-T1 | Archived review report `REVIEW_p1-t1-scaffold-godot-project-shell.md` |
