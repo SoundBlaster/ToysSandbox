@@ -33,7 +33,7 @@
   - Core UI buttons and feedback states have placeholder art assets available
   - Import rules, naming conventions, and texture size expectations are documented
 
-#### P1-T4: Add Godot Validation And Flow Quality Gates
+#### P1-T4: Add Godot Validation And Flow Quality Gates **INPROGRESS**
 - **Description:** Replace placeholder Flow verification commands with a real local automation path that validates the Godot scaffold, asset imports, and future scene/script changes.
 - **Priority:** P1
 - **Dependencies:** P1-T1, P1-T3
