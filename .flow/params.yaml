@@ -16,3 +16,7 @@ task_system:
   kind: file
   project_key: TOYS
   task_url_template: "SPECS/Workplan.md#{task_id}-{task_name_slug}"
+
+structure:
+  source: scripts/
+  tests: tests/

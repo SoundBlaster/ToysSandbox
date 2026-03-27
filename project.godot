@@ -1,0 +1,33 @@
+; Engine configuration file.
+; Prefer editing this from the Godot editor after the project is opened.
+;
+; Format:
+;   [section]
+;   key=value
+
+config_version=5
+
+[application]
+
+config/name="ToysSandbox"
+run/main_scene="res://scenes/boot/Boot.tscn"
+config/features=PackedStringArray("4.2")
+config/icon="res://icon.svg"
+
+[autoload]
+
+GameState="*res://scripts/autoload/GameState.gd"
+ToyCatalog="*res://scripts/autoload/ToyCatalog.gd"
+SaveService="*res://scripts/autoload/SaveService.gd"
+AudioService="*res://scripts/autoload/AudioService.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[rendering]
+
+renderer/rendering_method="mobile"
