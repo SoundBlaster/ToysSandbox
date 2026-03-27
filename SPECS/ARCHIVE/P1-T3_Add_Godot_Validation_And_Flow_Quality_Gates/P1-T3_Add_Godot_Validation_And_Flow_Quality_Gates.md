@@ -70,3 +70,7 @@ Before changing the verification commands, define the expected interface for the
 - Update any project docs that point contributors to Flow quality gates so they use the new command surface.
 - Keep the validation script compatible with macOS path conventions and CI environments that provide `GODOT_BIN`.
 - Preserve the existing `project.godot` structure; this task should not change scene ownership or gameplay scripts.
+
+---
+**Archived:** 2026-03-28
+**Verdict:** PASS
