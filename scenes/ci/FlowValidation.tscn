@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ci/flow_validation.gd" id="1"]
+
+[node name="FlowValidation" type="Node"]
+script = ExtResource("1")

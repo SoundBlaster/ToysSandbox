@@ -9,8 +9,8 @@ project:
   default_branch: main
 
 verify:
-  tests: 'printf "No automated tests configured yet; scaffold the Godot project first.\n"'
-  lint: 'printf "No automated lint configured yet; add a GDScript lint command after scaffolding.\n"'
+  tests: 'bash scripts/ci/flow_validate.sh tests'
+  lint: 'bash scripts/ci/flow_validate.sh lint'
 
 task_system:
   kind: file
