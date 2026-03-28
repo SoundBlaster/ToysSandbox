@@ -1,23 +1,15 @@
-# Next Task: P4-T5 — Complete Real Hardware Export And Performance Validation
+# Next Task: P4-T3 — Add iOS/iPad Export Pipeline And Device Validation
 
-**Priority:** P1
+**Priority:** P2
 **Phase:** UX, Persistence, And Release Readiness
 **Effort:** Medium
 **Dependencies:** P4-T2
-**Status:** Ready for SELECT
+**Status:** Selected
 
 ## Description
 
-Finish the open acceptance work from `P4-T2` by installing any missing export prerequisites, producing real desktop and Android export outputs, and recording measured performance at the 25-toy target on actual target environments.
+Configure first-class iOS export support in Godot, integrate with Xcode signing, and validate reproducible deployment to a physical iPad without gameplay forks.
 
 ## Next Step
 
-Run SELECT for `P4-T5`, verify export-template/toolchain availability, and plan the real-device validation evidence needed to close the remaining export/performance gap.
-
-## Recently Archived
-
-- `2026-03-28` - `P4-T4` archived with verdict `PASS`
-- `2026-03-28` - `P2-T9` archived with verdict `PASS`
-- `2026-03-28` - `P4-T2` archived with verdict `PARTIAL`
-- `2026-03-28` - `P3-T3` archived with verdict `PASS`
-- `2026-03-28` - `P4-T1` archived with verdict `PASS`
+Run the PLAN command to generate the implementation-ready PRD.
