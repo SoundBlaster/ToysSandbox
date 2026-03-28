@@ -201,7 +201,7 @@
   - Settings include music volume, sound volume, and tutorial reset
   - Last selected toy and audio settings survive app restart
 
-#### P4-T2: Performance Pass, Asset Cleanup, And Export Validation
+#### P4-T2: Performance Pass, Asset Cleanup, And Export Validation **INPROGRESS**
 - **Description:** Tune the sandbox to meet the MVP object-count goals, remove unused placeholder assets, and verify export readiness for desktop and Android from one codebase.
 - **Priority:** P1
 - **Dependencies:** P3-T2, P3-T3, P4-T1

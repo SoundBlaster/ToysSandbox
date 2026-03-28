@@ -1,18 +1,18 @@
-# Next Task: Unassigned
+# Next Task: P4-T2 — Performance Pass, Asset Cleanup, And Export Validation
 
-**Priority:** TBD
-**Phase:** Performance and Remaining Sandbox Tasks
-**Effort:** TBD
-**Dependencies:** TBD
-**Status:** Ready for SELECT
+**Priority:** P1
+**Phase:** UX, Persistence, And Release Readiness
+**Effort:** 1-2 days
+**Dependencies:** P3-T2, P3-T3, P4-T1
+**Status:** Selected
 
 ## Description
 
-P3-T3 has been archived successfully. Choose the next highest-priority unblocked task from the workplan.
+Tune the sandbox toward the MVP object-count goals, clean up unused placeholder assets, and make export readiness reproducible for desktop and Android from the current Godot codebase.
 
 ## Next Step
 
-Run SELECT for `P4-T2` or `P2-T8` (or the next unblocked task) and then PLAN.
+Run the PLAN command to generate the implementation-ready PRD.
 
 ## Recently Archived
 
