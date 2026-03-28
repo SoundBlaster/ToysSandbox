@@ -13,11 +13,11 @@ size = Vector2(32, 720)
 
 [sub_resource type="PhysicsMaterial" id="4"]
 friction = 0.9
-bounce = 0.32
+bounce = 0.24
 
 [sub_resource type="PhysicsMaterial" id="5"]
 friction = 0.45
-bounce = 0.44
+bounce = 0.3
 
 [node name="Sandbox" type="Node2D"]
 script = ExtResource("1")
