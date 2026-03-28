@@ -26,6 +26,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P3-T1 | Archived review report `REVIEW_p3-t1-first-four-toy-archetypes.md` |
 | 2026-03-28 | P3-T1 | Archived `Ship The First Four Toy Archetypes With Final Silhouettes` with verdict `PASS` |
 | 2026-03-28 | P2-T4 | Archived review report `REVIEW_p2-t4-environmental-tools-and-feedback.md` |
 | 2026-03-28 | P2-T4 | Archived `Add Environmental Tools And Feedback` with verdict `PASS` |
