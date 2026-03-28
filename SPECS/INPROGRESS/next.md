@@ -4,7 +4,7 @@
 **Phase:** Core Sandbox
 **Effort:** 6-12 hours
 **Dependencies:** P1-T3, P2-T1
-**Status:** Suggested
+**Status:** Selected
 
 ## Description
 
@@ -12,10 +12,4 @@ Bind toy catalog entries to shelf icon presentation and in-world visuals so sele
 
 ## Next Step
 
-Run SELECT and PLAN for `P2-T2`.
-
-## Recently Archived
-
-- `2026-03-28` — `P2-T1` archived with verdict `PASS`
-- `2026-03-28` — `P1-T4` archived with verdict `PASS`
-- `2026-03-28` — `P1-T3` archived with verdict `PASS`
+Run the PLAN command to generate the implementation-ready PRD.
