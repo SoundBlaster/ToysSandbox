@@ -151,7 +151,8 @@ func _handle_pointer_pressed(pointer_id: int, screen_position: Vector2) -> void:
 
 	_clear_pending_drag()
 	var spawned := _spawn_selected_toy(world_position)
-	_set_active_toy(spawned)
+	if spawned != null:
+		_set_active_toy(spawned)
 
 
 func _handle_pointer_dragged(pointer_id: int, screen_position: Vector2) -> void:

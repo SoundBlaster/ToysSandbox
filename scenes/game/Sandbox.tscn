@@ -119,6 +119,15 @@ text = "Hotkeys: D duplicate, +/- resize, R reset, F fan, S smash."
 layout_mode = 2
 text = "Got it"
 
+[node name="StatsOverlay" type="Label" parent="CanvasLayer"]
+visible = false
+offset_left = 1020.0
+offset_top = 18.0
+offset_right = 1256.0
+offset_bottom = 52.0
+text = "FPS: 0 | Toys: 0/25"
+horizontal_alignment = 2
+
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 16
@@ -143,10 +152,6 @@ text = "Tap empty space to spawn. Tap a toy to drag. Use buttons (or D, +/-, R, 
 visible = false
 layout_mode = 2
 text = "Selected toy: Ball"
-
-[node name="StatsLabel" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
-layout_mode = 2
-text = "FPS: 0 | Toys: 0/25"
 
 [node name="ActionsRow" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
 layout_mode = 2

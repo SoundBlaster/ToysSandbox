@@ -9,6 +9,7 @@ const DEFAULT_STATE := {
 	"selected_toy_id": "ball",
 	"tutorial_dismissed": false,
 	"unlimited_toys_unlocked": false,
+	"show_stats_overlay": false,
 }
 
 var _state: Dictionary = DEFAULT_STATE.duplicate(true)
@@ -49,6 +50,9 @@ func load_state() -> Dictionary:
 		next_state["unlimited_toys_unlocked"] = bool(
 			config.get_value(GAMEPLAY_SECTION, "unlimited_toys_unlocked", DEFAULT_STATE["unlimited_toys_unlocked"])
 		)
+		next_state["show_stats_overlay"] = bool(
+			config.get_value(GAMEPLAY_SECTION, "show_stats_overlay", DEFAULT_STATE["show_stats_overlay"])
+		)
 	elif load_result != ERR_FILE_NOT_FOUND:
 		push_warning("SaveService: failed to load %s (code %d). Restoring defaults." % [SAVE_PATH, load_result])
 
@@ -88,6 +92,9 @@ func _normalized_state(source: Dictionary) -> Dictionary:
 	normalized["unlimited_toys_unlocked"] = bool(
 		source.get("unlimited_toys_unlocked", normalized["unlimited_toys_unlocked"])
 	)
+	normalized["show_stats_overlay"] = bool(
+		source.get("show_stats_overlay", normalized["show_stats_overlay"])
+	)
 	return normalized
 
 
@@ -101,6 +108,11 @@ func _write_state(next_state: Dictionary) -> void:
 		GAMEPLAY_SECTION,
 		"unlimited_toys_unlocked",
 		bool(next_state.get("unlimited_toys_unlocked", DEFAULT_STATE["unlimited_toys_unlocked"]))
+	)
+	config.set_value(
+		GAMEPLAY_SECTION,
+		"show_stats_overlay",
+		bool(next_state.get("show_stats_overlay", DEFAULT_STATE["show_stats_overlay"]))
 	)
 	var save_result := config.save(SAVE_PATH)
 	if save_result != OK:

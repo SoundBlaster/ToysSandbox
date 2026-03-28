@@ -18,7 +18,6 @@ const HUD_TEXT_SECONDARY := Color("d3e2ff")
 @onready var status_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/StatusLabel
 @onready var hint_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/HintLabel
 @onready var selected_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/SelectedLabel
-@onready var stats_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/StatsLabel
 @onready var toy_list: ItemList = $CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel/ShelfMargin/ShelfVBox/ToyList
 @onready var shelf_panel: PanelContainer = $CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel
 @onready var shelf_title_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel/ShelfMargin/ShelfVBox/ShelfTitleLabel
@@ -31,6 +30,7 @@ const HUD_TEXT_SECONDARY := Color("d3e2ff")
 @onready var onboarding_reset_hint_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingResetHint
 @onready var onboarding_controls_hint_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingControlsHint
 @onready var dismiss_onboarding_button: Button = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/DismissOnboardingButton
+@onready var stats_overlay_label: Label = $CanvasLayer/StatsOverlay
 
 var shelf_toy_ids: Array[StringName] = []
 var fallback_icons: Dictionary = {}
@@ -55,7 +55,7 @@ func _ready() -> void:
 	status_label.text = "Tap a toy to drag it. Tap empty space to spawn the selected toy."
 	_refresh_selected_label()
 	_refresh_onboarding_overlay()
-	_refresh_stats_label()
+	_refresh_stats_overlay()
 	interaction_controller = SANDBOX_INTERACTION_CONTROLLER.new()
 	interaction_controller.setup(
 		status_label,
@@ -73,7 +73,8 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	_refresh_stats_label()
+	if GameState.show_stats_overlay:
+		_refresh_stats_overlay()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -139,7 +140,6 @@ func _spawn_selected_toy(spawn_position: Vector2) -> RigidBody2D:
 
 	status_label.text = "Spawned %s. Drag, duplicate, resize, or reset." % definition.get("display_name", "Toy")
 	_dismiss_onboarding_overlay("")
-	_refresh_stats_label()
 	return toy_instance
 
 
@@ -232,9 +232,13 @@ func _refresh_selected_label() -> void:
 	selected_label.text = "Selected toy: %s" % definition.get("display_name", "None")
 
 
-func _refresh_stats_label() -> void:
+func _refresh_stats_overlay() -> void:
+	stats_overlay_label.visible = GameState.show_stats_overlay
+	if not GameState.show_stats_overlay:
+		return
+
 	var toy_limit_label := "inf" if GameState.unlimited_toys_unlocked else str(MAX_ACTIVE_TOYS)
-	stats_label.text = "FPS: %d | Toys: %d/%s" % [
+	stats_overlay_label.text = "FPS: %d | Toys: %d/%s" % [
 		Engine.get_frames_per_second(),
 		_get_active_toy_count(),
 		toy_limit_label,
@@ -352,7 +356,6 @@ func _apply_visual_polish() -> void:
 	status_label.add_theme_color_override("font_color", HUD_TEXT_PRIMARY)
 	hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
 	selected_label.add_theme_color_override("font_color", HUD_TEXT_PRIMARY)
-	stats_label.add_theme_color_override("font_color", HUD_TEXT_PRIMARY)
 	shelf_title_label.add_theme_color_override("font_color", HUD_TEXT_PRIMARY)
 	shelf_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
 	onboarding_title_label.add_theme_color_override("font_color", HUD_TEXT_PRIMARY)
@@ -360,6 +363,7 @@ func _apply_visual_polish() -> void:
 	onboarding_drag_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
 	onboarding_reset_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
 	onboarding_controls_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
+	stats_overlay_label.add_theme_color_override("font_color", HUD_TEXT_PRIMARY)
 
 	_style_action_button(duplicate_button, Color("6fb1ff"))
 	_style_action_button(grow_button, Color("60c89d"))

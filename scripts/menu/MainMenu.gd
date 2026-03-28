@@ -17,13 +17,15 @@ const LABEL_SECONDARY := Color("d4e2ff")
 @onready var sound_label: Label = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SoundRow/SoundLabel
 @onready var tutorial_label: Label = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/TutorialRow/TutorialLabel
 @onready var unlimited_toys_label: Label = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/UnlimitedToysRow/UnlimitedToysLabel
+@onready var stats_overlay_label: Label = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/StatsOverlayRow/StatsOverlayLabel
 @onready var music_slider: HSlider = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/MusicRow/MusicSlider
 @onready var sound_slider: HSlider = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SoundRow/SoundSlider
 @onready var music_value_label: Label = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/MusicRow/MusicValueLabel
 @onready var sound_value_label: Label = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SoundRow/SoundValueLabel
-@onready var reset_tutorial_button: Button = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/TutorialRow/ResetTutorialButton
-@onready var unlimited_toys_button: CheckButton = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/UnlimitedToysRow/UnlimitedToysButton
-@onready var close_settings_button: Button = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SettingsButtonsRow/CloseSettingsButton
+@onready var reset_tutorial_button: Button = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/TutorialRow/ResetTutorialButtonMargin/ResetTutorialButton
+@onready var unlimited_toys_button: CheckButton = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/UnlimitedToysRow/UnlimitedToysButtonMargin/UnlimitedToysButton
+@onready var stats_overlay_button: CheckButton = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/StatsOverlayRow/StatsOverlayButtonMargin/StatsOverlayButton
+@onready var close_settings_button: Button = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SettingsButtonsRow/CloseSettingsButtonMargin/CloseSettingsButton
 @onready var settings_status_label: Label = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SettingsStatusLabel
 
 
@@ -36,6 +38,7 @@ func _ready() -> void:
 	sound_slider.value_changed.connect(_on_sound_slider_changed)
 	reset_tutorial_button.pressed.connect(_on_reset_tutorial_pressed)
 	unlimited_toys_button.toggled.connect(_on_unlimited_toys_toggled)
+	stats_overlay_button.toggled.connect(_on_stats_overlay_toggled)
 	close_settings_button.pressed.connect(_on_close_settings_pressed)
 	_load_settings_ui()
 
@@ -77,6 +80,11 @@ func _on_unlimited_toys_toggled(is_toggled: bool) -> void:
 	_refresh_unlimited_toys_button()
 
 
+func _on_stats_overlay_toggled(is_toggled: bool) -> void:
+	GameState.set_show_stats_overlay(is_toggled)
+	_refresh_stats_overlay_button()
+
+
 func _load_settings_ui() -> void:
 	var persisted_state := SaveService.get_state()
 	var music_volume := clampf(float(persisted_state.get("music_volume", AudioService.music_volume)), 0.0, 1.0)
@@ -84,9 +92,11 @@ func _load_settings_ui() -> void:
 	music_slider.set_value_no_signal(music_volume)
 	sound_slider.set_value_no_signal(sound_volume)
 	unlimited_toys_button.set_pressed_no_signal(bool(persisted_state.get("unlimited_toys_unlocked", false)))
+	stats_overlay_button.set_pressed_no_signal(bool(persisted_state.get("show_stats_overlay", false)))
 	AudioService.apply_settings(music_volume, sound_volume)
 	_refresh_slider_labels()
 	_refresh_unlimited_toys_button()
+	_refresh_stats_overlay_button()
 	_set_settings_overlay_visible(false)
 
 
@@ -97,6 +107,10 @@ func _refresh_slider_labels() -> void:
 
 func _refresh_unlimited_toys_button() -> void:
 	unlimited_toys_button.text = "On" if unlimited_toys_button.button_pressed else "Off"
+
+
+func _refresh_stats_overlay_button() -> void:
+	stats_overlay_button.text = "On" if stats_overlay_button.button_pressed else "Off"
 
 
 func _apply_and_persist_audio_settings() -> void:
@@ -124,6 +138,7 @@ func _apply_visual_polish() -> void:
 	sound_label.add_theme_color_override("font_color", LABEL_SECONDARY)
 	tutorial_label.add_theme_color_override("font_color", LABEL_SECONDARY)
 	unlimited_toys_label.add_theme_color_override("font_color", LABEL_SECONDARY)
+	stats_overlay_label.add_theme_color_override("font_color", LABEL_SECONDARY)
 	music_value_label.add_theme_color_override("font_color", LABEL_PRIMARY)
 	sound_value_label.add_theme_color_override("font_color", LABEL_PRIMARY)
 	settings_status_label.add_theme_color_override("font_color", LABEL_PRIMARY)
@@ -132,7 +147,8 @@ func _apply_visual_polish() -> void:
 	_style_button(settings_button, Color("5d8bff"), 0.16)
 	_style_button(quit_button, Color("d07070"), 0.14)
 	_style_button(reset_tutorial_button, Color("d79a5f"), 0.12)
-	_style_button(unlimited_toys_button, Color("5bbd88"), 0.12)
+	_style_static_capsule_button(unlimited_toys_button, Color("5bbd88"))
+	_style_static_capsule_button(stats_overlay_button, Color("6aa6ff"))
 	_style_button(close_settings_button, Color("6f8eff"), 0.12)
 
 
@@ -186,4 +202,42 @@ func _style_button(button: Button, accent: Color, corner_radius: float) -> void:
 	button.add_theme_stylebox_override("disabled", disabled_style)
 	button.add_theme_color_override("font_color", Color("fff6e7"))
 	button.add_theme_color_override("font_hover_color", Color("fffef7"))
+	button.add_theme_color_override("font_pressed_color", Color("ffe9ca"))
+
+
+func _style_static_capsule_button(button: Button, accent: Color) -> void:
+	var normal_style := StyleBoxFlat.new()
+	normal_style.bg_color = accent.darkened(0.34)
+	normal_style.border_color = accent.lightened(0.22)
+	normal_style.border_width_left = 2
+	normal_style.border_width_top = 2
+	normal_style.border_width_right = 2
+	normal_style.border_width_bottom = 2
+	normal_style.corner_radius_top_left = 18
+	normal_style.corner_radius_top_right = 18
+	normal_style.corner_radius_bottom_right = 18
+	normal_style.corner_radius_bottom_left = 18
+	normal_style.shadow_color = Color(0.0, 0.0, 0.0, 0.22)
+	normal_style.shadow_size = 5
+	normal_style.set_content_margin(SIDE_LEFT, 14.0)
+	normal_style.set_content_margin(SIDE_RIGHT, 14.0)
+	normal_style.set_content_margin(SIDE_TOP, 6.0)
+	normal_style.set_content_margin(SIDE_BOTTOM, 6.0)
+
+	var pressed_style := normal_style.duplicate() as StyleBoxFlat
+	pressed_style.bg_color = accent.darkened(0.42)
+	pressed_style.border_color = accent
+
+	var focus_style := normal_style.duplicate() as StyleBoxFlat
+	focus_style.draw_center = true
+	focus_style.shadow_size = normal_style.shadow_size
+
+	button.add_theme_stylebox_override("normal", normal_style)
+	button.add_theme_stylebox_override("hover", normal_style.duplicate() as StyleBoxFlat)
+	button.add_theme_stylebox_override("pressed", pressed_style)
+	button.add_theme_stylebox_override("hover_pressed", pressed_style.duplicate() as StyleBoxFlat)
+	button.add_theme_stylebox_override("focus", focus_style)
+	button.add_theme_stylebox_override("disabled", normal_style.duplicate() as StyleBoxFlat)
+	button.add_theme_color_override("font_color", Color("fff6e7"))
+	button.add_theme_color_override("font_hover_color", Color("fff6e7"))
 	button.add_theme_color_override("font_pressed_color", Color("ffe9ca"))
