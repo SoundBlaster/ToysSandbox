@@ -4,7 +4,7 @@ const TOY_INSTANCE_SCENE := preload("res://scenes/game/ToyInstance.tscn")
 const PLAY_AREA_RECT := Rect2(Vector2(72.0, 72.0), Vector2(836.0, 560.0))
 const POINTER_NONE := -999
 const RESIZE_STEP := 0.15
-const MIN_THROW_SAMPLE_DT := 0.008
+const MIN_THROW_SAMPLE_DT := 0.0001
 const MAX_THROW_SPEED := 1400.0
 const THROW_DAMPING := 0.9
 
@@ -87,6 +87,12 @@ func _handle_key_shortcut(event: InputEventKey) -> void:
 
 
 func _handle_pointer_pressed(pointer_id: int, screen_position: Vector2) -> void:
+	if dragging_toy != null:
+		# Keep one authoritative drag pointer. Ignore extra touches/clicks until release
+		# so we do not leave the previously dragged toy frozen.
+		if pointer_id != drag_pointer_id:
+			return
+
 	var world_position := _screen_to_world(screen_position)
 	var picked_toy := _pick_toy_at(world_position)
 
