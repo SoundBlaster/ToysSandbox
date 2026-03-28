@@ -35,6 +35,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P4-T3 | Archived review report `REVIEW_p4-t3-ios-ipad-export-validation.md` |
 | 2026-03-28 | P4-T3 | Archived `Add iOS/iPad Export Pipeline And Device Validation` with verdict `PARTIAL` |
 | 2026-03-28 | P4-T4 | Archived review report `REVIEW_p4-t4-toy-skins-settings.md` |
 | 2026-03-28 | P4-T4 | Archived `Add Toy Styles/Skins With Settings Selection` with verdict `PASS` |
