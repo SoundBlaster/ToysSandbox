@@ -109,6 +109,18 @@
   - Existing interaction behavior remains functionally equivalent for mouse and touch input paths
   - Validation confirms no regression in drag, duplicate, resize, and reset interactions
 
+#### P2-T7: Add Physics Materials For Elastic Collision Feedback
+- **Description:** Introduce per-archetype and world-boundary physics materials (bounce/friction) so fan-driven and throw-driven collisions feel toy-like, including visible rebound from floor/walls for bouncy toys.
+- **Priority:** P1
+- **Dependencies:** P2-T4
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - Toys can be assigned collision materials by archetype without duplicating scene files per toy
+  - Floor and wall colliders have explicit physics material settings (not engine defaults)
+  - Bouncy toys (e.g., Ball) visibly rebound from floor/walls after fan or throw impact
+  - Heavy/sticky toys remain comparatively less elastic than bouncy toys under the same test setup
+  - Validation report documents before/after behavior and tuning values used
+
 ## Phase 3: Toy Catalog
 
 #### P3-T1: Ship The First Four Toy Archetypes With Final Silhouettes
