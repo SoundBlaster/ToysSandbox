@@ -75,3 +75,7 @@ The implementation should stay pragmatic. The current codebase is already lightw
 ## Notes
 
 - If deeper optimization or device-specific export failures are found during review, capture them as follow-up tasks rather than expanding this task into a full platform porting effort.
+
+---
+**Archived:** 2026-03-28
+**Verdict:** PARTIAL
