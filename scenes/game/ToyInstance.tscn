@@ -16,7 +16,16 @@ color = Color(1, 1, 1, 1)
 [node name="WorldSprite" type="Sprite2D" parent="."]
 visible = false
 
+[node name="PrimaryEffectSprite" type="Sprite2D" parent="."]
+visible = false
+z_index = 4
+
+[node name="SecondaryEffectSprite" type="Sprite2D" parent="."]
+visible = false
+z_index = 5
+
 [node name="NameLabel" type="Label" parent="."]
+visible = false
 offset_left = -48.0
 offset_top = -72.0
 offset_right = 48.0

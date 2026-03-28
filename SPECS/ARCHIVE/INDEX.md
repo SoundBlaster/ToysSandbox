@@ -6,6 +6,7 @@
 
 | Task ID | Folder | Archived | Verdict |
 |---------|--------|----------|---------|
+| P3-T3 | [P3-T3_Finalize_Backgrounds_Effects_And_UI_Polish/](P3-T3_Finalize_Backgrounds_Effects_And_UI_Polish/) | 2026-03-28 | PASS |
 | P4-T1 | [P4-T1_Add_Onboarding_Settings_And_Local_Persistence/](P4-T1_Add_Onboarding_Settings_And_Local_Persistence/) | 2026-03-28 | PASS |
 | P2-T7 | [P2-T7_Add_Physics_Materials_For_Elastic_Collision_Feedback/](P2-T7_Add_Physics_Materials_For_Elastic_Collision_Feedback/) | 2026-03-28 | PASS |
 | P2-T6 | [P2-T6_Extract_Interaction_Controller_From_Sandbox_Orchestration/](P2-T6_Extract_Interaction_Controller_From_Sandbox_Orchestration/) | 2026-03-28 | PASS |
@@ -30,6 +31,8 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P3-T3 | Archived review report `REVIEW_p3-t3-backgrounds-effects-ui-polish.md` |
+| 2026-03-28 | P3-T3 | Archived `Finalize Backgrounds, Effects, And UI Polish` with verdict `PASS` |
 | 2026-03-28 | P4-T1 | Archived review report `REVIEW_p4-t1-onboarding-settings-and-persistence.md` |
 | 2026-03-28 | P4-T1 | Archived `Add Onboarding, Settings, And Local Persistence` with verdict `PASS` |
 | 2026-03-28 | P2-T7 | Archived review report `REVIEW_p2-t7-physics-materials-elastic-collision-feedback.md` |

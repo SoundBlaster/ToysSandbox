@@ -132,6 +132,28 @@
   - Overlay does not alter physics behavior, selection, or drag interactions
   - Visual style remains readable over existing toy sprites and fallback polygons
 
+#### P2-T9: Select Spawned Toys By Clicking In-World Instances
+- **Description:** Allow players to select the active toy directly by clicking/tapping an already spawned toy in the sandbox world, with UI selection state synchronized to the shelf.
+- **Priority:** P1
+- **Dependencies:** P2-T2, P2-T6
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - Clicking/tapping an existing spawned toy marks it as the active selection without spawning a new toy
+  - The selected in-world toy is visually highlighted and receives tool actions (duplicate, resize, fan, smash) immediately
+  - Shelf selection updates to the matching toy definition when an in-world instance is selected
+  - Selection behavior remains consistent for both mouse and touch input paths
+
+#### P2-T10: Add Top-Right Collapse/Expand Menu Button
+- **Description:** Add a collapse/expand control on the menu panel’s top-right corner so players can quickly hide or restore the in-game menu while keeping sandbox interactions accessible.
+- **Priority:** P2
+- **Dependencies:** P2-T1, P3-T3
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - A clearly visible collapse/expand button exists at the menu panel’s top-right corner
+  - Collapsing the menu reduces UI obstruction while preserving access to core sandbox interactions
+  - Expanding restores the full menu state and controls without losing selection context
+  - Behavior works consistently for mouse and touch input paths
+
 ## Phase 3: Toy Catalog
 
 #### P3-T1: Ship The First Four Toy Archetypes With Final Silhouettes ✅ Complete
@@ -156,7 +178,7 @@
   - Each toy has a consistent icon, world sprite, and broken-state or reaction visual where needed
   - Sandbox remains stable with mixed toy interactions at the target object count
 
-#### P3-T3: Finalize Backgrounds, Effects, And UI Polish
+#### P3-T3: Finalize Backgrounds, Effects, And UI Polish ✅ Complete
 - **Description:** Tighten the non-toy visual layer with background art, particle textures, button states, and fragment visuals so the sandbox reads as one cohesive game rather than a collection of placeholders.
 - **Priority:** P2
 - **Dependencies:** P2-T4, P3-T2
@@ -200,3 +222,15 @@
   - Build/signing prerequisites (Xcode, Team ID, bundle identifier, provisioning) are documented for local setup
   - The project exports to an Xcode project and launches successfully on at least one physical iPad
   - iOS/iPad deployment steps are documented as a reproducible checklist
+
+#### P4-T4: Add Toy Styles/Skins With Settings Selection
+- **Description:** Introduce configurable toy visual styles (skins) and let players choose the active skin set from Settings, with the selected skin applied in gameplay and persisted between sessions.
+- **Priority:** P1
+- **Dependencies:** P3-T2, P4-T1
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - The game includes at least two distinct skin/style variants for toy visuals
+  - Settings UI exposes a clear skin selector that can be changed without restarting the app
+  - Selecting a skin updates newly spawned toys and existing visible toy visuals consistently
+  - The selected skin is persisted locally and restored on next launch
+  - Missing skin assets fall back safely to default visuals without breaking spawn or interactions

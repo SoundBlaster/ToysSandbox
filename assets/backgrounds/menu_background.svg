@@ -1,0 +1,28 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="menu_sky" x1="960" y1="0" x2="960" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1D2F56"/>
+      <stop offset="0.5" stop-color="#2C4D8A"/>
+      <stop offset="1" stop-color="#5BA4D8"/>
+    </linearGradient>
+    <radialGradient id="menu_glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(960 430) rotate(90) scale(520 920)">
+      <stop offset="0" stop-color="#F9D68D" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#F9D68D" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#menu_sky)"/>
+  <ellipse cx="960" cy="440" rx="920" ry="520" fill="url(#menu_glow)"/>
+
+  <circle cx="260" cy="200" r="130" fill="#89C7F5" fill-opacity="0.22"/>
+  <circle cx="1660" cy="230" r="160" fill="#9BD6FF" fill-opacity="0.18"/>
+  <circle cx="1480" cy="140" r="70" fill="#C0E8FF" fill-opacity="0.2"/>
+
+  <path d="M0 790C170 700 340 760 510 810C680 860 850 840 1020 800C1190 760 1360 710 1530 760C1700 810 1810 850 1920 830V1080H0V790Z" fill="#2A5B84" fill-opacity="0.72"/>
+  <path d="M0 860C150 820 300 850 450 900C600 950 780 960 960 920C1140 880 1320 820 1500 840C1680 860 1800 900 1920 940V1080H0V860Z" fill="#1E3E65" fill-opacity="0.86"/>
+
+  <circle cx="620" cy="300" r="14" fill="#FFFFFF" fill-opacity="0.32"/>
+  <circle cx="820" cy="250" r="10" fill="#FFFFFF" fill-opacity="0.3"/>
+  <circle cx="1100" cy="290" r="13" fill="#FFFFFF" fill-opacity="0.28"/>
+  <circle cx="1310" cy="240" r="9" fill="#FFFFFF" fill-opacity="0.3"/>
+</svg>
