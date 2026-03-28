@@ -109,6 +109,11 @@ layout_mode = 2
 autowrap_mode = 3
 text = "3. Tap Reset to clear and start over."
 
+[node name="OnboardingControlsHint" type="Label" parent="CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox"]
+layout_mode = 2
+autowrap_mode = 3
+text = "Hotkeys: D duplicate, +/- resize, R reset, F fan, S smash."
+
 [node name="DismissOnboardingButton" type="Button" parent="CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox"]
 layout_mode = 2
 text = "Got it"
@@ -123,23 +128,20 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 12
 
 [node name="StatusLabel" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
+visible = false
 layout_mode = 2
 text = "Sandbox shell booting..."
 
 [node name="HintLabel" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
+visible = false
 layout_mode = 2
 autowrap_mode = 3
 text = "Tap empty space to spawn. Tap a toy to drag. Use buttons (or D, +/-, R, F, S) for duplicate, resize, reset, fan, and smash."
 
 [node name="SelectedLabel" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
+visible = false
 layout_mode = 2
 text = "Selected toy: Ball"
-
-[node name="SelectedPreview" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 2
-expand_mode = 1
-stretch_mode = 5
 
 [node name="ActionsRow" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
 layout_mode = 2
@@ -169,9 +171,9 @@ text = "Fan"
 layout_mode = 2
 text = "Smash"
 
-[node name="BackButton" type="Button" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
+[node name="BackButton" type="Button" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow"]
 layout_mode = 2
-text = "Back to Menu"
+text = "Back"
 
 [node name="ShelfPanel" type="PanelContainer" parent="CanvasLayer/MarginContainer/HBoxContainer"]
 layout_mode = 2

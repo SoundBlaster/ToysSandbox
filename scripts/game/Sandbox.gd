@@ -7,7 +7,7 @@ const PANEL_BASE_COLOR := Color("1a2742")
 const HUD_TEXT_PRIMARY := Color("f4f8ff")
 const HUD_TEXT_SECONDARY := Color("d3e2ff")
 
-@onready var back_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/BackButton
+@onready var back_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow/BackButton
 @onready var duplicate_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow/DuplicateButton
 @onready var grow_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow/GrowButton
 @onready var shrink_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow/ShrinkButton
@@ -17,7 +17,6 @@ const HUD_TEXT_SECONDARY := Color("d3e2ff")
 @onready var status_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/StatusLabel
 @onready var hint_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/HintLabel
 @onready var selected_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/SelectedLabel
-@onready var selected_preview: TextureRect = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/SelectedPreview
 @onready var toy_list: ItemList = $CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel/ShelfMargin/ShelfVBox/ToyList
 @onready var shelf_panel: PanelContainer = $CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel
 @onready var shelf_title_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel/ShelfMargin/ShelfVBox/ShelfTitleLabel
@@ -28,6 +27,7 @@ const HUD_TEXT_SECONDARY := Color("d3e2ff")
 @onready var onboarding_spawn_hint_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingSpawnHint
 @onready var onboarding_drag_hint_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingDragHint
 @onready var onboarding_reset_hint_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingResetHint
+@onready var onboarding_controls_hint_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingControlsHint
 @onready var dismiss_onboarding_button: Button = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/DismissOnboardingButton
 
 var shelf_toy_ids: Array[StringName] = []
@@ -217,7 +217,6 @@ func _dismiss_onboarding_overlay(status_message: String) -> void:
 func _refresh_selected_label() -> void:
 	var definition := ToyCatalog.get_toy_definition(GameState.selected_toy_id)
 	selected_label.text = "Selected toy: %s" % definition.get("display_name", "None")
-	selected_preview.texture = _resolve_toy_icon(GameState.selected_toy_id, definition)
 
 
 func _screen_to_world(screen_position: Vector2) -> Vector2:
@@ -329,6 +328,7 @@ func _apply_visual_polish() -> void:
 	onboarding_spawn_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
 	onboarding_drag_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
 	onboarding_reset_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
+	onboarding_controls_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
 
 	_style_action_button(duplicate_button, Color("6fb1ff"))
 	_style_action_button(grow_button, Color("60c89d"))
@@ -338,13 +338,6 @@ func _apply_visual_polish() -> void:
 	_style_action_button(smash_button, Color("d090ec"))
 	_style_action_button(back_button, Color("8f9ed8"))
 	_style_action_button(dismiss_onboarding_button, Color("f1a95d"))
-
-	selected_preview.add_theme_stylebox_override("panel", _build_panel_style(Color("f8d091"), 0.9))
-	selected_preview.add_theme_constant_override("margin_left", 8)
-	selected_preview.add_theme_constant_override("margin_top", 8)
-	selected_preview.add_theme_constant_override("margin_right", 8)
-	selected_preview.add_theme_constant_override("margin_bottom", 8)
-
 
 func _build_panel_style(accent: Color, alpha: float) -> StyleBoxFlat:
 	var panel_style := StyleBoxFlat.new()
@@ -375,6 +368,10 @@ func _style_action_button(button: Button, accent: Color) -> void:
 	normal_style.corner_radius_top_right = 12
 	normal_style.corner_radius_bottom_right = 12
 	normal_style.corner_radius_bottom_left = 12
+	normal_style.set_content_margin(SIDE_LEFT, 14.0)
+	normal_style.set_content_margin(SIDE_RIGHT, 14.0)
+	normal_style.set_content_margin(SIDE_TOP, 6.0)
+	normal_style.set_content_margin(SIDE_BOTTOM, 6.0)
 
 	var hover_style := normal_style.duplicate() as StyleBoxFlat
 	hover_style.bg_color = accent.darkened(0.22)

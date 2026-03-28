@@ -132,6 +132,17 @@
   - Overlay does not alter physics behavior, selection, or drag interactions
   - Visual style remains readable over existing toy sprites and fallback polygons
 
+#### P2-T9: Select Spawned Toys By Clicking In-World Instances
+- **Description:** Allow players to select the active toy directly by clicking/tapping an already spawned toy in the sandbox world, with UI selection state synchronized to the shelf.
+- **Priority:** P1
+- **Dependencies:** P2-T2, P2-T6
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - Clicking/tapping an existing spawned toy marks it as the active selection without spawning a new toy
+  - The selected in-world toy is visually highlighted and receives tool actions (duplicate, resize, fan, smash) immediately
+  - Shelf selection updates to the matching toy definition when an in-world instance is selected
+  - Selection behavior remains consistent for both mouse and touch input paths
+
 ## Phase 3: Toy Catalog
 
 #### P3-T1: Ship The First Four Toy Archetypes With Final Silhouettes ✅ Complete
@@ -200,3 +211,15 @@
   - Build/signing prerequisites (Xcode, Team ID, bundle identifier, provisioning) are documented for local setup
   - The project exports to an Xcode project and launches successfully on at least one physical iPad
   - iOS/iPad deployment steps are documented as a reproducible checklist
+
+#### P4-T4: Add Toy Styles/Skins With Settings Selection
+- **Description:** Introduce configurable toy visual styles (skins) and let players choose the active skin set from Settings, with the selected skin applied in gameplay and persisted between sessions.
+- **Priority:** P1
+- **Dependencies:** P3-T2, P4-T1
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - The game includes at least two distinct skin/style variants for toy visuals
+  - Settings UI exposes a clear skin selector that can be changed without restarting the app
+  - Selecting a skin updates newly spawned toys and existing visible toy visuals consistently
+  - The selected skin is persisted locally and restored on next launch
+  - Missing skin assets fall back safely to default visuals without breaking spawn or interactions
