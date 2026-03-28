@@ -64,7 +64,8 @@ text = "Sandbox shell booting..."
 
 [node name="HintLabel" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
 layout_mode = 2
-text = "Tap or click in the play area to spawn the selected toy."
+autowrap_mode = 3
+text = "Tap empty space to spawn. Tap a toy to drag. Use buttons (or D, +/-, R) for duplicate, resize, and reset."
 
 [node name="SelectedLabel" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
 layout_mode = 2
@@ -75,6 +76,26 @@ custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
+
+[node name="ActionsRow" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DuplicateButton" type="Button" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow"]
+layout_mode = 2
+text = "Duplicate"
+
+[node name="GrowButton" type="Button" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow"]
+layout_mode = 2
+text = "Grow"
+
+[node name="ShrinkButton" type="Button" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow"]
+layout_mode = 2
+text = "Shrink"
+
+[node name="ResetButton" type="Button" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow"]
+layout_mode = 2
+text = "Reset"
 
 [node name="BackButton" type="Button" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
 layout_mode = 2
