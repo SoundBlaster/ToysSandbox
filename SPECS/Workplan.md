@@ -189,3 +189,14 @@
   - Android build holds 30 FPS with 25 active objects on target hardware class
   - Unused placeholder art and textures are removed or clearly marked for follow-up
   - Export checklist for Windows, macOS, Linux, and Android is documented and reproducible
+
+#### P4-T3: Add iOS/iPad Export Pipeline And Device Validation
+- **Description:** Configure first-class iOS export support in Godot, integrate with Xcode signing, and validate reproducible deployment to a physical iPad without gameplay forks.
+- **Priority:** P2
+- **Dependencies:** P4-T2
+- **Parallelizable:** no
+- **Acceptance Criteria:**
+  - `export_presets.cfg` contains a working iOS preset with required application metadata placeholders
+  - Build/signing prerequisites (Xcode, Team ID, bundle identifier, provisioning) are documented for local setup
+  - The project exports to an Xcode project and launches successfully on at least one physical iPad
+  - iOS/iPad deployment steps are documented as a reproducible checklist
