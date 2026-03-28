@@ -1,20 +1,21 @@
-# Next Task: P2-T4 — Add Environmental Tools And Feedback
+# Next Task: Unassigned
 
-**Priority:** P1
+**Priority:** TBD
 **Phase:** Core Sandbox
-**Effort:** 8-12 hours
-**Dependencies:** P2-T2, P2-T3
-**Status:** Selected
+**Effort:** TBD
+**Dependencies:** TBD
+**Status:** Ready for SELECT
 
 ## Description
 
-Introduce fan and smash tools plus baseline sound, animation, and particle feedback so interactions feel expressive and distinct by archetype.
+P2-T4 has been archived successfully. Choose the next highest-priority unblocked task from the workplan.
 
 ## Next Step
 
-Run the PLAN command to generate the implementation-ready PRD.
+Run SELECT for `P2-T6` (or the next unblocked task) and then PLAN.
 
 ## Recently Archived
 
+- `2026-03-28` — `P2-T4` archived with verdict `PASS`
 - `2026-03-28` — `P2-T3` archived with verdict `PASS`
 - `2026-03-28` — `P2-T2` archived with verdict `PASS`

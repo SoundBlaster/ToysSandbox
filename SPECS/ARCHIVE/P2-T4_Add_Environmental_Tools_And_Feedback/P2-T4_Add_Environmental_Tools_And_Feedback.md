@@ -70,3 +70,7 @@ Tool behavior must be deterministic by toy archetype from `ToyCatalog.gd`. At mi
 
 - Update docs if controls/hotkeys change (`docs/` and any in-scene hint text).
 - If reaction tuning grows complex, split constants into a follow-up config/helper task.
+
+---
+**Archived:** 2026-03-28
+**Verdict:** PASS
