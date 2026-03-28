@@ -8,6 +8,8 @@ const MIN_THROW_DURATION := 0.03
 const MIN_THROW_DISTANCE := 8.0
 const MAX_THROW_SPEED := 1400.0
 const THROW_DAMPING := 0.9
+const EMULATED_MOUSE_SUPPRESS_MS := 120
+const EMULATED_MOUSE_SUPPRESS_DISTANCE := 32.0
 
 var _status_label: Label = null
 var _spawn_root: Node2D = null
@@ -34,6 +36,8 @@ var _drag_start_usec := 0
 var _pending_drag_toy: RigidBody2D = null
 var _pending_drag_pointer_id := POINTER_NONE
 var _pending_drag_start_world := Vector2.ZERO
+var _last_touch_screen_position := Vector2.ZERO
+var _last_touch_timestamp_msec := -1
 
 
 func setup(
@@ -68,6 +72,8 @@ func handle_input(event: InputEvent) -> void:
 		return
 
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if _should_ignore_emulated_mouse(event.position):
+			return
 		if event.pressed:
 			_handle_pointer_pressed(-1, event.position)
 		else:
@@ -75,10 +81,13 @@ func handle_input(event: InputEvent) -> void:
 		return
 
 	if event is InputEventMouseMotion:
+		if _should_ignore_emulated_mouse(event.position):
+			return
 		_handle_pointer_dragged(-1, event.position)
 		return
 
 	if event is InputEventScreenTouch:
+		_register_touch_input(event.position)
 		if event.pressed:
 			_handle_pointer_pressed(event.index, event.position)
 		else:
@@ -86,7 +95,23 @@ func handle_input(event: InputEvent) -> void:
 		return
 
 	if event is InputEventScreenDrag:
+		_register_touch_input(event.position)
 		_handle_pointer_dragged(event.index, event.position)
+
+
+func _register_touch_input(screen_position: Vector2) -> void:
+	_last_touch_screen_position = screen_position
+	_last_touch_timestamp_msec = Time.get_ticks_msec()
+
+
+func _should_ignore_emulated_mouse(screen_position: Vector2) -> bool:
+	if not OS.has_feature("mobile"):
+		return false
+	if _last_touch_timestamp_msec < 0:
+		return false
+	if Time.get_ticks_msec() - _last_touch_timestamp_msec > EMULATED_MOUSE_SUPPRESS_MS:
+		return false
+	return _last_touch_screen_position.distance_to(screen_position) <= EMULATED_MOUSE_SUPPRESS_DISTANCE
 
 
 func on_duplicate_pressed() -> void:
