@@ -1,15 +1,22 @@
-# Next Task: P3-T3 — Finalize Backgrounds, Effects, And UI Polish
+# Next Task: Unassigned
 
-**Priority:** P2
-**Phase:** Phase 3: Toy Catalog
-**Effort:** 8-12 hours
-**Dependencies:** P2-T4, P3-T2
-**Status:** Selected
+**Priority:** TBD
+**Phase:** Performance and Remaining Sandbox Tasks
+**Effort:** TBD
+**Dependencies:** TBD
+**Status:** Ready for SELECT
 
 ## Description
 
-Tighten the non-toy visual layer with background art, particle textures, button states, and fragment visuals so the sandbox reads as one cohesive game rather than a collection of placeholders.
+P3-T3 has been archived successfully. Choose the next highest-priority unblocked task from the workplan.
 
 ## Next Step
 
-Run the PLAN command to generate the implementation-ready PRD.
+Run SELECT for `P4-T2` or `P2-T8` (or the next unblocked task) and then PLAN.
+
+## Recently Archived
+
+- `2026-03-28` - `P3-T3` archived with verdict `PASS`
+- `2026-03-28` - `P4-T1` archived with verdict `PASS`
+- `2026-03-28` - `P2-T7` archived with verdict `PASS`
+- `2026-03-28` - `P2-T6` archived with verdict `PASS`

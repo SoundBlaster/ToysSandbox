@@ -72,3 +72,7 @@ Implementation should preserve all existing interaction behavior and toy physics
 
 - If this pass surfaces deeper UX/navigation concerns, capture them as follow-up work instead of broadening scope here.
 - Performance/export cleanup remains under `P4-T2` and is out of scope for this task.
+
+---
+**Archived:** 2026-03-28
+**Verdict:** PASS

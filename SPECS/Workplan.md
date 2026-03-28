@@ -156,7 +156,7 @@
   - Each toy has a consistent icon, world sprite, and broken-state or reaction visual where needed
   - Sandbox remains stable with mixed toy interactions at the target object count
 
-#### P3-T3: Finalize Backgrounds, Effects, And UI Polish **INPROGRESS**
+#### P3-T3: Finalize Backgrounds, Effects, And UI Polish ✅ Complete
 - **Description:** Tighten the non-toy visual layer with background art, particle textures, button states, and fragment visuals so the sandbox reads as one cohesive game rather than a collection of placeholders.
 - **Priority:** P2
 - **Dependencies:** P2-T4, P3-T2
