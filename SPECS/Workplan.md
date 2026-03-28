@@ -169,7 +169,7 @@
 
 ## Phase 4: UX, Persistence, And Release Readiness
 
-#### P4-T1: Add Onboarding, Settings, And Local Persistence
+#### P4-T1: Add Onboarding, Settings, And Local Persistence ✅ Complete
 - **Description:** Implement first-launch guidance plus settings for audio and tutorial reset, and persist the last selected toy and user preferences.
 - **Priority:** P1
 - **Dependencies:** P2-T2

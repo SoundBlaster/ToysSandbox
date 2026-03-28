@@ -3,6 +3,12 @@ extends Node
 
 func _ready() -> void:
 	GameState.reset_session()
+	var persisted_state := SaveService.load_state()
+	GameState.apply_persisted_state(persisted_state)
+	AudioService.apply_settings(
+		float(persisted_state.get("music_volume", AudioService.music_volume)),
+		float(persisted_state.get("sound_volume", AudioService.sound_volume))
+	)
 	call_deferred("_go_to_main_menu")
 
 

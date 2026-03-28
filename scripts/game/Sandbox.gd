@@ -16,6 +16,8 @@ const PLAY_AREA_RECT := Rect2(Vector2(0.0, 72.0), Vector2(1280.0, 580.0))
 @onready var selected_preview: TextureRect = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/SelectedPreview
 @onready var toy_list: ItemList = $CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel/ShelfMargin/ShelfVBox/ToyList
 @onready var spawn_root: Node2D = $SpawnedToys
+@onready var onboarding_overlay: PanelContainer = $CanvasLayer/OnboardingOverlay
+@onready var dismiss_onboarding_button: Button = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/DismissOnboardingButton
 
 var shelf_toy_ids: Array[StringName] = []
 var fallback_icons: Dictionary = {}
@@ -32,11 +34,13 @@ func _ready() -> void:
 	fan_button.pressed.connect(_on_fan_pressed)
 	smash_button.pressed.connect(_on_smash_pressed)
 	toy_list.item_selected.connect(_on_toy_selected)
+	dismiss_onboarding_button.pressed.connect(_on_dismiss_onboarding_pressed)
 
 	_ensure_selected_toy()
 	_build_toy_shelf()
 	status_label.text = "Tap a toy to drag it. Tap empty space to spawn the selected toy."
 	_refresh_selected_label()
+	_refresh_onboarding_overlay()
 	interaction_controller = SANDBOX_INTERACTION_CONTROLLER.new()
 	interaction_controller.setup(
 		status_label,
@@ -91,6 +95,10 @@ func _on_smash_pressed() -> void:
 		interaction_controller.on_smash_pressed()
 
 
+func _on_dismiss_onboarding_pressed() -> void:
+	_dismiss_onboarding_overlay("Onboarding hidden. You can reset it from Settings.")
+
+
 func _spawn_selected_toy(spawn_position: Vector2) -> RigidBody2D:
 	var toy_id := GameState.selected_toy_id
 	var definition := ToyCatalog.get_toy_definition(toy_id)
@@ -106,6 +114,7 @@ func _spawn_selected_toy(spawn_position: Vector2) -> RigidBody2D:
 	toy_instance.call("configure", definition)
 
 	status_label.text = "Spawned %s. Drag, duplicate, resize, or reset." % definition.get("display_name", "Toy")
+	_dismiss_onboarding_overlay("")
 	return toy_instance
 
 
@@ -121,7 +130,7 @@ func _build_toy_shelf() -> void:
 	var selected_index := shelf_toy_ids.find(GameState.selected_toy_id)
 	if selected_index == -1 and not shelf_toy_ids.is_empty():
 		selected_index = 0
-		GameState.selected_toy_id = shelf_toy_ids[0]
+		GameState.set_selected_toy_id(shelf_toy_ids[0])
 
 	if selected_index >= 0:
 		toy_list.select(selected_index)
@@ -131,7 +140,7 @@ func _on_toy_selected(index: int) -> void:
 	if index < 0 or index >= shelf_toy_ids.size():
 		return
 
-	GameState.selected_toy_id = shelf_toy_ids[index]
+	GameState.set_selected_toy_id(shelf_toy_ids[index])
 	var definition := ToyCatalog.get_toy_definition(GameState.selected_toy_id)
 	status_label.text = "Selected %s from the shelf." % definition.get("display_name", "Toy")
 	_refresh_selected_label()
@@ -176,7 +185,21 @@ func _ensure_selected_toy() -> void:
 		GameState.selected_toy_id = &""
 		return
 
-	GameState.selected_toy_id = available_ids[0]
+	GameState.set_selected_toy_id(available_ids[0])
+
+
+func _refresh_onboarding_overlay() -> void:
+	onboarding_overlay.visible = not GameState.tutorial_dismissed
+
+
+func _dismiss_onboarding_overlay(status_message: String) -> void:
+	if GameState.tutorial_dismissed:
+		return
+
+	GameState.set_tutorial_dismissed(true)
+	_refresh_onboarding_overlay()
+	if not status_message.is_empty():
+		status_label.text = status_message
 
 
 func _refresh_selected_label() -> void:

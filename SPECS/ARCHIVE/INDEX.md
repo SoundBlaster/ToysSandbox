@@ -6,6 +6,7 @@
 
 | Task ID | Folder | Archived | Verdict |
 |---------|--------|----------|---------|
+| P4-T1 | [P4-T1_Add_Onboarding_Settings_And_Local_Persistence/](P4-T1_Add_Onboarding_Settings_And_Local_Persistence/) | 2026-03-28 | PASS |
 | P2-T7 | [P2-T7_Add_Physics_Materials_For_Elastic_Collision_Feedback/](P2-T7_Add_Physics_Materials_For_Elastic_Collision_Feedback/) | 2026-03-28 | PASS |
 | P2-T6 | [P2-T6_Extract_Interaction_Controller_From_Sandbox_Orchestration/](P2-T6_Extract_Interaction_Controller_From_Sandbox_Orchestration/) | 2026-03-28 | PASS |
 | P3-T2 | [P3-T2_Complete_The_Full_Eight-Toy_MVP_Catalog_And_Remaining_Asset_Variants/](P3-T2_Complete_The_Full_Eight-Toy_MVP_Catalog_And_Remaining_Asset_Variants/) | 2026-03-28 | PASS |
@@ -29,6 +30,8 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P4-T1 | Archived review report `REVIEW_p4-t1-onboarding-settings-and-persistence.md` |
+| 2026-03-28 | P4-T1 | Archived `Add Onboarding, Settings, And Local Persistence` with verdict `PASS` |
 | 2026-03-28 | P2-T7 | Archived review report `REVIEW_p2-t7-physics-materials-elastic-collision-feedback.md` |
 | 2026-03-28 | P2-T7 | Archived `Add Physics Materials For Elastic Collision Feedback` with verdict `PASS` |
 | 2026-03-28 | P2-T6 | Archived review report `REVIEW_p2-t6-interaction-controller-extraction.md` |
