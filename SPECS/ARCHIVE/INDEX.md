@@ -22,6 +22,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P2-T1 | Archived review report `REVIEW_p2-t1-sandbox-camera-bounds-and-shelf-ui.md` |
 | 2026-03-28 | P2-T1 | Archived `Build Sandbox Scene, Camera, Bounds, And Shelf UI` with verdict `PASS` |
 | 2026-03-28 | P1-T4 | Archived review report `REVIEW_p1-t4-add-godot-validation-and-flow-quality-gates.md` |
 | 2026-03-28 | P1-T4 | Archived `Add Godot Validation And Flow Quality Gates` with verdict `PASS` |
