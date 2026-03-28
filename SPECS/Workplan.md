@@ -109,7 +109,7 @@
   - Existing interaction behavior remains functionally equivalent for mouse and touch input paths
   - Validation confirms no regression in drag, duplicate, resize, and reset interactions
 
-#### P2-T7: Add Physics Materials For Elastic Collision Feedback
+#### P2-T7: Add Physics Materials For Elastic Collision Feedback **INPROGRESS**
 - **Description:** Introduce per-archetype and world-boundary physics materials (bounce/friction) so fan-driven and throw-driven collisions feel toy-like, including visible rebound from floor/walls for bouncy toys.
 - **Priority:** P1
 - **Dependencies:** P2-T4

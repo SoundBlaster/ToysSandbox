@@ -1,21 +1,15 @@
-# Next Task: Unassigned
+# Next Task: P2-T7 - Add Physics Materials For Elastic Collision Feedback
 
-**Priority:** TBD
+**Priority:** P1
 **Phase:** Core Sandbox
-**Effort:** TBD
-**Dependencies:** TBD
-**Status:** Ready for SELECT
+**Effort:** 6-8 hours
+**Dependencies:** P2-T4
+**Status:** Selected
 
 ## Description
 
-P2-T6 has been archived successfully. Choose the next highest-priority unblocked task from the workplan.
+Introduce per-archetype and world-boundary physics materials (bounce/friction) so fan-driven and throw-driven collisions feel toy-like, including visible rebound from floor and walls for bouncy toys.
 
 ## Next Step
 
-Run SELECT for `P2-T7` or `P2-T8` (or the next unblocked task) and then PLAN.
-
-## Recently Archived
-
-- `2026-03-28` — `P2-T6` archived with verdict `PASS`
-- `2026-03-28` — `P3-T2` archived with verdict `PASS`
-- `2026-03-28` — `P3-T1` archived with verdict `PASS`
+Run the PLAN command to generate the implementation-ready PRD.
