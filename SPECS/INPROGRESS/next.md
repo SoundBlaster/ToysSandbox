@@ -14,6 +14,10 @@ Finish the open acceptance work from `P4-T2` by installing any missing export pr
 
 Run SELECT for `P4-T5`, verify export-template/toolchain availability, and plan the real-device validation evidence needed to close the remaining export/performance gap.
 
+## Follow-Up Status
+
+- `2026-03-29` - FOLLOW-UP for `P4-T7` skipped; review found no actionable issues beyond the already-tracked physical-device validation gap.
+
 ## Recently Archived
 
 - `2026-03-29` - `P4-T7` archived with verdict `PARTIAL`
