@@ -31,6 +31,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P3-T3 | Archived review report `REVIEW_p3-t3-backgrounds-effects-ui-polish.md` |
 | 2026-03-28 | P3-T3 | Archived `Finalize Backgrounds, Effects, And UI Polish` with verdict `PASS` |
 | 2026-03-28 | P4-T1 | Archived review report `REVIEW_p4-t1-onboarding-settings-and-persistence.md` |
 | 2026-03-28 | P4-T1 | Archived `Add Onboarding, Settings, And Local Persistence` with verdict `PASS` |
