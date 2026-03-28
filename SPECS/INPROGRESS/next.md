@@ -4,7 +4,7 @@
 **Phase:** UX, Persistence, And Release Readiness
 **Effort:** Medium
 **Dependencies:** P3-T2, P4-T1
-**Status:** Ready for SELECT
+**Status:** Selected for PLAN
 
 ## Description
 
@@ -12,7 +12,7 @@ Introduce configurable toy visual styles (skins), expose the active skin choice 
 
 ## Next Step
 
-Run SELECT for `P4-T4`, create the task PRD, and plan the skin asset fallback plus persistence wiring before implementation.
+Create `SPECS/INPROGRESS/P4-T4_Add_Toy_Styles_Skins_With_Settings_Selection.md`, define the skin catalog/persistence scope, and proceed to EXECUTE after the PRD is committed.
 
 ## Recently Archived
 
