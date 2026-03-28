@@ -34,6 +34,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P4-T4 | Archived review report `REVIEW_p4-t4-toy-skins-settings.md` |
 | 2026-03-28 | P4-T4 | Archived `Add Toy Styles/Skins With Settings Selection` with verdict `PASS` |
 | 2026-03-28 | P2-T9 | Archived review report `REVIEW_p2-t9-in-world-selection-sync.md` |
 | 2026-03-28 | P2-T9 | Archived `Select Spawned Toys By Clicking In-World Instances` with verdict `PASS` |
