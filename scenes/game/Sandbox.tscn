@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scripts/game/Sandbox.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/sandbox_background.svg" id="2"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(1280, 48)
@@ -21,6 +22,13 @@ bounce = 0.3
 
 [node name="Sandbox" type="Node2D"]
 script = ExtResource("1")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 1280.0
+offset_bottom = 720.0
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="SpawnedToys" type="Node2D" parent="."]
 
@@ -128,7 +136,7 @@ layout_mode = 2
 text = "Selected toy: Ball"
 
 [node name="SelectedPreview" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
@@ -194,5 +202,5 @@ text = "Select a toy, then click the play area to spawn it."
 [node name="ToyList" type="ItemList" parent="CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel/ShelfMargin/ShelfVBox"]
 layout_mode = 2
 size_flags_vertical = 3
-fixed_icon_size = Vector2i(48, 48)
+fixed_icon_size = Vector2i(64, 64)
 select_mode = 0

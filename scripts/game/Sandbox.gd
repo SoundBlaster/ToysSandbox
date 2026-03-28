@@ -3,6 +3,9 @@ extends Node2D
 const TOY_INSTANCE_SCENE := preload("res://scenes/game/ToyInstance.tscn")
 const SANDBOX_INTERACTION_CONTROLLER := preload("res://scripts/game/SandboxInteractionController.gd")
 const PLAY_AREA_RECT := Rect2(Vector2(0.0, 72.0), Vector2(1280.0, 580.0))
+const PANEL_BASE_COLOR := Color("1a2742")
+const HUD_TEXT_PRIMARY := Color("f4f8ff")
+const HUD_TEXT_SECONDARY := Color("d3e2ff")
 
 @onready var back_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/BackButton
 @onready var duplicate_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow/DuplicateButton
@@ -12,11 +15,19 @@ const PLAY_AREA_RECT := Rect2(Vector2(0.0, 72.0), Vector2(1280.0, 580.0))
 @onready var fan_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow/FanButton
 @onready var smash_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow/SmashButton
 @onready var status_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/StatusLabel
+@onready var hint_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/HintLabel
 @onready var selected_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/SelectedLabel
 @onready var selected_preview: TextureRect = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/SelectedPreview
 @onready var toy_list: ItemList = $CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel/ShelfMargin/ShelfVBox/ToyList
+@onready var shelf_panel: PanelContainer = $CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel
+@onready var shelf_title_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel/ShelfMargin/ShelfVBox/ShelfTitleLabel
+@onready var shelf_hint_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel/ShelfMargin/ShelfVBox/ShelfHintLabel
 @onready var spawn_root: Node2D = $SpawnedToys
 @onready var onboarding_overlay: PanelContainer = $CanvasLayer/OnboardingOverlay
+@onready var onboarding_title_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingTitle
+@onready var onboarding_spawn_hint_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingSpawnHint
+@onready var onboarding_drag_hint_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingDragHint
+@onready var onboarding_reset_hint_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingResetHint
 @onready var dismiss_onboarding_button: Button = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/DismissOnboardingButton
 
 var shelf_toy_ids: Array[StringName] = []
@@ -36,6 +47,7 @@ func _ready() -> void:
 	toy_list.item_selected.connect(_on_toy_selected)
 	dismiss_onboarding_button.pressed.connect(_on_dismiss_onboarding_pressed)
 
+	_apply_visual_polish()
 	_ensure_selected_toy()
 	_build_toy_shelf()
 	status_label.text = "Tap a toy to drag it. Tap empty space to spawn the selected toy."
@@ -302,3 +314,79 @@ func _draw_circle_icon(image: Image, center: Vector2i, radius: int, fill_color: 
 				continue
 
 			image.set_pixel(x, y, border_color if distance_sq >= inner_radius_sq else fill_color)
+
+
+func _apply_visual_polish() -> void:
+	shelf_panel.add_theme_stylebox_override("panel", _build_panel_style(Color("8fc6ff"), 0.94))
+	onboarding_overlay.add_theme_stylebox_override("panel", _build_panel_style(Color("ffd18f"), 0.96))
+
+	status_label.add_theme_color_override("font_color", HUD_TEXT_PRIMARY)
+	hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
+	selected_label.add_theme_color_override("font_color", HUD_TEXT_PRIMARY)
+	shelf_title_label.add_theme_color_override("font_color", HUD_TEXT_PRIMARY)
+	shelf_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
+	onboarding_title_label.add_theme_color_override("font_color", HUD_TEXT_PRIMARY)
+	onboarding_spawn_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
+	onboarding_drag_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
+	onboarding_reset_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
+
+	_style_action_button(duplicate_button, Color("6fb1ff"))
+	_style_action_button(grow_button, Color("60c89d"))
+	_style_action_button(shrink_button, Color("d7985f"))
+	_style_action_button(reset_button, Color("cc7f7f"))
+	_style_action_button(fan_button, Color("72d6d5"))
+	_style_action_button(smash_button, Color("d090ec"))
+	_style_action_button(back_button, Color("8f9ed8"))
+	_style_action_button(dismiss_onboarding_button, Color("f1a95d"))
+
+	selected_preview.add_theme_stylebox_override("panel", _build_panel_style(Color("f8d091"), 0.9))
+	selected_preview.add_theme_constant_override("margin_left", 8)
+	selected_preview.add_theme_constant_override("margin_top", 8)
+	selected_preview.add_theme_constant_override("margin_right", 8)
+	selected_preview.add_theme_constant_override("margin_bottom", 8)
+
+
+func _build_panel_style(accent: Color, alpha: float) -> StyleBoxFlat:
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color(PANEL_BASE_COLOR.r, PANEL_BASE_COLOR.g, PANEL_BASE_COLOR.b, alpha)
+	panel_style.border_color = accent
+	panel_style.border_width_left = 2
+	panel_style.border_width_top = 2
+	panel_style.border_width_right = 2
+	panel_style.border_width_bottom = 2
+	panel_style.corner_radius_top_left = 16
+	panel_style.corner_radius_top_right = 16
+	panel_style.corner_radius_bottom_right = 16
+	panel_style.corner_radius_bottom_left = 16
+	panel_style.shadow_color = Color(0.0, 0.0, 0.0, 0.28)
+	panel_style.shadow_size = 8
+	return panel_style
+
+
+func _style_action_button(button: Button, accent: Color) -> void:
+	var normal_style := StyleBoxFlat.new()
+	normal_style.bg_color = accent.darkened(0.36)
+	normal_style.border_color = accent.lightened(0.2)
+	normal_style.border_width_left = 2
+	normal_style.border_width_top = 2
+	normal_style.border_width_right = 2
+	normal_style.border_width_bottom = 2
+	normal_style.corner_radius_top_left = 12
+	normal_style.corner_radius_top_right = 12
+	normal_style.corner_radius_bottom_right = 12
+	normal_style.corner_radius_bottom_left = 12
+
+	var hover_style := normal_style.duplicate() as StyleBoxFlat
+	hover_style.bg_color = accent.darkened(0.22)
+	hover_style.border_color = accent.lightened(0.32)
+
+	var pressed_style := normal_style.duplicate() as StyleBoxFlat
+	pressed_style.bg_color = accent.darkened(0.5)
+	pressed_style.border_color = accent
+
+	button.add_theme_stylebox_override("normal", normal_style)
+	button.add_theme_stylebox_override("hover", hover_style)
+	button.add_theme_stylebox_override("pressed", pressed_style)
+	button.add_theme_color_override("font_color", Color("fff6ea"))
+	button.add_theme_color_override("font_hover_color", Color("ffffff"))
+	button.add_theme_color_override("font_pressed_color", Color("ffe6cd"))

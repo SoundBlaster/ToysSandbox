@@ -1,0 +1,30 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sand_sky" x1="960" y1="0" x2="960" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#A4D9FB"/>
+      <stop offset="0.58" stop-color="#D5F0FF"/>
+      <stop offset="1" stop-color="#F8DCA9"/>
+    </linearGradient>
+    <linearGradient id="sand_floor" x1="960" y1="640" x2="960" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F3BF77"/>
+      <stop offset="1" stop-color="#E59A52"/>
+    </linearGradient>
+    <radialGradient id="playmat" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(960 705) rotate(90) scale(260 980)">
+      <stop offset="0" stop-color="#FFF0C8" stop-opacity="0.82"/>
+      <stop offset="1" stop-color="#FFF0C8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#sand_sky)"/>
+
+  <circle cx="210" cy="200" r="95" fill="#FFFFFF" fill-opacity="0.38"/>
+  <circle cx="320" cy="200" r="74" fill="#FFFFFF" fill-opacity="0.32"/>
+  <circle cx="1520" cy="170" r="82" fill="#FFFFFF" fill-opacity="0.34"/>
+  <circle cx="1625" cy="175" r="62" fill="#FFFFFF" fill-opacity="0.3"/>
+
+  <rect y="640" width="1920" height="440" fill="url(#sand_floor)"/>
+  <ellipse cx="960" cy="705" rx="980" ry="260" fill="url(#playmat)"/>
+
+  <path d="M0 648C160 630 320 652 480 670C640 688 800 696 960 684C1120 672 1280 648 1440 644C1600 640 1760 652 1920 668V710H0V648Z" fill="#FCE4B7" fill-opacity="0.55"/>
+  <path d="M0 738C180 710 360 740 540 772C720 804 900 816 1080 792C1260 768 1440 724 1620 728C1740 730 1840 744 1920 756V844H0V738Z" fill="#D98845" fill-opacity="0.38"/>
+</svg>

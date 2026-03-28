@@ -3,6 +3,8 @@ extends RigidBody2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var body_polygon: Polygon2D = $BodyPolygon
 @onready var world_sprite: Sprite2D = $WorldSprite
+@onready var primary_effect_sprite: Sprite2D = $PrimaryEffectSprite
+@onready var secondary_effect_sprite: Sprite2D = $SecondaryEffectSprite
 @onready var name_label: Label = $NameLabel
 
 var toy_definition: Dictionary = {}
@@ -12,9 +14,17 @@ var size_scale := 1.0
 var _buoyancy_force := 0.0
 var _upright_strength := 0.0
 var _upright_damping := 0.0
+var _primary_effect_tween: Tween = null
+var _secondary_effect_tween: Tween = null
 
 const MIN_SIZE_SCALE := 0.6
 const MAX_SIZE_SCALE := 1.8
+const EFFECT_TEXTURES := {
+	&"fragment": preload("res://assets/effects/fragment_effect.svg"),
+	&"crack": preload("res://assets/effects/crack_effect.svg"),
+	&"squash": preload("res://assets/effects/squash_effect.svg"),
+	&"pop": preload("res://assets/effects/pop_effect.svg"),
+}
 const FAN_FORCE_BY_ARCHETYPE := {
 	&"bouncy": 1.0,
 	&"soft": 0.75,
@@ -90,6 +100,7 @@ func configure(definition: Dictionary) -> void:
 
 	_apply_shape()
 	_apply_visuals()
+	_reset_effect_overlays()
 	set_selected(false)
 
 
@@ -301,6 +312,7 @@ func _apply_tool_feedback(archetype: StringName, tool: StringName) -> void:
 	match archetype:
 		&"bouncy":
 			_play_feedback_flash(Color(1.2, 1.15, 0.95), 0.12)
+			_play_primary_effect(&"pop", Color(1.0, 0.96, 0.84), 0.18, false)
 			if tool == &"fan" and world_sprite.visible:
 				var canonical_scale := _get_canonical_world_sprite_scale()
 				world_sprite.scale = canonical_scale * Vector2(0.9, 1.12)
@@ -309,10 +321,13 @@ func _apply_tool_feedback(archetype: StringName, tool: StringName) -> void:
 			angular_velocity += 2.2 if tool == &"fan" else 3.4
 		&"fragile":
 			_play_feedback_flash(Color(0.7, 0.9, 1.2), 0.22)
+			_play_primary_effect(&"crack", Color(0.82, 0.94, 1.0), 0.3, false)
 			if tool == &"smash":
 				_play_feedback_flash(Color(1.2, 0.85, 0.85), 0.16)
+				_play_secondary_effect(&"fragment", Color(1.0, 0.87, 0.77), 0.26, true)
 		&"soft", &"deformable":
 			_play_feedback_flash(Color(1.1, 0.95, 1.2), 0.18)
+			_play_primary_effect(&"squash", Color(1.0, 0.82, 0.98), 0.24, false)
 			if world_sprite.visible:
 				var canonical_scale := _get_canonical_world_sprite_scale()
 				world_sprite.scale = canonical_scale * Vector2(1.12, 0.86)
@@ -320,12 +335,14 @@ func _apply_tool_feedback(archetype: StringName, tool: StringName) -> void:
 				squash_tween.tween_property(world_sprite, "scale", canonical_scale, 0.14)
 		&"heavy":
 			_play_feedback_flash(Color(1.15, 1.08, 0.9), 0.14)
+			_play_primary_effect(&"fragment", Color(1.0, 0.9, 0.74), 0.2, true)
 			name_label.modulate = Color(1.0, 0.92, 0.72)
 			var base_label_modulate := _get_name_label_base_modulate()
 			var rigid_tween := create_tween()
 			rigid_tween.tween_property(name_label, "modulate", base_label_modulate, 0.14)
 		&"metal":
 			_play_feedback_flash(Color(1.08, 1.12, 1.18), 0.14)
+			_play_primary_effect(&"fragment", Color(0.84, 0.93, 1.0), 0.22, true)
 			name_label.modulate = Color(0.9, 0.98, 1.0)
 			if tool == &"smash":
 				angular_velocity += 4.2
@@ -336,6 +353,7 @@ func _apply_tool_feedback(archetype: StringName, tool: StringName) -> void:
 			metal_tween.tween_property(name_label, "modulate", base_label_modulate, 0.18)
 		&"air":
 			_play_feedback_flash(Color(1.2, 0.96, 1.1), 0.2)
+			_play_primary_effect(&"pop", Color(1.0, 0.93, 0.7), 0.28, true)
 			if tool == &"fan":
 				linear_velocity += Vector2(0.0, -120.0)
 			else:
@@ -347,6 +365,7 @@ func _apply_tool_feedback(archetype: StringName, tool: StringName) -> void:
 				drift_tween.tween_property(world_sprite, "scale", canonical_scale, 0.2)
 		&"sticky":
 			_play_feedback_flash(Color(0.9, 1.12, 0.84), 0.22)
+			_play_primary_effect(&"squash", Color(0.84, 1.0, 0.76), 0.28, false)
 			linear_velocity *= 0.72
 			angular_velocity *= 0.4
 			if world_sprite.visible:
@@ -356,6 +375,95 @@ func _apply_tool_feedback(archetype: StringName, tool: StringName) -> void:
 				peel_tween.tween_property(world_sprite, "scale", canonical_scale, 0.24)
 		_:
 			_play_feedback_flash(Color(1.08, 1.08, 1.08), 0.12)
+			_play_primary_effect(&"pop", Color(1.0, 0.96, 0.9), 0.16, false)
+
+
+func _play_primary_effect(effect_name: StringName, tint: Color, duration: float, random_rotation: bool) -> void:
+	_play_effect(primary_effect_sprite, &"primary", effect_name, tint, duration, random_rotation)
+
+
+func _play_secondary_effect(effect_name: StringName, tint: Color, duration: float, random_rotation: bool) -> void:
+	_play_effect(secondary_effect_sprite, &"secondary", effect_name, tint, duration, random_rotation)
+
+
+func _play_effect(
+	effect_sprite: Sprite2D,
+	slot: StringName,
+	effect_name: StringName,
+	tint: Color,
+	duration: float,
+	random_rotation: bool
+) -> void:
+	if effect_sprite == null:
+		return
+
+	var effect_texture := EFFECT_TEXTURES.get(effect_name, null) as Texture2D
+	if effect_texture == null:
+		return
+
+	_stop_effect_tween(slot)
+
+	var normalized_scale := clampf(
+		(size_scale - MIN_SIZE_SCALE) / (MAX_SIZE_SCALE - MIN_SIZE_SCALE),
+		0.0,
+		1.0
+	)
+	var base_scale := lerpf(0.72, 1.18, normalized_scale)
+
+	effect_sprite.texture = effect_texture
+	effect_sprite.visible = true
+	effect_sprite.modulate = Color(tint.r, tint.g, tint.b, 0.95)
+	effect_sprite.rotation = randf_range(-0.45, 0.45) if random_rotation else 0.0
+	effect_sprite.scale = Vector2.ONE * (0.56 * base_scale)
+
+	var tween := create_tween()
+	_set_effect_tween(slot, tween)
+	tween.tween_property(effect_sprite, "scale", Vector2.ONE * (1.42 * base_scale), duration)
+	tween.parallel().tween_property(effect_sprite, "modulate:a", 0.0, duration)
+	tween.finished.connect(func() -> void:
+		var active_tween := _get_effect_tween(slot)
+		if active_tween != tween:
+			return
+
+		_set_effect_tween(slot, null)
+		effect_sprite.visible = false
+		effect_sprite.rotation = 0.0
+		effect_sprite.scale = Vector2.ONE
+	)
+
+
+func _reset_effect_overlays() -> void:
+	_stop_effect_tween(&"primary")
+	_stop_effect_tween(&"secondary")
+
+	for effect_sprite in [primary_effect_sprite, secondary_effect_sprite]:
+		if effect_sprite == null:
+			continue
+		effect_sprite.visible = false
+		effect_sprite.texture = null
+		effect_sprite.scale = Vector2.ONE
+		effect_sprite.rotation = 0.0
+		effect_sprite.modulate = Color(1.0, 1.0, 1.0, 0.0)
+
+
+func _stop_effect_tween(slot: StringName) -> void:
+	var active_tween := _get_effect_tween(slot)
+	if active_tween != null:
+		active_tween.kill()
+	_set_effect_tween(slot, null)
+
+
+func _get_effect_tween(slot: StringName) -> Tween:
+	if slot == &"primary":
+		return _primary_effect_tween
+	return _secondary_effect_tween
+
+
+func _set_effect_tween(slot: StringName, tween: Tween) -> void:
+	if slot == &"primary":
+		_primary_effect_tween = tween
+	else:
+		_secondary_effect_tween = tween
 
 
 func _play_impact_punch() -> void:
