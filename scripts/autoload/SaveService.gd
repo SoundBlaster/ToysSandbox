@@ -7,6 +7,7 @@ const DEFAULT_STATE := {
 	"music_volume": 0.8,
 	"sound_volume": 0.9,
 	"selected_toy_id": "ball",
+	"selected_skin_id": "classic",
 	"tutorial_dismissed": false,
 	"unlimited_toys_unlocked": false,
 	"show_stats_overlay": false,
@@ -43,6 +44,9 @@ func load_state() -> Dictionary:
 		)
 		next_state["selected_toy_id"] = _sanitize_toy_id(
 			config.get_value(GAMEPLAY_SECTION, "selected_toy_id", DEFAULT_STATE["selected_toy_id"])
+		)
+		next_state["selected_skin_id"] = _sanitize_skin_id(
+			config.get_value(GAMEPLAY_SECTION, "selected_skin_id", DEFAULT_STATE["selected_skin_id"])
 		)
 		next_state["tutorial_dismissed"] = bool(
 			config.get_value(GAMEPLAY_SECTION, "tutorial_dismissed", DEFAULT_STATE["tutorial_dismissed"])
@@ -88,6 +92,7 @@ func _normalized_state(source: Dictionary) -> Dictionary:
 		float(DEFAULT_STATE["sound_volume"])
 	)
 	normalized["selected_toy_id"] = _sanitize_toy_id(source.get("selected_toy_id", normalized["selected_toy_id"]))
+	normalized["selected_skin_id"] = _sanitize_skin_id(source.get("selected_skin_id", normalized["selected_skin_id"]))
 	normalized["tutorial_dismissed"] = bool(source.get("tutorial_dismissed", normalized["tutorial_dismissed"]))
 	normalized["unlimited_toys_unlocked"] = bool(
 		source.get("unlimited_toys_unlocked", normalized["unlimited_toys_unlocked"])
@@ -103,6 +108,7 @@ func _write_state(next_state: Dictionary) -> void:
 	config.set_value(AUDIO_SECTION, "music_volume", float(next_state.get("music_volume", DEFAULT_STATE["music_volume"])))
 	config.set_value(AUDIO_SECTION, "sound_volume", float(next_state.get("sound_volume", DEFAULT_STATE["sound_volume"])))
 	config.set_value(GAMEPLAY_SECTION, "selected_toy_id", String(next_state.get("selected_toy_id", DEFAULT_STATE["selected_toy_id"])))
+	config.set_value(GAMEPLAY_SECTION, "selected_skin_id", String(next_state.get("selected_skin_id", DEFAULT_STATE["selected_skin_id"])))
 	config.set_value(GAMEPLAY_SECTION, "tutorial_dismissed", bool(next_state.get("tutorial_dismissed", DEFAULT_STATE["tutorial_dismissed"])))
 	config.set_value(
 		GAMEPLAY_SECTION,
@@ -131,3 +137,16 @@ func _sanitize_toy_id(value: Variant) -> String:
 	if value is String and not String(value).strip_edges().is_empty():
 		return String(value)
 	return String(DEFAULT_STATE["selected_toy_id"])
+
+
+func _sanitize_skin_id(value: Variant) -> String:
+	var candidate := ""
+	if value is StringName:
+		candidate = String(value)
+	elif value is String:
+		candidate = String(value).strip_edges()
+
+	if not candidate.is_empty() and ToyCatalog.has_skin(StringName(candidate)):
+		return candidate
+
+	return String(DEFAULT_STATE["selected_skin_id"])

@@ -1,8 +1,10 @@
 extends Node
 
 const DEFAULT_SELECTED_TOY_ID := &"ball"
+const DEFAULT_SELECTED_SKIN_ID := &"classic"
 
 var selected_toy_id: StringName = DEFAULT_SELECTED_TOY_ID
+var selected_skin_id: StringName = DEFAULT_SELECTED_SKIN_ID
 var tutorial_dismissed := false
 var unlimited_toys_unlocked := false
 var show_stats_overlay := false
@@ -10,6 +12,7 @@ var show_stats_overlay := false
 
 func reset_session() -> void:
 	selected_toy_id = DEFAULT_SELECTED_TOY_ID
+	selected_skin_id = DEFAULT_SELECTED_SKIN_ID
 	tutorial_dismissed = false
 	unlimited_toys_unlocked = false
 	show_stats_overlay = false
@@ -17,13 +20,21 @@ func reset_session() -> void:
 
 func apply_persisted_state(state: Dictionary) -> void:
 	var persisted_toy_id := StringName(String(state.get("selected_toy_id", String(DEFAULT_SELECTED_TOY_ID))))
+	var persisted_skin_id := StringName(String(state.get("selected_skin_id", String(DEFAULT_SELECTED_SKIN_ID))))
 	if String(persisted_toy_id).strip_edges().is_empty():
 		persisted_toy_id = DEFAULT_SELECTED_TOY_ID
+	if String(persisted_skin_id).strip_edges().is_empty():
+		persisted_skin_id = DEFAULT_SELECTED_SKIN_ID
 
 	if ToyCatalog.has_toy(persisted_toy_id):
 		selected_toy_id = persisted_toy_id
 	else:
 		selected_toy_id = DEFAULT_SELECTED_TOY_ID
+
+	if ToyCatalog.has_skin(persisted_skin_id):
+		selected_skin_id = persisted_skin_id
+	else:
+		selected_skin_id = DEFAULT_SELECTED_SKIN_ID
 
 	tutorial_dismissed = bool(state.get("tutorial_dismissed", false))
 	unlimited_toys_unlocked = bool(state.get("unlimited_toys_unlocked", false))
@@ -40,6 +51,16 @@ func set_selected_toy_id(toy_id: StringName, persist: bool = true) -> void:
 
 	if persist:
 		SaveService.update_state({"selected_toy_id": String(selected_toy_id)})
+
+
+func set_selected_skin_id(skin_id: StringName, persist: bool = true) -> void:
+	if ToyCatalog.has_skin(skin_id):
+		selected_skin_id = skin_id
+	else:
+		selected_skin_id = DEFAULT_SELECTED_SKIN_ID
+
+	if persist:
+		SaveService.update_state({"selected_skin_id": String(selected_skin_id)})
 
 
 func set_tutorial_dismissed(is_dismissed: bool, persist: bool = true) -> void:
