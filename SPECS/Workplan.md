@@ -154,6 +154,17 @@
   - Expanding restores the full menu state and controls without losing selection context
   - Behavior works consistently for mouse and touch input paths
 
+#### P2-T11: Delete Toys With Double Click Or Double Tap
+- **Description:** Let players remove an existing toy directly from the sandbox by double clicking or double tapping it, without affecting other toys or shelf selection flow.
+- **Priority:** P3
+- **Dependencies:** P2-T6, P2-T9
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - Double clicking a spawned toy deletes that toy from the world immediately
+  - Double tapping a spawned toy on touch input deletes that toy from the world immediately
+  - Single click/tap behavior for selection and drag start remains unchanged
+  - Deleting a toy this way does not break active selection state, sandbox stats, or subsequent spawn/interaction flow
+
 ## Phase 3: Toy Catalog
 
 #### P3-T1: Ship The First Four Toy Archetypes With Final Silhouettes ✅ Complete
@@ -201,7 +212,7 @@
   - Settings include music volume, sound volume, and tutorial reset
   - Last selected toy and audio settings survive app restart
 
-#### P4-T2: Performance Pass, Asset Cleanup, And Export Validation
+#### P4-T2: Performance Pass, Asset Cleanup, And Export Validation ✅ Complete
 - **Description:** Tune the sandbox to meet the MVP object-count goals, remove unused placeholder assets, and verify export readiness for desktop and Android from one codebase.
 - **Priority:** P1
 - **Dependencies:** P3-T2, P3-T3, P4-T1
@@ -234,3 +245,14 @@
   - Selecting a skin updates newly spawned toys and existing visible toy visuals consistently
   - The selected skin is persisted locally and restored on next launch
   - Missing skin assets fall back safely to default visuals without breaking spawn or interactions
+
+#### P4-T5: Complete Real Hardware Export And Performance Validation
+- **Description:** Finish the acceptance proof left open by `P4-T2` by installing the required export templates/toolchains, exporting the current project for desktop and Android, and recording measured FPS at the 25-toy object budget on real target environments.
+- **Priority:** P1
+- **Dependencies:** P4-T2
+- **Parallelizable:** no
+- **Acceptance Criteria:**
+  - Required Godot export templates are installed locally or in CI for the target desktop platforms
+  - Android SDK/signing prerequisites are configured well enough to produce an installable APK
+  - Desktop and Android validation captures measured FPS with `25` active toys using the sandbox stats panel
+  - Export smoke-test outcomes and performance measurements are documented in an archived validation report

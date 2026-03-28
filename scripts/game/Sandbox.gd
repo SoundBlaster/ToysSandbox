@@ -3,6 +3,7 @@ extends Node2D
 const TOY_INSTANCE_SCENE := preload("res://scenes/game/ToyInstance.tscn")
 const SANDBOX_INTERACTION_CONTROLLER := preload("res://scripts/game/SandboxInteractionController.gd")
 const PLAY_AREA_RECT := Rect2(Vector2(0.0, 72.0), Vector2(1280.0, 580.0))
+const MAX_ACTIVE_TOYS := 25
 const PANEL_BASE_COLOR := Color("1a2742")
 const HUD_TEXT_PRIMARY := Color("f4f8ff")
 const HUD_TEXT_SECONDARY := Color("d3e2ff")
@@ -29,6 +30,7 @@ const HUD_TEXT_SECONDARY := Color("d3e2ff")
 @onready var onboarding_reset_hint_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingResetHint
 @onready var onboarding_controls_hint_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingControlsHint
 @onready var dismiss_onboarding_button: Button = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/DismissOnboardingButton
+@onready var stats_overlay_label: Label = $CanvasLayer/StatsOverlay
 
 var shelf_toy_ids: Array[StringName] = []
 var fallback_icons: Dictionary = {}
@@ -53,11 +55,13 @@ func _ready() -> void:
 	status_label.text = "Tap a toy to drag it. Tap empty space to spawn the selected toy."
 	_refresh_selected_label()
 	_refresh_onboarding_overlay()
+	_refresh_stats_overlay()
 	interaction_controller = SANDBOX_INTERACTION_CONTROLLER.new()
 	interaction_controller.setup(
 		status_label,
 		spawn_root,
 		TOY_INSTANCE_SCENE,
+		MAX_ACTIVE_TOYS,
 		Callable(self, "_get_active_toy"),
 		Callable(self, "_set_active_toy"),
 		Callable(self, "_pick_toy_at"),
@@ -66,6 +70,11 @@ func _ready() -> void:
 		Callable(self, "_clamp_to_play_area"),
 		Callable(self, "_get_toy_half_extents")
 	)
+
+
+func _process(_delta: float) -> void:
+	if GameState.show_stats_overlay:
+		_refresh_stats_overlay()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -112,6 +121,10 @@ func _on_dismiss_onboarding_pressed() -> void:
 
 
 func _spawn_selected_toy(spawn_position: Vector2) -> RigidBody2D:
+	if not GameState.unlimited_toys_unlocked and _get_active_toy_count() >= MAX_ACTIVE_TOYS:
+		status_label.text = "Toy limit reached (%d/%d). Reset or move toys before adding more." % [MAX_ACTIVE_TOYS, MAX_ACTIVE_TOYS]
+		return null
+
 	var toy_id := GameState.selected_toy_id
 	var definition := ToyCatalog.get_toy_definition(toy_id)
 
@@ -217,6 +230,27 @@ func _dismiss_onboarding_overlay(status_message: String) -> void:
 func _refresh_selected_label() -> void:
 	var definition := ToyCatalog.get_toy_definition(GameState.selected_toy_id)
 	selected_label.text = "Selected toy: %s" % definition.get("display_name", "None")
+
+
+func _refresh_stats_overlay() -> void:
+	stats_overlay_label.visible = GameState.show_stats_overlay
+	if not GameState.show_stats_overlay:
+		return
+
+	var toy_limit_label := "inf" if GameState.unlimited_toys_unlocked else str(MAX_ACTIVE_TOYS)
+	stats_overlay_label.text = "FPS: %d | Toys: %d/%s" % [
+		Engine.get_frames_per_second(),
+		_get_active_toy_count(),
+		toy_limit_label,
+	]
+
+
+func _get_active_toy_count() -> int:
+	var active_count := 0
+	for child in spawn_root.get_children():
+		if child is RigidBody2D and not child.is_queued_for_deletion():
+			active_count += 1
+	return active_count
 
 
 func _screen_to_world(screen_position: Vector2) -> Vector2:
@@ -329,6 +363,7 @@ func _apply_visual_polish() -> void:
 	onboarding_drag_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
 	onboarding_reset_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
 	onboarding_controls_hint_label.add_theme_color_override("font_color", HUD_TEXT_SECONDARY)
+	stats_overlay_label.add_theme_color_override("font_color", HUD_TEXT_PRIMARY)
 
 	_style_action_button(duplicate_button, Color("6fb1ff"))
 	_style_action_button(grow_button, Color("60c89d"))

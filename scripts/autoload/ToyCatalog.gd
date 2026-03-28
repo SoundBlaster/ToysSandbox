@@ -194,6 +194,9 @@ const TOY_ORDER: Array[StringName] = [
 	&"sticky_block",
 ]
 
+var _icon_cache: Dictionary = {}
+var _world_cache: Dictionary = {}
+
 
 func list_ids() -> Array[StringName]:
 	return TOY_ORDER.duplicate()
@@ -226,13 +229,23 @@ func get_toy_definition(toy_id: StringName) -> Dictionary:
 
 
 func get_icon_texture(toy_id: StringName) -> Texture2D:
+	if _icon_cache.has(toy_id):
+		return _icon_cache[toy_id]
+
 	var definition := get_toy_definition(toy_id)
-	return _load_texture_from_path(String(definition.get("icon_texture", "")))
+	var texture := _load_texture_from_path(String(definition.get("icon_texture", "")))
+	_icon_cache[toy_id] = texture
+	return texture
 
 
 func get_world_texture(toy_id: StringName) -> Texture2D:
+	if _world_cache.has(toy_id):
+		return _world_cache[toy_id]
+
 	var definition := get_toy_definition(toy_id)
-	return _load_texture_from_path(String(definition.get("world_texture", "")))
+	var texture := _load_texture_from_path(String(definition.get("world_texture", "")))
+	_world_cache[toy_id] = texture
+	return texture
 
 
 func _load_texture_from_path(path: String) -> Texture2D:

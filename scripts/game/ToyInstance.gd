@@ -53,6 +53,7 @@ const SMASH_REBOUND_BY_ARCHETYPE := {
 
 func _ready() -> void:
 	add_to_group("toy_instances")
+	set_physics_process(false)
 
 
 func _physics_process(_delta: float) -> void:
@@ -79,6 +80,7 @@ func configure(definition: Dictionary) -> void:
 		_buoyancy_force = 0.0
 		_upright_strength = 0.0
 		_upright_damping = 0.0
+		set_physics_process(false)
 		return
 
 	if collision_shape == null:
@@ -97,11 +99,16 @@ func configure(definition: Dictionary) -> void:
 	_upright_damping = float(toy_definition.get("upright_damping", 0.0))
 	_apply_center_of_mass()
 	_apply_physics_material()
+	set_physics_process(_requires_runtime_forces())
 
 	_apply_shape()
 	_apply_visuals()
 	_reset_effect_overlays()
 	set_selected(false)
+
+
+func _requires_runtime_forces() -> bool:
+	return _buoyancy_force > 0.0 or _upright_strength > 0.0
 
 
 func _apply_center_of_mass() -> void:

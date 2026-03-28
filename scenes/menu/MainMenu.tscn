@@ -161,9 +161,53 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Tutorial"
 
-[node name="ResetTutorialButton" type="Button" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/TutorialRow"]
+[node name="ResetTutorialButtonMargin" type="MarginContainer" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/TutorialRow"]
 layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+
+[node name="ResetTutorialButton" type="Button" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/TutorialRow/ResetTutorialButtonMargin"]
+layout_mode = 2
+custom_minimum_size = Vector2(84, 0)
 text = "Reset"
+
+[node name="UnlimitedToysRow" type="HBoxContainer" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="UnlimitedToysLabel" type="Label" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/UnlimitedToysRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Unlimited Toys"
+
+[node name="UnlimitedToysButtonMargin" type="MarginContainer" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/UnlimitedToysRow"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+
+[node name="UnlimitedToysButton" type="CheckButton" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/UnlimitedToysRow/UnlimitedToysButtonMargin"]
+layout_mode = 2
+custom_minimum_size = Vector2(92, 0)
+text = "Off"
+
+[node name="StatsOverlayRow" type="HBoxContainer" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="StatsOverlayLabel" type="Label" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/StatsOverlayRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "FPS/Toys Overlay"
+
+[node name="StatsOverlayButtonMargin" type="MarginContainer" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/StatsOverlayRow"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+
+[node name="StatsOverlayButton" type="CheckButton" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/StatsOverlayRow/StatsOverlayButtonMargin"]
+layout_mode = 2
+custom_minimum_size = Vector2(92, 0)
+text = "Off"
 
 [node name="SettingsStatusLabel" type="Label" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox"]
 layout_mode = 2
@@ -174,6 +218,12 @@ text = ""
 layout_mode = 2
 alignment = 2
 
-[node name="CloseSettingsButton" type="Button" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SettingsButtonsRow"]
+[node name="CloseSettingsButtonMargin" type="MarginContainer" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SettingsButtonsRow"]
 layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+
+[node name="CloseSettingsButton" type="Button" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SettingsButtonsRow/CloseSettingsButtonMargin"]
+layout_mode = 2
+custom_minimum_size = Vector2(84, 0)
 text = "Close"

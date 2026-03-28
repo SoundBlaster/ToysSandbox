@@ -12,6 +12,7 @@ const THROW_DAMPING := 0.9
 var _status_label: Label = null
 var _spawn_root: Node2D = null
 var _toy_instance_scene: PackedScene = null
+var _max_active_toys := 0
 
 var _get_active_toy_fn: Callable
 var _set_active_toy_fn: Callable
@@ -39,6 +40,7 @@ func setup(
 	status_label: Label,
 	spawn_root: Node2D,
 	toy_instance_scene: PackedScene,
+	max_active_toys: int,
 	get_active_toy_fn: Callable,
 	set_active_toy_fn: Callable,
 	pick_toy_at_fn: Callable,
@@ -50,6 +52,7 @@ func setup(
 	_status_label = status_label
 	_spawn_root = spawn_root
 	_toy_instance_scene = toy_instance_scene
+	_max_active_toys = max_active_toys
 	_get_active_toy_fn = get_active_toy_fn
 	_set_active_toy_fn = set_active_toy_fn
 	_pick_toy_at_fn = pick_toy_at_fn
@@ -148,7 +151,8 @@ func _handle_pointer_pressed(pointer_id: int, screen_position: Vector2) -> void:
 
 	_clear_pending_drag()
 	var spawned := _spawn_selected_toy(world_position)
-	_set_active_toy(spawned)
+	if spawned != null:
+		_set_active_toy(spawned)
 
 
 func _handle_pointer_dragged(pointer_id: int, screen_position: Vector2) -> void:
@@ -257,6 +261,9 @@ func _duplicate_active_toy() -> void:
 
 	if _spawn_root == null or _toy_instance_scene == null:
 		_set_status("Unable to duplicate active toy right now.")
+		return
+	if not GameState.unlimited_toys_unlocked and _max_active_toys > 0 and _spawn_root.get_child_count() >= _max_active_toys:
+		_set_status("Toy limit reached (%d/%d). Reset or move toys before duplicating." % [_max_active_toys, _max_active_toys])
 		return
 
 	var clone: RigidBody2D = _toy_instance_scene.instantiate()
