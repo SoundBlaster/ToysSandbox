@@ -76,7 +76,7 @@
   - Duplicate, resize, and reset operate on active toy instances without breaking state
   - Core interactions remain stable with at least 10 simultaneous objects during development
 
-#### P2-T4: Add Environmental Tools And Feedback
+#### P2-T4: Add Environmental Tools And Feedback ✅ Complete
 - **Description:** Introduce the fan and smash tools plus baseline sound, animation, and particle feedback so every interaction feels toy-like rather than purely physical.
 - **Priority:** P1
 - **Dependencies:** P2-T2, P2-T3
@@ -85,6 +85,41 @@
   - Fan and smash tools trigger deterministic reactions by archetype
   - Each player action produces motion, sound, or visual feedback
   - Fragile and soft reactions are visibly distinct from rigid behavior
+
+#### P2-T5: Fix Drag Inertia And Pointer Alignment Regression (macOS) ✅ Complete
+- **Description:** Resolve unresolved drag-release physics issues observed on macOS trackpad where release inertia is inconsistent and dragged bodies can appear vertically offset/underlapping near the ground.
+- **Priority:** P0
+- **Dependencies:** P2-T3
+- **Parallelizable:** no
+- **Acceptance Criteria:**
+  - Drag release inertia is reproducible and consistent across repeated drags in one session on macOS
+  - Released toys preserve expected throw momentum (not immediate stop + pure gravity fall)
+  - Dragged toy center remains aligned with pointer/finger during drag
+  - Dragged toy does not visually underlap floor/other toys due to incorrect Y/ordering during drag
+  - Validation includes a short reproducible manual test protocol documented in the task report
+
+#### P2-T6: Extract Interaction Controller From Sandbox Orchestration
+- **Description:** Reduce maintenance risk by moving pointer/drag/action orchestration out of `Sandbox.gd` into a dedicated interaction controller while preserving current behavior for spawn, drag, duplicate, resize, and reset verbs.
+- **Priority:** P1
+- **Dependencies:** P2-T3, P2-T5
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - `Sandbox.gd` no longer directly owns full drag lifecycle and verb dispatch logic
+  - A dedicated script/module encapsulates interaction state transitions (pointer down/move/up, active toy selection, release behavior)
+  - Existing interaction behavior remains functionally equivalent for mouse and touch input paths
+  - Validation confirms no regression in drag, duplicate, resize, and reset interactions
+
+#### P2-T7: Add Physics Materials For Elastic Collision Feedback
+- **Description:** Introduce per-archetype and world-boundary physics materials (bounce/friction) so fan-driven and throw-driven collisions feel toy-like, including visible rebound from floor/walls for bouncy toys.
+- **Priority:** P1
+- **Dependencies:** P2-T4
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - Toys can be assigned collision materials by archetype without duplicating scene files per toy
+  - Floor and wall colliders have explicit physics material settings (not engine defaults)
+  - Bouncy toys (e.g., Ball) visibly rebound from floor/walls after fan or throw impact
+  - Heavy/sticky toys remain comparatively less elastic than bouncy toys under the same test setup
+  - Validation report documents before/after behavior and tuning values used
 
 ## Phase 3: Toy Catalog
 

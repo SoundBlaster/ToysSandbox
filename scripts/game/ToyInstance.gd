@@ -255,7 +255,7 @@ func _apply_tool_feedback(archetype: StringName, tool: StringName) -> void:
 	match archetype:
 		&"bouncy":
 			_play_feedback_flash(Color(1.2, 1.15, 0.95), 0.12)
-			if world_sprite.visible:
+			if tool == &"fan" and world_sprite.visible:
 				var canonical_scale := _get_canonical_world_sprite_scale()
 				world_sprite.scale = canonical_scale * Vector2(0.9, 1.12)
 				var bouncy_tween := create_tween()
