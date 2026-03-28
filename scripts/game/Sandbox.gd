@@ -98,12 +98,16 @@ func _refresh_selected_label() -> void:
 
 func _get_spawn_position(event: InputEvent) -> Variant:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		return event.position
+		return _screen_to_world(event.position)
 
 	if event is InputEventScreenTouch and event.pressed:
-		return event.position
+		return _screen_to_world(event.position)
 
 	return null
+
+
+func _screen_to_world(screen_position: Vector2) -> Vector2:
+	return get_viewport().get_canvas_transform().affine_inverse() * screen_position
 
 
 func _clamp_to_play_area(point: Vector2, half_extents: Vector2 = Vector2.ZERO) -> Vector2:
