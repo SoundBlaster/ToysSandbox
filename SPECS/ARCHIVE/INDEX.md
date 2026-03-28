@@ -30,6 +30,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P4-T1 | Archived review report `REVIEW_p4-t1-onboarding-settings-and-persistence.md` |
 | 2026-03-28 | P4-T1 | Archived `Add Onboarding, Settings, And Local Persistence` with verdict `PASS` |
 | 2026-03-28 | P2-T7 | Archived review report `REVIEW_p2-t7-physics-materials-elastic-collision-feedback.md` |
 | 2026-03-28 | P2-T7 | Archived `Add Physics Materials For Elastic Collision Feedback` with verdict `PASS` |
