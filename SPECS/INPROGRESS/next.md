@@ -1,14 +1,14 @@
-# Next Task: P2-T5 — Fix Drag Inertia And Pointer Alignment Regression (macOS)
+# Next Task: P2-T4 — Add Environmental Tools And Feedback
 
-**Priority:** P0
+**Priority:** P1
 **Phase:** Core Sandbox
-**Effort:** 4-6 hours
-**Dependencies:** P2-T3
+**Effort:** 8-12 hours
+**Dependencies:** P2-T2, P2-T3
 **Status:** Selected
 
 ## Description
 
-Resolve drag-release inertia inconsistency on macOS and remove pointer alignment/underlap artifacts during drag so throw behavior is deterministic and visually correct.
+Introduce fan and smash tools plus baseline sound, animation, and particle feedback so interactions feel expressive and distinct by archetype.
 
 ## Next Step
 
