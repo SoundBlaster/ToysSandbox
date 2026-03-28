@@ -6,6 +6,7 @@
 
 | Task ID | Folder | Archived | Verdict |
 |---------|--------|----------|---------|
+| P2-T6 | [P2-T6_Extract_Interaction_Controller_From_Sandbox_Orchestration/](P2-T6_Extract_Interaction_Controller_From_Sandbox_Orchestration/) | 2026-03-28 | PASS |
 | P3-T2 | [P3-T2_Complete_The_Full_Eight-Toy_MVP_Catalog_And_Remaining_Asset_Variants/](P3-T2_Complete_The_Full_Eight-Toy_MVP_Catalog_And_Remaining_Asset_Variants/) | 2026-03-28 | PASS |
 | P3-T1 | [P3-T1_Ship_The_First_Four_Toy_Archetypes_With_Final_Silhouettes/](P3-T1_Ship_The_First_Four_Toy_Archetypes_With_Final_Silhouettes/) | 2026-03-28 | PASS |
 | P2-T4 | [P2-T4_Add_Environmental_Tools_And_Feedback/](P2-T4_Add_Environmental_Tools_And_Feedback/) | 2026-03-28 | PASS |
@@ -27,6 +28,8 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P2-T6 | Archived review report `REVIEW_p2-t6-interaction-controller-extraction.md` |
+| 2026-03-28 | P2-T6 | Archived `Extract Interaction Controller From Sandbox Orchestration` with verdict `PASS` |
 | 2026-03-28 | P3-T2 | Archived review report `REVIEW_p3-t2-full-eight-toy-catalog.md` |
 | 2026-03-28 | P3-T2 | Archived `Complete The Full Eight-Toy MVP Catalog And Remaining Asset Variants` with verdict `PASS` |
 | 2026-03-28 | P3-T1 | Archived review report `REVIEW_p3-t1-first-four-toy-archetypes.md` |
