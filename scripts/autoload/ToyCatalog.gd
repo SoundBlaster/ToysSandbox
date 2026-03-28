@@ -121,8 +121,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"air",
 		"scale_preset": &"large",
 		"shape": &"circle",
-		"icon_texture": "",
-		"world_texture": "",
+		"icon_texture": "res://assets/toys/icons/balloon_icon.svg",
+		"world_texture": "res://assets/toys/world/balloon_world.svg",
 		"color": Color("ff7fb5"),
 	},
 	&"jelly_cube": {
@@ -131,8 +131,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"deformable",
 		"scale_preset": &"medium",
 		"shape": &"rectangle",
-		"icon_texture": "",
-		"world_texture": "",
+		"icon_texture": "res://assets/toys/icons/jelly_cube_icon.svg",
+		"world_texture": "res://assets/toys/world/jelly_cube_world.svg",
 		"color": Color("9b9bff"),
 	},
 	&"pot": {
@@ -141,8 +141,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"metal",
 		"scale_preset": &"medium",
 		"shape": &"vase",
-		"icon_texture": "",
-		"world_texture": "",
+		"icon_texture": "res://assets/toys/icons/pot_icon.svg",
+		"world_texture": "res://assets/toys/world/pot_world.svg",
 		"color": Color("c7935d"),
 	},
 	&"sticky_block": {
@@ -151,8 +151,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"sticky",
 		"scale_preset": &"wide",
 		"shape": &"rectangle",
-		"icon_texture": "",
-		"world_texture": "",
+		"icon_texture": "res://assets/toys/icons/sticky_block_icon.svg",
+		"world_texture": "res://assets/toys/world/sticky_block_world.svg",
 		"color": Color("7fd24a"),
 	},
 }

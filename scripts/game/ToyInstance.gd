@@ -272,12 +272,42 @@ func _apply_tool_feedback(archetype: StringName, tool: StringName) -> void:
 				world_sprite.scale = canonical_scale * Vector2(1.12, 0.86)
 				var squash_tween := create_tween()
 				squash_tween.tween_property(world_sprite, "scale", canonical_scale, 0.14)
-		&"heavy", &"metal":
+		&"heavy":
 			_play_feedback_flash(Color(1.15, 1.08, 0.9), 0.14)
 			name_label.modulate = Color(1.0, 0.92, 0.72)
 			var base_label_modulate := _get_name_label_base_modulate()
 			var rigid_tween := create_tween()
 			rigid_tween.tween_property(name_label, "modulate", base_label_modulate, 0.14)
+		&"metal":
+			_play_feedback_flash(Color(1.08, 1.12, 1.18), 0.14)
+			name_label.modulate = Color(0.9, 0.98, 1.0)
+			if tool == &"smash":
+				angular_velocity += 4.2
+			else:
+				angular_velocity += 1.8
+			var base_label_modulate := _get_name_label_base_modulate()
+			var metal_tween := create_tween()
+			metal_tween.tween_property(name_label, "modulate", base_label_modulate, 0.18)
+		&"air":
+			_play_feedback_flash(Color(1.2, 0.96, 1.1), 0.2)
+			if tool == &"fan":
+				linear_velocity += Vector2(0.0, -120.0)
+			else:
+				linear_velocity += Vector2(0.0, -60.0)
+			if world_sprite.visible:
+				var canonical_scale := _get_canonical_world_sprite_scale()
+				world_sprite.scale = canonical_scale * Vector2(1.06, 0.92)
+				var drift_tween := create_tween()
+				drift_tween.tween_property(world_sprite, "scale", canonical_scale, 0.2)
+		&"sticky":
+			_play_feedback_flash(Color(0.9, 1.12, 0.84), 0.22)
+			linear_velocity *= 0.72
+			angular_velocity *= 0.4
+			if world_sprite.visible:
+				var canonical_scale := _get_canonical_world_sprite_scale()
+				world_sprite.scale = canonical_scale * Vector2(0.92, 1.08)
+				var peel_tween := create_tween()
+				peel_tween.tween_property(world_sprite, "scale", canonical_scale, 0.24)
 		_:
 			_play_feedback_flash(Color(1.08, 1.08, 1.08), 0.12)
 
