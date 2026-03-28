@@ -1,15 +1,8 @@
 extends Node2D
 
 const TOY_INSTANCE_SCENE := preload("res://scenes/game/ToyInstance.tscn")
+const SANDBOX_INTERACTION_CONTROLLER := preload("res://scripts/game/SandboxInteractionController.gd")
 const PLAY_AREA_RECT := Rect2(Vector2(0.0, 72.0), Vector2(1280.0, 580.0))
-const POINTER_NONE := -999
-const RESIZE_STEP := 0.15
-const DRAG_START_DISTANCE := 10.0
-const MIN_THROW_SAMPLE_DT := 0.0001
-const MIN_THROW_DURATION := 0.03
-const MIN_THROW_DISTANCE := 8.0
-const MAX_THROW_SPEED := 1400.0
-const THROW_DAMPING := 0.9
 
 @onready var back_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/BackButton
 @onready var duplicate_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow/DuplicateButton
@@ -27,18 +20,7 @@ const THROW_DAMPING := 0.9
 var shelf_toy_ids: Array[StringName] = []
 var fallback_icons: Dictionary = {}
 var active_toy: RigidBody2D = null
-var dragging_toy: RigidBody2D = null
-var drag_pointer_id := POINTER_NONE
-var drag_offset := Vector2.ZERO
-var drag_previous_freeze_mode := RigidBody2D.FREEZE_MODE_STATIC
-var drag_last_target_position := Vector2.ZERO
-var drag_last_sample_usec := 0
-var drag_release_velocity := Vector2.ZERO
-var drag_start_position := Vector2.ZERO
-var drag_start_usec := 0
-var pending_drag_toy: RigidBody2D = null
-var pending_drag_pointer_id := POINTER_NONE
-var pending_drag_start_world := Vector2.ZERO
+var interaction_controller = null
 
 
 func _ready() -> void:
@@ -55,131 +37,24 @@ func _ready() -> void:
 	_build_toy_shelf()
 	status_label.text = "Tap a toy to drag it. Tap empty space to spawn the selected toy."
 	_refresh_selected_label()
+	interaction_controller = SANDBOX_INTERACTION_CONTROLLER.new()
+	interaction_controller.setup(
+		status_label,
+		spawn_root,
+		TOY_INSTANCE_SCENE,
+		Callable(self, "_get_active_toy"),
+		Callable(self, "_set_active_toy"),
+		Callable(self, "_pick_toy_at"),
+		Callable(self, "_spawn_selected_toy"),
+		Callable(self, "_screen_to_world"),
+		Callable(self, "_clamp_to_play_area"),
+		Callable(self, "_get_toy_half_extents")
+	)
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo:
-		_handle_key_shortcut(event)
-		return
-
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			_handle_pointer_pressed(-1, event.position)
-		else:
-			_handle_pointer_released(-1, event.position)
-		return
-
-	if event is InputEventMouseMotion:
-		_handle_pointer_dragged(-1, event.position)
-		return
-
-	if event is InputEventScreenTouch:
-		if event.pressed:
-			_handle_pointer_pressed(event.index, event.position)
-		else:
-			_handle_pointer_released(event.index, event.position)
-		return
-
-	if event is InputEventScreenDrag:
-		_handle_pointer_dragged(event.index, event.position)
-
-
-func _handle_key_shortcut(event: InputEventKey) -> void:
-	match event.keycode:
-		KEY_D:
-			_duplicate_active_toy()
-		KEY_R:
-			_clear_spawned_toys()
-		KEY_EQUAL, KEY_KP_ADD:
-			_resize_active_toy(RESIZE_STEP)
-		KEY_MINUS, KEY_KP_SUBTRACT:
-			_resize_active_toy(-RESIZE_STEP)
-		KEY_F:
-			_apply_fan_to_active_toy()
-		KEY_S:
-			_apply_smash_to_active_toy()
-		_:
-			pass
-
-
-func _handle_pointer_pressed(pointer_id: int, screen_position: Vector2) -> void:
-	if dragging_toy != null:
-		# Keep one authoritative drag pointer. Ignore extra touches/clicks until release
-		# so we do not leave the previously dragged toy frozen.
-		if pointer_id != drag_pointer_id:
-			return
-
-	var world_position := _screen_to_world(screen_position)
-	var picked_toy := _pick_toy_at(world_position)
-
-	if picked_toy != null:
-		_set_active_toy(picked_toy)
-		pending_drag_toy = picked_toy
-		pending_drag_pointer_id = pointer_id
-		pending_drag_start_world = world_position
-		status_label.text = "Selected active toy. Drag to move it."
-		return
-
-	_clear_pending_drag()
-	var spawned := _spawn_selected_toy(world_position)
-	_set_active_toy(spawned)
-
-
-func _handle_pointer_dragged(pointer_id: int, screen_position: Vector2) -> void:
-	var world_position := _screen_to_world(screen_position)
-
-	if dragging_toy != null:
-		if pointer_id != drag_pointer_id:
-			return
-		_set_dragging_toy_position(world_position)
-		return
-
-	if pending_drag_toy == null or pointer_id != pending_drag_pointer_id:
-		return
-
-	if not is_instance_valid(pending_drag_toy):
-		_clear_pending_drag()
-		return
-
-	if pending_drag_start_world.distance_to(world_position) < DRAG_START_DISTANCE:
-		return
-
-	var drag_toy := pending_drag_toy
-	_clear_pending_drag()
-	_begin_drag(pointer_id, world_position, drag_toy)
-	_set_dragging_toy_position(world_position)
-
-
-func _handle_pointer_released(pointer_id: int, screen_position: Vector2) -> void:
-	if dragging_toy == null or pointer_id != drag_pointer_id:
-		if pointer_id == pending_drag_pointer_id:
-			_clear_pending_drag()
-		return
-
-	_set_dragging_toy_position(_screen_to_world(screen_position))
-	dragging_toy.angular_velocity = 0.0
-	var drag_duration := float(Time.get_ticks_usec() - drag_start_usec) / 1000000.0
-	var drag_distance := drag_start_position.distance_to(dragging_toy.global_position)
-	if drag_duration >= MIN_THROW_SAMPLE_DT and drag_release_velocity.length() < 1.0:
-		drag_release_velocity = (dragging_toy.global_position - drag_start_position) / drag_duration
-
-	var release_velocity := drag_release_velocity * THROW_DAMPING
-	if drag_duration < MIN_THROW_DURATION or drag_distance < MIN_THROW_DISTANCE:
-		release_velocity = Vector2.ZERO
-	if release_velocity.length() > MAX_THROW_SPEED:
-		release_velocity = release_velocity.normalized() * MAX_THROW_SPEED
-
-	var released_toy := dragging_toy
-	dragging_toy = null
-	drag_pointer_id = POINTER_NONE
-	drag_last_sample_usec = 0
-	drag_release_velocity = Vector2.ZERO
-	drag_start_usec = 0
-	released_toy.set_deferred("freeze_mode", drag_previous_freeze_mode)
-	released_toy.set_deferred("freeze", false)
-	released_toy.set_deferred("linear_velocity", release_velocity)
-	released_toy.sleeping = false
-	status_label.text = "Released active toy."
+	if interaction_controller != null:
+		interaction_controller.handle_input(event)
 
 
 func _on_back_pressed() -> void:
@@ -187,27 +62,33 @@ func _on_back_pressed() -> void:
 
 
 func _on_duplicate_pressed() -> void:
-	_duplicate_active_toy()
+	if interaction_controller != null:
+		interaction_controller.on_duplicate_pressed()
 
 
 func _on_grow_pressed() -> void:
-	_resize_active_toy(RESIZE_STEP)
+	if interaction_controller != null:
+		interaction_controller.on_grow_pressed()
 
 
 func _on_shrink_pressed() -> void:
-	_resize_active_toy(-RESIZE_STEP)
+	if interaction_controller != null:
+		interaction_controller.on_shrink_pressed()
 
 
 func _on_reset_pressed() -> void:
-	_clear_spawned_toys()
+	if interaction_controller != null:
+		interaction_controller.on_reset_pressed()
 
 
 func _on_fan_pressed() -> void:
-	_apply_fan_to_active_toy()
+	if interaction_controller != null:
+		interaction_controller.on_fan_pressed()
 
 
 func _on_smash_pressed() -> void:
-	_apply_smash_to_active_toy()
+	if interaction_controller != null:
+		interaction_controller.on_smash_pressed()
 
 
 func _spawn_selected_toy(spawn_position: Vector2) -> RigidBody2D:
@@ -266,37 +147,8 @@ func _set_active_toy(next_active_toy: RigidBody2D) -> void:
 		active_toy.call("set_selected", true)
 
 
-func _begin_drag(pointer_id: int, world_position: Vector2, toy: RigidBody2D) -> void:
-	dragging_toy = toy
-	drag_pointer_id = pointer_id
-	drag_offset = toy.global_position - world_position
-	drag_previous_freeze_mode = dragging_toy.freeze_mode
-	drag_last_target_position = toy.global_position
-	drag_last_sample_usec = Time.get_ticks_usec()
-	drag_start_position = toy.global_position
-	drag_start_usec = drag_last_sample_usec
-	drag_release_velocity = Vector2.ZERO
-	dragging_toy.freeze_mode = RigidBody2D.FREEZE_MODE_KINEMATIC
-	dragging_toy.freeze = true
-	dragging_toy.linear_velocity = Vector2.ZERO
-	dragging_toy.angular_velocity = 0.0
-	status_label.text = "Dragging active toy. Release to drop it."
-
-
-func _set_dragging_toy_position(world_position: Vector2) -> void:
-	if dragging_toy == null:
-		return
-
-	var target_position := world_position + drag_offset
-	var clamped_target_position := _clamp_to_play_area(target_position, _get_toy_half_extents(dragging_toy))
-	var now_usec := Time.get_ticks_usec()
-	var dt := float(now_usec - drag_last_sample_usec) / 1000000.0
-	if drag_last_sample_usec > 0 and dt >= MIN_THROW_SAMPLE_DT:
-		drag_release_velocity = (clamped_target_position - drag_last_target_position) / dt
-
-	drag_last_target_position = clamped_target_position
-	drag_last_sample_usec = now_usec
-	dragging_toy.global_position = clamped_target_position
+func _get_active_toy() -> RigidBody2D:
+	return active_toy
 
 
 func _pick_toy_at(world_position: Vector2) -> RigidBody2D:
@@ -313,98 +165,6 @@ func _pick_toy_at(world_position: Vector2) -> RigidBody2D:
 			return collider
 
 	return null
-
-
-func _duplicate_active_toy() -> void:
-	if active_toy == null or not is_instance_valid(active_toy):
-		status_label.text = "Pick a toy first, then duplicate it."
-		return
-
-	var definition: Dictionary = {}
-	if active_toy.has_method("get_definition_copy"):
-		definition = active_toy.call("get_definition_copy")
-
-	if definition.is_empty():
-		status_label.text = "Active toy definition is unavailable."
-		return
-
-	var clone: RigidBody2D = TOY_INSTANCE_SCENE.instantiate()
-	spawn_root.add_child(clone)
-	clone.call("configure", definition)
-
-	var target_position := active_toy.global_position + Vector2(56.0, -36.0)
-	clone.global_position = _clamp_to_play_area(target_position, _get_toy_half_extents(clone))
-	_set_active_toy(clone)
-	status_label.text = "Duplicated active toy."
-
-
-func _resize_active_toy(step: float) -> void:
-	if active_toy == null or not is_instance_valid(active_toy):
-		status_label.text = "Pick a toy first, then resize it."
-		return
-
-	if not active_toy.has_method("resize_by_step"):
-		status_label.text = "Active toy does not support resizing."
-		return
-
-	var resized: bool = active_toy.call("resize_by_step", step)
-	if not resized:
-		status_label.text = "Size limit reached for active toy."
-		return
-
-	active_toy.global_position = _clamp_to_play_area(active_toy.global_position, _get_toy_half_extents(active_toy))
-	status_label.text = "Resized active toy."
-
-
-func _apply_fan_to_active_toy() -> void:
-	if active_toy == null or not is_instance_valid(active_toy):
-		status_label.text = "Pick a toy first, then use Fan."
-		return
-
-	if not active_toy.has_method("apply_fan_tool"):
-		status_label.text = "Active toy does not support fan reaction."
-		return
-
-	active_toy.call("apply_fan_tool", Vector2.RIGHT)
-	status_label.text = "Fan applied to active toy."
-
-
-func _apply_smash_to_active_toy() -> void:
-	if active_toy == null or not is_instance_valid(active_toy):
-		status_label.text = "Pick a toy first, then use Smash."
-		return
-
-	if not active_toy.has_method("apply_smash_tool"):
-		status_label.text = "Active toy does not support smash reaction."
-		return
-
-	active_toy.call("apply_smash_tool", Vector2.DOWN)
-	status_label.text = "Smash applied to active toy."
-
-
-func _clear_spawned_toys() -> void:
-	_clear_pending_drag()
-
-	if dragging_toy != null and is_instance_valid(dragging_toy):
-		dragging_toy.freeze_mode = drag_previous_freeze_mode
-		dragging_toy.freeze = false
-
-	for child in spawn_root.get_children():
-		child.queue_free()
-
-	dragging_toy = null
-	drag_pointer_id = POINTER_NONE
-	drag_last_sample_usec = 0
-	drag_release_velocity = Vector2.ZERO
-	drag_start_usec = 0
-	_set_active_toy(null)
-	status_label.text = "Reset sandbox toys. Shelf selection is unchanged."
-
-
-func _clear_pending_drag() -> void:
-	pending_drag_toy = null
-	pending_drag_pointer_id = POINTER_NONE
-	pending_drag_start_world = Vector2.ZERO
 
 
 func _ensure_selected_toy() -> void:
