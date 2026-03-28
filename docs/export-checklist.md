@@ -19,7 +19,10 @@ This checklist covers the MVP export path for `Windows`, `macOS`, `Linux`, and `
 2. Confirm the project validates locally:
    - `bash scripts/ci/flow_validate.sh tests`
    - `bash scripts/ci/flow_validate.sh lint`
-3. Keep confidential export credentials out of git:
+3. Run export smoke validation before manual editor export:
+   - `bash scripts/ci/export_smoke_validate.sh --all`
+   - Focused desktop + Android check: `bash scripts/ci/export_smoke_validate.sh macOS Android`
+4. Keep confidential export credentials out of git:
    - Android keystore passwords and aliases belong in local Godot export credentials.
    - Platform SDK paths belong in local editor/export settings.
 
@@ -68,3 +71,12 @@ This checklist covers the MVP export path for `Windows`, `macOS`, `Linux`, and `
 
 - If any platform requires project-level setting changes outside `export_presets.cfg`, capture that as a follow-up task with the exact platform and blocker.
 - If mobile profiling shows the 25-toy budget is still unstable, record the device class and create a targeted optimization task instead of silently lowering the object cap.
+
+## Common Export Blocking Errors
+
+- `Invalid bundle identifier: Identifier is missing` (macOS preset):
+  - Set `application/app_bundle_identifier` in `export_presets.cfg` (or through Godot Export UI) before retrying.
+- `A valid Java SDK path is required in Editor Settings` (Android preset):
+  - Configure local JDK path in `Editor Settings -> Export -> Android`.
+- `Invalid Android SDK path ... Missing 'platform-tools' or 'build-tools'`:
+  - Install Android SDK components and point Godot to the SDK root containing `platform-tools` and `build-tools`.
