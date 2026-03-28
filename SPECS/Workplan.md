@@ -246,7 +246,7 @@
   - The selected skin is persisted locally and restored on next launch
   - Missing skin assets fall back safely to default visuals without breaking spawn or interactions
 
-#### P4-T5: Complete Real Hardware Export And Performance Validation
+#### P4-T5: Complete Real Hardware Export And Performance Validation ✅ Complete
 - **Description:** Finish the acceptance proof left open by `P4-T2` by installing the required export templates/toolchains, exporting the current project for desktop and Android, and recording measured FPS at the 25-toy object budget on real target environments.
 - **Priority:** P1
 - **Dependencies:** P4-T2
