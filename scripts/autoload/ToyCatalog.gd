@@ -21,6 +21,8 @@ const ARCHETYPE_DEFAULTS := {
 		"linear_damp": 0.15,
 		"angular_damp": 0.1,
 		"mass": 0.8,
+		"physics_bounce": 0.82,
+		"physics_friction": 0.2,
 		"reaction_hooks": [&"bounce", &"roll"],
 	},
 	&"soft": {
@@ -28,6 +30,8 @@ const ARCHETYPE_DEFAULTS := {
 		"linear_damp": 1.4,
 		"angular_damp": 1.0,
 		"mass": 1.0,
+		"physics_bounce": 0.18,
+		"physics_friction": 0.85,
 		"reaction_hooks": [&"squish", &"settle"],
 	},
 	&"heavy": {
@@ -35,6 +39,8 @@ const ARCHETYPE_DEFAULTS := {
 		"linear_damp": 0.5,
 		"angular_damp": 0.6,
 		"mass": 2.4,
+		"physics_bounce": 0.08,
+		"physics_friction": 1.05,
 		"reaction_hooks": [&"thud", &"stack"],
 	},
 	&"fragile": {
@@ -42,6 +48,8 @@ const ARCHETYPE_DEFAULTS := {
 		"linear_damp": 0.35,
 		"angular_damp": 0.45,
 		"mass": 1.2,
+		"physics_bounce": 0.34,
+		"physics_friction": 0.45,
 		"reaction_hooks": [&"clink", &"shatter"],
 	},
 	&"air": {
@@ -49,6 +57,8 @@ const ARCHETYPE_DEFAULTS := {
 		"linear_damp": 0.08,
 		"angular_damp": 0.2,
 		"mass": 0.3,
+		"physics_bounce": 0.72,
+		"physics_friction": 0.08,
 		"reaction_hooks": [&"float", &"drift"],
 	},
 	&"deformable": {
@@ -56,6 +66,8 @@ const ARCHETYPE_DEFAULTS := {
 		"linear_damp": 1.1,
 		"angular_damp": 0.9,
 		"mass": 0.9,
+		"physics_bounce": 0.26,
+		"physics_friction": 0.6,
 		"reaction_hooks": [&"jiggle", &"wobble"],
 	},
 	&"metal": {
@@ -63,6 +75,8 @@ const ARCHETYPE_DEFAULTS := {
 		"linear_damp": 0.25,
 		"angular_damp": 0.2,
 		"mass": 2.0,
+		"physics_bounce": 0.42,
+		"physics_friction": 0.18,
 		"reaction_hooks": [&"ring", &"spin"],
 	},
 	&"sticky": {
@@ -70,6 +84,8 @@ const ARCHETYPE_DEFAULTS := {
 		"linear_damp": 2.2,
 		"angular_damp": 1.6,
 		"mass": 1.4,
+		"physics_bounce": 0.04,
+		"physics_friction": 1.4,
 		"reaction_hooks": [&"stick", &"peel"],
 	},
 }

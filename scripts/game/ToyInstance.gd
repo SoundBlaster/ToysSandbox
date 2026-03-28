@@ -47,6 +47,7 @@ func configure(definition: Dictionary) -> void:
 	size_scale = 1.0
 
 	if toy_definition.is_empty():
+		physics_material_override = null
 		return
 
 	if collision_shape == null:
@@ -60,10 +61,18 @@ func configure(definition: Dictionary) -> void:
 	gravity_scale = float(toy_definition.get("gravity_scale", 1.0))
 	linear_damp = float(toy_definition.get("linear_damp", 0.2))
 	angular_damp = float(toy_definition.get("angular_damp", 0.2))
+	_apply_physics_material()
 
 	_apply_shape()
 	_apply_visuals()
 	set_selected(false)
+
+
+func _apply_physics_material() -> void:
+	var material := PhysicsMaterial.new()
+	material.bounce = clampf(float(toy_definition.get("physics_bounce", 0.0)), 0.0, 1.0)
+	material.friction = maxf(float(toy_definition.get("physics_friction", 1.0)), 0.0)
+	physics_material_override = material
 
 
 func get_definition_copy() -> Dictionary:
