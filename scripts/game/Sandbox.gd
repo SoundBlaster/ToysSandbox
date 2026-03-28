@@ -4,6 +4,9 @@ const TOY_INSTANCE_SCENE := preload("res://scenes/game/ToyInstance.tscn")
 const PLAY_AREA_RECT := Rect2(Vector2(72.0, 72.0), Vector2(836.0, 560.0))
 const POINTER_NONE := -999
 const RESIZE_STEP := 0.15
+const MIN_THROW_SAMPLE_DT := 0.008
+const MAX_THROW_SPEED := 1400.0
+const THROW_DAMPING := 0.9
 
 @onready var back_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/BackButton
 @onready var duplicate_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow/DuplicateButton
@@ -23,6 +26,9 @@ var dragging_toy: RigidBody2D = null
 var drag_pointer_id := POINTER_NONE
 var drag_offset := Vector2.ZERO
 var drag_previous_freeze_mode := RigidBody2D.FREEZE_MODE_STATIC
+var drag_last_target_position := Vector2.ZERO
+var drag_last_sample_usec := 0
+var drag_release_velocity := Vector2.ZERO
 
 
 func _ready() -> void:
@@ -106,14 +112,19 @@ func _handle_pointer_released(pointer_id: int, screen_position: Vector2) -> void
 		return
 
 	_set_dragging_toy_position(_screen_to_world(screen_position))
-	dragging_toy.linear_velocity = Vector2.ZERO
 	dragging_toy.angular_velocity = 0.0
+	var release_velocity := drag_release_velocity * THROW_DAMPING
+	if release_velocity.length() > MAX_THROW_SPEED:
+		release_velocity = release_velocity.normalized() * MAX_THROW_SPEED
 
 	var released_toy := dragging_toy
 	dragging_toy = null
 	drag_pointer_id = POINTER_NONE
+	drag_last_sample_usec = 0
+	drag_release_velocity = Vector2.ZERO
 	released_toy.set_deferred("freeze_mode", drag_previous_freeze_mode)
 	released_toy.set_deferred("freeze", false)
+	released_toy.set_deferred("linear_velocity", release_velocity)
 	released_toy.sleeping = false
 	status_label.text = "Released active toy."
 
@@ -199,6 +210,9 @@ func _begin_drag(pointer_id: int, world_position: Vector2, toy: RigidBody2D) -> 
 	drag_pointer_id = pointer_id
 	drag_offset = toy.global_position - world_position
 	drag_previous_freeze_mode = dragging_toy.freeze_mode
+	drag_last_target_position = toy.global_position
+	drag_last_sample_usec = Time.get_ticks_usec()
+	drag_release_velocity = Vector2.ZERO
 	dragging_toy.freeze_mode = RigidBody2D.FREEZE_MODE_KINEMATIC
 	dragging_toy.freeze = true
 	dragging_toy.linear_velocity = Vector2.ZERO
@@ -211,7 +225,15 @@ func _set_dragging_toy_position(world_position: Vector2) -> void:
 		return
 
 	var target_position := world_position + drag_offset
-	dragging_toy.global_position = _clamp_to_play_area(target_position, _get_toy_half_extents(dragging_toy))
+	var clamped_target_position := _clamp_to_play_area(target_position, _get_toy_half_extents(dragging_toy))
+	var now_usec := Time.get_ticks_usec()
+	var dt := float(now_usec - drag_last_sample_usec) / 1000000.0
+	if drag_last_sample_usec > 0 and dt >= MIN_THROW_SAMPLE_DT:
+		drag_release_velocity = (clamped_target_position - drag_last_target_position) / dt
+
+	drag_last_target_position = clamped_target_position
+	drag_last_sample_usec = now_usec
+	dragging_toy.global_position = clamped_target_position
 
 
 func _pick_toy_at(world_position: Vector2) -> RigidBody2D:
@@ -281,6 +303,8 @@ func _clear_spawned_toys() -> void:
 
 	dragging_toy = null
 	drag_pointer_id = POINTER_NONE
+	drag_last_sample_usec = 0
+	drag_release_velocity = Vector2.ZERO
 	_set_active_toy(null)
 	status_label.text = "Reset sandbox toys. Shelf selection is unchanged."
 
