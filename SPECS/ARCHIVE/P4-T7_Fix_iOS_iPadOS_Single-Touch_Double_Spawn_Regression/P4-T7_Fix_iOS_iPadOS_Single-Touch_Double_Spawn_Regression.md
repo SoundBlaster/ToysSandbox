@@ -67,3 +67,7 @@ The preferred direction is to make touch authoritative on mobile and treat synth
 ## Notes
 
 - If Godot’s iOS event emission pattern requires a broader platform-specific policy later, capture that as a follow-up only if it is not necessary to close this bug.
+
+---
+**Archived:** 2026-03-29
+**Verdict:** PARTIAL

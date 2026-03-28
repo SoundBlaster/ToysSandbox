@@ -1,11 +1,12 @@
 # Tasks Archive
 
-**Last Updated:** 2026-03-28
+**Last Updated:** 2026-03-29
 
 ## Archived Tasks
 
 | Task ID | Folder | Archived | Verdict |
 |---------|--------|----------|---------|
+| P4-T7 | [P4-T7_Fix_iOS_iPadOS_Single-Touch_Double_Spawn_Regression/](P4-T7_Fix_iOS_iPadOS_Single-Touch_Double_Spawn_Regression/) | 2026-03-29 | PARTIAL |
 | P4-T3 | [P4-T3_Add_iOS_iPad_Export_Pipeline_And_Device_Validation/](P4-T3_Add_iOS_iPad_Export_Pipeline_And_Device_Validation/) | 2026-03-28 | PARTIAL |
 | P4-T4 | [P4-T4_Add_Toy_Styles_Skins_With_Settings_Selection/](P4-T4_Add_Toy_Styles_Skins_With_Settings_Selection/) | 2026-03-28 | PASS |
 | P2-T9 | [P2-T9_Select_Spawned_Toys_By_Clicking_In-World_Instances/](P2-T9_Select_Spawned_Toys_By_Clicking_In-World_Instances/) | 2026-03-28 | PASS |
@@ -35,6 +36,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-29 | P4-T7 | Archived `Fix iOS/iPadOS Single-Touch Double Spawn Regression` with verdict `PARTIAL` |
 | 2026-03-28 | P4-T3 | Archived review report `REVIEW_p4-t3-ios-ipad-export-validation.md` |
 | 2026-03-28 | P4-T3 | Archived `Add iOS/iPad Export Pipeline And Device Validation` with verdict `PARTIAL` |
 | 2026-03-28 | P4-T4 | Archived review report `REVIEW_p4-t4-toy-skins-settings.md` |

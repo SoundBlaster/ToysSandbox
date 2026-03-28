@@ -268,7 +268,7 @@
   - The app installs and launches successfully on the physical iPad
   - The validation report records device model, iOS version, signing mode, and observed launch outcome
 
-#### P4-T7: Fix iOS/iPadOS Single-Touch Double Spawn Regression **INPROGRESS**
+#### P4-T7: Fix iOS/iPadOS Single-Touch Double Spawn Regression ✅ Complete
 - **Description:** Resolve the mobile input regression where one screen touch on empty sandbox space creates two toys instead of one on iOS/iPadOS, and harden the input path so a single physical interaction can only produce one spawn request.
 - **Priority:** P1
 - **Dependencies:** P2-T6, P4-T3
