@@ -1,21 +1,15 @@
-# Next Task: Unassigned
+# Next Task: P3-T2 — Complete The Full Eight-Toy MVP Catalog And Remaining Asset Variants
 
-**Priority:** TBD
+**Priority:** P1
 **Phase:** Toy Catalog
-**Effort:** TBD
-**Dependencies:** TBD
-**Status:** Ready for SELECT
+**Effort:** 6-8 hours
+**Dependencies:** P3-T1, P2-T3
+**Status:** Selected
 
 ## Description
 
-P3-T1 has been archived successfully. Choose the next highest-priority unblocked task from the workplan.
+Add Balloon, Jelly Cube, Pot, and Sticky Block with tuned presets and complete their final visual variants so the MVP supports the full variety promised in the PRD.
 
 ## Next Step
 
-Run SELECT for `P3-T2` (or the next unblocked task) and then PLAN.
-
-## Recently Archived
-
-- `2026-03-28` — `P3-T1` archived with verdict `PASS`
-- `2026-03-28` — `P2-T4` archived with verdict `PASS`
-- `2026-03-28` — `P2-T3` archived with verdict `PASS`
+Run the PLAN command to generate the implementation-ready PRD.

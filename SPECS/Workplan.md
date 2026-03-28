@@ -134,7 +134,7 @@
   - At least two visible reactions exist per toy
   - Interactions among the first four toys stay readable and fun in short play sessions
 
-#### P3-T2: Complete The Full Eight-Toy MVP Catalog And Remaining Asset Variants
+#### P3-T2: Complete The Full Eight-Toy MVP Catalog And Remaining Asset Variants **INPROGRESS**
 - **Description:** Add Balloon, Jelly Cube, Pot, and Sticky Block with tuned presets and complete their final visual variants so the MVP supports the full variety promised in the PRD.
 - **Priority:** P1
 - **Dependencies:** P3-T1, P2-T3
