@@ -134,6 +134,10 @@ func get_definition_copy() -> Dictionary:
 	return toy_definition.duplicate(true)
 
 
+func get_toy_id() -> StringName:
+	return toy_definition.get("id", &"")
+
+
 func set_selected(selected: bool) -> void:
 	is_selected = selected
 	_apply_selection_visuals()

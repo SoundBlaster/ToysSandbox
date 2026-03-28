@@ -7,6 +7,7 @@ const TEST_RESOURCES := [
 	"res://scenes/game/ToyInstance.tscn",
 	"res://scripts/boot/Boot.gd",
 	"res://scripts/game/Sandbox.gd",
+	"res://scripts/game/SandboxInteractionController.gd",
 	"res://scripts/game/ToyInstance.gd",
 	"res://scripts/menu/MainMenu.gd",
 	"res://scripts/autoload/AudioService.gd",

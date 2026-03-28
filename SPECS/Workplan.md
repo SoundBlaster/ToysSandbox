@@ -132,7 +132,7 @@
   - Overlay does not alter physics behavior, selection, or drag interactions
   - Visual style remains readable over existing toy sprites and fallback polygons
 
-#### P2-T9: Select Spawned Toys By Clicking In-World Instances
+#### P2-T9: Select Spawned Toys By Clicking In-World Instances ✅ Complete
 - **Description:** Allow players to select the active toy directly by clicking/tapping an already spawned toy in the sandbox world, with UI selection state synchronized to the shelf.
 - **Priority:** P1
 - **Dependencies:** P2-T2, P2-T6
