@@ -16,8 +16,8 @@ Run SELECT for `P4-T5`, verify export-template/toolchain availability, and plan 
 
 ## Recently Archived
 
+- `2026-03-28` - `P4-T3` archived with verdict `PARTIAL`
 - `2026-03-28` - `P4-T4` archived with verdict `PASS`
 - `2026-03-28` - `P2-T9` archived with verdict `PASS`
 - `2026-03-28` - `P4-T2` archived with verdict `PARTIAL`
 - `2026-03-28` - `P3-T3` archived with verdict `PASS`
-- `2026-03-28` - `P4-T1` archived with verdict `PASS`

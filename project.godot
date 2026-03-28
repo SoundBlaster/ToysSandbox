@@ -32,3 +32,5 @@ window/stretch/aspect="expand"
 [rendering]
 
 renderer/rendering_method="mobile"
+rendering_device/driver.ios="vulkan"
+textures/vram_compression/import_etc2_astc=true
