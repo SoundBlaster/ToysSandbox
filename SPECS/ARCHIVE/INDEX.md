@@ -36,6 +36,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-29 | P4-T7 | Archived review report `REVIEW_p4-t7-ios-single-touch-double-spawn.md` |
 | 2026-03-29 | P4-T7 | Archived `Fix iOS/iPadOS Single-Touch Double Spawn Regression` with verdict `PARTIAL` |
 | 2026-03-28 | P4-T3 | Archived review report `REVIEW_p4-t3-ios-ipad-export-validation.md` |
 | 2026-03-28 | P4-T3 | Archived `Add iOS/iPad Export Pipeline And Device Validation` with verdict `PARTIAL` |
