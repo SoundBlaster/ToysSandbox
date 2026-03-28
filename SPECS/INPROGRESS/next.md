@@ -4,7 +4,7 @@
 **Phase:** UX, Persistence, And Release Readiness
 **Effort:** Medium
 **Dependencies:** P4-T2
-**Status:** Ready for SELECT
+**Status:** Selected for PLAN
 
 ## Description
 
@@ -12,7 +12,7 @@ Finish the open acceptance work from `P4-T2` by installing any missing export pr
 
 ## Next Step
 
-Run SELECT for `P4-T5`, verify export-template/toolchain availability, and plan the real-device validation evidence needed to close the remaining export/performance gap.
+Run PLAN for `P4-T5` to define concrete export-template/toolchain verification steps, real-device execution checklist, and validation evidence capture format.
 
 ## Follow-Up Status
 
