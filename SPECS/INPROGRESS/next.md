@@ -4,15 +4,15 @@
 **Phase:** UX, Persistence, And Release Readiness
 **Effort:** Medium
 **Dependencies:** P4-T3
-**Status:** Ready for SELECT
+**Status:** Selected
 
 ## Description
 
-Finish the remaining acceptance proof from `P4-T3` by launching the exported iOS build on a connected physical iPad with local signing enabled and recording exact deployment evidence.
+Finish the remaining acceptance proof from `P4-T3` by launching the exported iOS build on a connected physical iPad with local signing enabled and recording the exact deployment evidence.
 
 ## Next Step
 
-Run SELECT for `P4-T6`, verify connected iPad/Xcode signing prerequisites, and plan capture of device model, iOS version, signing mode, and launch outcome evidence.
+Run PLAN for `P4-T6`, verify connected iPad/Xcode signing prerequisites, and plan capture of device model, iOS version, signing mode, and launch outcome evidence.
 
 ## Follow-Up Status
 

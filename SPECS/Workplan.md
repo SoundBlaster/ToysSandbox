@@ -257,7 +257,7 @@
   - Desktop and Android validation captures measured FPS with `25` active toys using the sandbox stats panel
   - Export smoke-test outcomes and performance measurements are documented in an archived validation report
 
-#### P4-T6: Complete Physical iPad Launch Validation For iOS Export
+#### P4-T6: Complete Physical iPad Launch Validation For iOS Export **INPROGRESS**
 - **Description:** Finish the remaining acceptance proof from `P4-T3` by launching the exported iOS build on a connected physical iPad with local signing enabled and recording the exact deployment evidence.
 - **Priority:** P2
 - **Dependencies:** P4-T3
