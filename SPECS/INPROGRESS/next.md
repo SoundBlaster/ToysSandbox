@@ -1,15 +1,21 @@
-# Next Task: P4-T1 — Add Onboarding, Settings, And Local Persistence
+# Next Task: Unassigned
 
-**Priority:** P1
-**Phase:** UX, Persistence, And Release Readiness
-**Effort:** 8-12 hours
-**Dependencies:** P2-T2
-**Status:** Selected
+**Priority:** TBD
+**Phase:** Visual Polish or Remaining Sandbox Improvements
+**Effort:** TBD
+**Dependencies:** TBD
+**Status:** Ready for SELECT
 
 ## Description
 
-Implement first-launch guidance plus settings for audio and tutorial reset, and persist the last selected toy and user preferences.
+P4-T1 has been archived successfully. Choose the next highest-priority unblocked task from the workplan.
 
 ## Next Step
 
-Run the PLAN command to generate the implementation-ready PRD.
+Run SELECT for `P3-T3` or `P2-T8` (or the next unblocked task) and then PLAN.
+
+## Recently Archived
+
+- `2026-03-28` - `P4-T1` archived with verdict `PASS`
+- `2026-03-28` - `P2-T7` archived with verdict `PASS`
+- `2026-03-28` - `P2-T6` archived with verdict `PASS`
