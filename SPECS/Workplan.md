@@ -267,3 +267,19 @@
   - The generated `ToysSandbox-ios.xcodeproj` is signed with local development credentials without committing secrets to the repo
   - The app installs and launches successfully on the physical iPad
   - The validation report records device model, iOS version, signing mode, and observed launch outcome
+
+#### P4-T7: Fix iOS/iPadOS Single-Touch Double Spawn Regression **INPROGRESS**
+- **Description:** Resolve the mobile input regression where one screen touch on empty sandbox space creates two toys instead of one on iOS/iPadOS, and harden the input path so a single physical interaction can only produce one spawn request.
+- **Priority:** P1
+- **Dependencies:** P2-T6, P4-T3
+- **Parallelizable:** no
+- **Acceptance Criteria:**
+  - A single tap on empty sandbox space creates exactly one toy on physical iPhone/iPad hardware
+  - Touch selection and drag of existing toys still work after the fix
+  - Desktop mouse spawn behavior remains unchanged
+  - Validation documents the exact event path before the fix and the guarded path after the fix
+- **S.T.A.R. Cause Analysis:**
+  - **Situation:** On iOS/iPadOS, tapping empty sandbox space can create two toys from one physical touch.
+  - **Task:** Find why one tap turns into two spawn requests without regressing shared desktop/mobile interaction behavior.
+  - **Action:** Trace the input flow through `Sandbox._unhandled_input()` into `SandboxInteractionController.handle_input()`. The current controller calls `_handle_pointer_pressed()` for both `InputEventScreenTouch` and `InputEventMouseButton`, and empty-space presses spawn immediately inside `_handle_pointer_pressed()`. Mobile deduplication currently relies on `_should_ignore_emulated_mouse()`, a time/distance heuristic that only works when the synthesized mouse event arrives close enough to a previously registered touch event.
+  - **Result:** The most likely root cause is duplicate handling of the same physical tap through two event classes on iOS/iPadOS: the real touch event and an emulated left-mouse event. Because spawn happens on press and the suppression is heuristic rather than authoritative, one tap can produce two toy spawns.
