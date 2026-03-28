@@ -32,6 +32,10 @@ const SMASH_FORCE_BY_ARCHETYPE := {
 	&"metal": 1.05,
 	&"sticky": 0.55,
 }
+const SMASH_REBOUND_BY_ARCHETYPE := {
+	&"bouncy": 780.0,
+	&"air": 420.0,
+}
 
 
 func _ready() -> void:
@@ -122,6 +126,12 @@ func apply_smash_tool(direction: Vector2, base_force: float = 1200.0) -> void:
 		angular_velocity *= 0.5
 	else:
 		angular_velocity += 1.5
+
+	if _is_grounded():
+		var rebound_force: float = float(SMASH_REBOUND_BY_ARCHETYPE.get(archetype, 0.0))
+		if rebound_force > 0.0:
+			apply_central_impulse(Vector2.UP * rebound_force)
+			linear_velocity.y = minf(linear_velocity.y, -280.0)
 
 	sleeping = false
 	_apply_tool_feedback(archetype, &"smash")
@@ -239,6 +249,9 @@ func _apply_selection_visuals() -> void:
 
 
 func _apply_tool_feedback(archetype: StringName, tool: StringName) -> void:
+	if tool == &"smash":
+		_play_impact_punch()
+
 	match archetype:
 		&"fragile":
 			_play_feedback_flash(Color(0.7, 0.9, 1.2), 0.22)
@@ -259,12 +272,45 @@ func _apply_tool_feedback(archetype: StringName, tool: StringName) -> void:
 			_play_feedback_flash(Color(1.08, 1.08, 1.08), 0.12)
 
 
+func _play_impact_punch() -> void:
+	var polygon_base_scale := body_polygon.scale
+	var sprite_base_scale := world_sprite.scale
+	var punch_scale := Vector2(1.15, 0.84)
+
+	body_polygon.scale = polygon_base_scale * punch_scale
+	if world_sprite.visible:
+		world_sprite.scale = sprite_base_scale * punch_scale
+
+	var punch_tween := create_tween()
+	punch_tween.tween_property(body_polygon, "scale", polygon_base_scale, 0.12)
+	if world_sprite.visible:
+		punch_tween.parallel().tween_property(world_sprite, "scale", sprite_base_scale, 0.12)
+
+
 func _play_feedback_flash(boost_modulate: Color, duration: float) -> void:
 	var source_body_color := body_polygon.color
 	var source_world_modulate := world_sprite.modulate
 	body_polygon.color = source_body_color * boost_modulate
-	world_sprite.modulate = source_world_modulate * boost_modulate
+	if world_sprite.visible:
+		world_sprite.modulate = _flash_world_modulate(boost_modulate)
 
 	var tween := create_tween()
 	tween.tween_property(body_polygon, "color", source_body_color, duration)
-	tween.parallel().tween_property(world_sprite, "modulate", source_world_modulate, duration)
+	if world_sprite.visible:
+		tween.parallel().tween_property(world_sprite, "modulate", source_world_modulate, duration)
+
+
+func _flash_world_modulate(boost_modulate: Color) -> Color:
+	# Texture sprites are often already white; multiplying by values >1 can look unchanged.
+	# Use a visible tint shift on impact and tween back to the baseline modulate.
+	return Color(
+		clampf(0.72 + boost_modulate.r * 0.28, 0.0, 1.0),
+		clampf(0.72 + boost_modulate.g * 0.28, 0.0, 1.0),
+		clampf(0.72 + boost_modulate.b * 0.28, 0.0, 1.0),
+		1.0
+	)
+
+
+func _is_grounded() -> bool:
+	var colliders: Array[Node2D] = get_colliding_bodies()
+	return not colliders.is_empty()
