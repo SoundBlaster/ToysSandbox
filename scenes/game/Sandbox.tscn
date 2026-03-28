@@ -3,13 +3,13 @@
 [ext_resource type="Script" path="res://scripts/game/Sandbox.gd" id="1"]
 
 [sub_resource type="RectangleShape2D" id="1"]
-size = Vector2(932, 48)
+size = Vector2(1000, 48)
 
 [sub_resource type="RectangleShape2D" id="2"]
-size = Vector2(48, 640)
+size = Vector2(32, 720)
 
 [sub_resource type="RectangleShape2D" id="3"]
-size = Vector2(48, 640)
+size = Vector2(32, 720)
 
 [node name="Sandbox" type="Node2D"]
 script = ExtResource("1")
@@ -21,19 +21,19 @@ position = Vector2(500, 360)
 enabled = true
 
 [node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2(490, 676)
+position = Vector2(500, 676)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("1")
 
 [node name="LeftWall" type="StaticBody2D" parent="."]
-position = Vector2(24, 360)
+position = Vector2(-16, 360)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
 shape = SubResource("2")
 
 [node name="RightWall" type="StaticBody2D" parent="."]
-position = Vector2(956, 360)
+position = Vector2(1016, 360)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
 shape = SubResource("3")
