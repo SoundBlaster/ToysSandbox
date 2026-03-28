@@ -16,11 +16,13 @@ const LABEL_SECONDARY := Color("d4e2ff")
 @onready var music_label: Label = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/MusicRow/MusicLabel
 @onready var sound_label: Label = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SoundRow/SoundLabel
 @onready var tutorial_label: Label = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/TutorialRow/TutorialLabel
+@onready var unlimited_toys_label: Label = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/UnlimitedToysRow/UnlimitedToysLabel
 @onready var music_slider: HSlider = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/MusicRow/MusicSlider
 @onready var sound_slider: HSlider = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SoundRow/SoundSlider
 @onready var music_value_label: Label = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/MusicRow/MusicValueLabel
 @onready var sound_value_label: Label = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SoundRow/SoundValueLabel
 @onready var reset_tutorial_button: Button = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/TutorialRow/ResetTutorialButton
+@onready var unlimited_toys_button: CheckButton = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/UnlimitedToysRow/UnlimitedToysButton
 @onready var close_settings_button: Button = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SettingsButtonsRow/CloseSettingsButton
 @onready var settings_status_label: Label = $SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SettingsStatusLabel
 
@@ -33,6 +35,7 @@ func _ready() -> void:
 	music_slider.value_changed.connect(_on_music_slider_changed)
 	sound_slider.value_changed.connect(_on_sound_slider_changed)
 	reset_tutorial_button.pressed.connect(_on_reset_tutorial_pressed)
+	unlimited_toys_button.toggled.connect(_on_unlimited_toys_toggled)
 	close_settings_button.pressed.connect(_on_close_settings_pressed)
 	_load_settings_ui()
 
@@ -69,20 +72,31 @@ func _on_close_settings_pressed() -> void:
 	_set_settings_overlay_visible(false)
 
 
+func _on_unlimited_toys_toggled(is_toggled: bool) -> void:
+	GameState.set_unlimited_toys_unlocked(is_toggled)
+	_refresh_unlimited_toys_button()
+
+
 func _load_settings_ui() -> void:
 	var persisted_state := SaveService.get_state()
 	var music_volume := clampf(float(persisted_state.get("music_volume", AudioService.music_volume)), 0.0, 1.0)
 	var sound_volume := clampf(float(persisted_state.get("sound_volume", AudioService.sound_volume)), 0.0, 1.0)
 	music_slider.set_value_no_signal(music_volume)
 	sound_slider.set_value_no_signal(sound_volume)
+	unlimited_toys_button.set_pressed_no_signal(bool(persisted_state.get("unlimited_toys_unlocked", false)))
 	AudioService.apply_settings(music_volume, sound_volume)
 	_refresh_slider_labels()
+	_refresh_unlimited_toys_button()
 	_set_settings_overlay_visible(false)
 
 
 func _refresh_slider_labels() -> void:
 	music_value_label.text = "%d%%" % int(round(music_slider.value * 100.0))
 	sound_value_label.text = "%d%%" % int(round(sound_slider.value * 100.0))
+
+
+func _refresh_unlimited_toys_button() -> void:
+	unlimited_toys_button.text = "On" if unlimited_toys_button.button_pressed else "Off"
 
 
 func _apply_and_persist_audio_settings() -> void:
@@ -109,6 +123,7 @@ func _apply_visual_polish() -> void:
 	music_label.add_theme_color_override("font_color", LABEL_SECONDARY)
 	sound_label.add_theme_color_override("font_color", LABEL_SECONDARY)
 	tutorial_label.add_theme_color_override("font_color", LABEL_SECONDARY)
+	unlimited_toys_label.add_theme_color_override("font_color", LABEL_SECONDARY)
 	music_value_label.add_theme_color_override("font_color", LABEL_PRIMARY)
 	sound_value_label.add_theme_color_override("font_color", LABEL_PRIMARY)
 	settings_status_label.add_theme_color_override("font_color", LABEL_PRIMARY)
@@ -117,6 +132,7 @@ func _apply_visual_polish() -> void:
 	_style_button(settings_button, Color("5d8bff"), 0.16)
 	_style_button(quit_button, Color("d07070"), 0.14)
 	_style_button(reset_tutorial_button, Color("d79a5f"), 0.12)
+	_style_button(unlimited_toys_button, Color("5bbd88"), 0.12)
 	_style_button(close_settings_button, Color("6f8eff"), 0.12)
 
 

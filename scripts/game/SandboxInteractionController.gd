@@ -261,7 +261,7 @@ func _duplicate_active_toy() -> void:
 	if _spawn_root == null or _toy_instance_scene == null:
 		_set_status("Unable to duplicate active toy right now.")
 		return
-	if _max_active_toys > 0 and _spawn_root.get_child_count() >= _max_active_toys:
+	if not GameState.unlimited_toys_unlocked and _max_active_toys > 0 and _spawn_root.get_child_count() >= _max_active_toys:
 		_set_status("Toy limit reached (%d/%d). Reset or move toys before duplicating." % [_max_active_toys, _max_active_toys])
 		return
 

@@ -120,7 +120,7 @@ func _on_dismiss_onboarding_pressed() -> void:
 
 
 func _spawn_selected_toy(spawn_position: Vector2) -> RigidBody2D:
-	if _get_active_toy_count() >= MAX_ACTIVE_TOYS:
+	if not GameState.unlimited_toys_unlocked and _get_active_toy_count() >= MAX_ACTIVE_TOYS:
 		status_label.text = "Toy limit reached (%d/%d). Reset or move toys before adding more." % [MAX_ACTIVE_TOYS, MAX_ACTIVE_TOYS]
 		return null
 
@@ -233,10 +233,11 @@ func _refresh_selected_label() -> void:
 
 
 func _refresh_stats_label() -> void:
-	stats_label.text = "FPS: %d | Toys: %d/%d" % [
+	var toy_limit_label := "inf" if GameState.unlimited_toys_unlocked else str(MAX_ACTIVE_TOYS)
+	stats_label.text = "FPS: %d | Toys: %d/%s" % [
 		Engine.get_frames_per_second(),
 		_get_active_toy_count(),
-		MAX_ACTIVE_TOYS,
+		toy_limit_label,
 	]
 
 

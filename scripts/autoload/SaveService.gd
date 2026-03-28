@@ -8,6 +8,7 @@ const DEFAULT_STATE := {
 	"sound_volume": 0.9,
 	"selected_toy_id": "ball",
 	"tutorial_dismissed": false,
+	"unlimited_toys_unlocked": false,
 }
 
 var _state: Dictionary = DEFAULT_STATE.duplicate(true)
@@ -45,6 +46,9 @@ func load_state() -> Dictionary:
 		next_state["tutorial_dismissed"] = bool(
 			config.get_value(GAMEPLAY_SECTION, "tutorial_dismissed", DEFAULT_STATE["tutorial_dismissed"])
 		)
+		next_state["unlimited_toys_unlocked"] = bool(
+			config.get_value(GAMEPLAY_SECTION, "unlimited_toys_unlocked", DEFAULT_STATE["unlimited_toys_unlocked"])
+		)
 	elif load_result != ERR_FILE_NOT_FOUND:
 		push_warning("SaveService: failed to load %s (code %d). Restoring defaults." % [SAVE_PATH, load_result])
 
@@ -81,6 +85,9 @@ func _normalized_state(source: Dictionary) -> Dictionary:
 	)
 	normalized["selected_toy_id"] = _sanitize_toy_id(source.get("selected_toy_id", normalized["selected_toy_id"]))
 	normalized["tutorial_dismissed"] = bool(source.get("tutorial_dismissed", normalized["tutorial_dismissed"]))
+	normalized["unlimited_toys_unlocked"] = bool(
+		source.get("unlimited_toys_unlocked", normalized["unlimited_toys_unlocked"])
+	)
 	return normalized
 
 
@@ -90,6 +97,11 @@ func _write_state(next_state: Dictionary) -> void:
 	config.set_value(AUDIO_SECTION, "sound_volume", float(next_state.get("sound_volume", DEFAULT_STATE["sound_volume"])))
 	config.set_value(GAMEPLAY_SECTION, "selected_toy_id", String(next_state.get("selected_toy_id", DEFAULT_STATE["selected_toy_id"])))
 	config.set_value(GAMEPLAY_SECTION, "tutorial_dismissed", bool(next_state.get("tutorial_dismissed", DEFAULT_STATE["tutorial_dismissed"])))
+	config.set_value(
+		GAMEPLAY_SECTION,
+		"unlimited_toys_unlocked",
+		bool(next_state.get("unlimited_toys_unlocked", DEFAULT_STATE["unlimited_toys_unlocked"]))
+	)
 	var save_result := config.save(SAVE_PATH)
 	if save_result != OK:
 		push_warning("SaveService: failed to save %s (code %d)." % [SAVE_PATH, save_result])

@@ -165,6 +165,19 @@ text = "Tutorial"
 layout_mode = 2
 text = "Reset"
 
+[node name="UnlimitedToysRow" type="HBoxContainer" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="UnlimitedToysLabel" type="Label" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/UnlimitedToysRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Unlimited Toys"
+
+[node name="UnlimitedToysButton" type="CheckButton" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/UnlimitedToysRow"]
+layout_mode = 2
+text = "Off"
+
 [node name="SettingsStatusLabel" type="Label" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox"]
 layout_mode = 2
 autowrap_mode = 3
