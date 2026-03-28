@@ -55,7 +55,7 @@
   - Sandbox includes floor, side bounds, and non-blocking shelf UI
   - Shelf exposes the full planned toy catalog, even if some toys use temporary art
 
-#### P2-T2: Wire Toy Presentation, Selection, And Spawn Preview **INPROGRESS**
+#### P2-T2: Wire Toy Presentation, Selection, And Spawn Preview ✅ Complete
 - **Description:** Bind toy catalog entries to shelf icons and in-world visuals so the player can see the selected toy, preview spawn state, and fall back cleanly when final art is missing.
 - **Priority:** P0
 - **Dependencies:** P1-T3, P2-T1

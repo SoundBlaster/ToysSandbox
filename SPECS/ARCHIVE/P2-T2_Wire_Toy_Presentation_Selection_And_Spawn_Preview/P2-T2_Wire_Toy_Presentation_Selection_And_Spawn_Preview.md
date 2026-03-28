@@ -73,3 +73,7 @@ The main design decision is to keep toy visual metadata in `ToyCatalog` (single 
 - Update `docs/godot-validation.md` only if validation commands or prerequisites change.
 - `P2-T3` should consume this stabilized selection/visual contract for interaction verbs.
 - Archive should include this PRD, validation report, and review artifact when complete.
+
+---
+**Archived:** 2026-03-28
+**Verdict:** PASS

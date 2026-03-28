@@ -1,15 +1,19 @@
-# Next Task: P2-T2 — Wire Toy Presentation, Selection, And Spawn Preview
+# Next Task: Unassigned
 
-**Priority:** P0
+**Priority:** TBD
 **Phase:** Core Sandbox
-**Effort:** 6-12 hours
-**Dependencies:** P1-T3, P2-T1
-**Status:** Selected
+**Effort:** TBD
+**Dependencies:** TBD
+**Status:** Ready for SELECT
 
 ## Description
 
-Bind toy catalog entries to shelf icon presentation and in-world visuals so selection state and spawn preview remain consistent even when some art assets are placeholders.
+P2-T2 has been archived successfully. Choose the next highest-priority unblocked task from the workplan.
 
 ## Next Step
 
-Run the PLAN command to generate the implementation-ready PRD.
+Run SELECT for `P2-T3` (or another unblocked P0 task) and then PLAN.
+
+## Recently Archived
+
+- `2026-03-28` — `P2-T2` archived with verdict `PASS`
