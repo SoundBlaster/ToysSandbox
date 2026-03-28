@@ -78,3 +78,7 @@ The implementation should stay pragmatic and security-conscious. Apple team iden
 
 - Godot’s stable iOS export docs require macOS, Xcode, export templates, and non-empty App Store Team ID plus bundle identifier for export.
 - Apple Silicon Macs can run iOS apps natively, but this task still targets the workplan requirement of physical iPad deployment when the hardware is available.
+
+---
+**Archived:** 2026-03-28
+**Verdict:** PARTIAL

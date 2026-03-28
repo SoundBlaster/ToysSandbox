@@ -6,6 +6,7 @@
 
 | Task ID | Folder | Archived | Verdict |
 |---------|--------|----------|---------|
+| P4-T3 | [P4-T3_Add_iOS_iPad_Export_Pipeline_And_Device_Validation/](P4-T3_Add_iOS_iPad_Export_Pipeline_And_Device_Validation/) | 2026-03-28 | PARTIAL |
 | P4-T4 | [P4-T4_Add_Toy_Styles_Skins_With_Settings_Selection/](P4-T4_Add_Toy_Styles_Skins_With_Settings_Selection/) | 2026-03-28 | PASS |
 | P2-T9 | [P2-T9_Select_Spawned_Toys_By_Clicking_In-World_Instances/](P2-T9_Select_Spawned_Toys_By_Clicking_In-World_Instances/) | 2026-03-28 | PASS |
 | P4-T2 | [P4-T2_Performance_Pass_Asset_Cleanup_And_Export_Validation/](P4-T2_Performance_Pass_Asset_Cleanup_And_Export_Validation/) | 2026-03-28 | PARTIAL |
@@ -34,6 +35,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P4-T3 | Archived `Add iOS/iPad Export Pipeline And Device Validation` with verdict `PARTIAL` |
 | 2026-03-28 | P4-T4 | Archived review report `REVIEW_p4-t4-toy-skins-settings.md` |
 | 2026-03-28 | P4-T4 | Archived `Add Toy Styles/Skins With Settings Selection` with verdict `PASS` |
 | 2026-03-28 | P2-T9 | Archived review report `REVIEW_p2-t9-in-world-selection-sync.md` |

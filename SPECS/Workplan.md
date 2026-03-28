@@ -223,7 +223,7 @@
   - Unused placeholder art and textures are removed or clearly marked for follow-up
   - Export checklist for Windows, macOS, Linux, and Android is documented and reproducible
 
-#### P4-T3: Add iOS/iPad Export Pipeline And Device Validation **INPROGRESS**
+#### P4-T3: Add iOS/iPad Export Pipeline And Device Validation ✅ Complete
 - **Description:** Configure first-class iOS export support in Godot, integrate with Xcode signing, and validate reproducible deployment to a physical iPad without gameplay forks.
 - **Priority:** P2
 - **Dependencies:** P4-T2
