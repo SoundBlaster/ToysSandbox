@@ -32,6 +32,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P4-T2 | Archived review report `REVIEW_p4-t2-performance-pass-asset-cleanup-and-export-validation.md` |
 | 2026-03-28 | P4-T2 | Archived `Performance Pass, Asset Cleanup, And Export Validation` with verdict `PARTIAL` |
 | 2026-03-28 | P3-T3 | Archived review report `REVIEW_p3-t3-backgrounds-effects-ui-polish.md` |
 | 2026-03-28 | P3-T3 | Archived `Finalize Backgrounds, Effects, And UI Polish` with verdict `PASS` |
