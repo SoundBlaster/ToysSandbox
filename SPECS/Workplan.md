@@ -88,7 +88,7 @@
 
 ## Phase 3: Toy Catalog
 
-#### P3-T1: Ship The First Four Toy Archetypes With Final Silhouettes **INPROGRESS**
+#### P3-T1: Ship The First Four Toy Archetypes With Final Silhouettes ✅ Complete
 - **Description:** Implement Ball, Pillow, Brick, and Vase as the first complete set of readable behavior archetypes for playtesting, including final icon and in-world visual treatment.
 - **Priority:** P1
 - **Dependencies:** P2-T2

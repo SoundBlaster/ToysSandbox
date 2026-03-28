@@ -1,15 +1,21 @@
-# Next Task: P3-T1 — Ship The First Four Toy Archetypes With Final Silhouettes
+# Next Task: Unassigned
 
-**Priority:** P1
+**Priority:** TBD
 **Phase:** Toy Catalog
-**Effort:** 10-14 hours
-**Dependencies:** P2-T2
-**Status:** Selected
+**Effort:** TBD
+**Dependencies:** TBD
+**Status:** Ready for SELECT
 
 ## Description
 
-Implement Ball, Pillow, Brick, and Vase as the first complete toy set with clear silhouettes, matching shelf and world art, and readable gameplay reactions for playtesting.
+P3-T1 has been archived successfully. Choose the next highest-priority unblocked task from the workplan.
 
 ## Next Step
 
-Run the PLAN command to generate the implementation-ready PRD.
+Run SELECT for `P3-T2` (or the next unblocked task) and then PLAN.
+
+## Recently Archived
+
+- `2026-03-28` — `P3-T1` archived with verdict `PASS`
+- `2026-03-28` — `P2-T4` archived with verdict `PASS`
+- `2026-03-28` — `P2-T3` archived with verdict `PASS`

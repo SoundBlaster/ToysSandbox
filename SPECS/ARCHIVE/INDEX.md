@@ -6,6 +6,7 @@
 
 | Task ID | Folder | Archived | Verdict |
 |---------|--------|----------|---------|
+| P3-T1 | [P3-T1_Ship_The_First_Four_Toy_Archetypes_With_Final_Silhouettes/](P3-T1_Ship_The_First_Four_Toy_Archetypes_With_Final_Silhouettes/) | 2026-03-28 | PASS |
 | P2-T4 | [P2-T4_Add_Environmental_Tools_And_Feedback/](P2-T4_Add_Environmental_Tools_And_Feedback/) | 2026-03-28 | PASS |
 | P2-T3 | [P2-T3_Implement_Core_Interaction_Verbs/](P2-T3_Implement_Core_Interaction_Verbs/) | 2026-03-28 | PASS |
 | P2-T2 | [P2-T2_Wire_Toy_Presentation_Selection_And_Spawn_Preview/](P2-T2_Wire_Toy_Presentation_Selection_And_Spawn_Preview/) | 2026-03-28 | PASS |
@@ -25,6 +26,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P3-T1 | Archived `Ship The First Four Toy Archetypes With Final Silhouettes` with verdict `PASS` |
 | 2026-03-28 | P2-T4 | Archived review report `REVIEW_p2-t4-environmental-tools-and-feedback.md` |
 | 2026-03-28 | P2-T4 | Archived `Add Environmental Tools And Feedback` with verdict `PASS` |
 | 2026-03-28 | P2-T3 | Archived review report `REVIEW_feature-p2-t3-core-interaction-verbs.md` |
