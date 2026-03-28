@@ -152,6 +152,24 @@ value = 0.9
 layout_mode = 2
 text = "90%"
 
+[node name="SkinRow" type="HBoxContainer" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SkinLabel" type="Label" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SkinRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Toy Style"
+
+[node name="SkinOptionButtonMargin" type="MarginContainer" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SkinRow"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_right = 6
+
+[node name="SkinOptionButton" type="OptionButton" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox/SkinRow/SkinOptionButtonMargin"]
+layout_mode = 2
+custom_minimum_size = Vector2(164, 0)
+
 [node name="TutorialRow" type="HBoxContainer" parent="SettingsOverlay/PanelCenter/SettingsPanel/SettingsMargin/SettingsVBox"]
 layout_mode = 2
 theme_override_constants/separation = 8
