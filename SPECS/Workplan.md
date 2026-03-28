@@ -76,7 +76,7 @@
   - Duplicate, resize, and reset operate on active toy instances without breaking state
   - Core interactions remain stable with at least 10 simultaneous objects during development
 
-#### P2-T4: Add Environmental Tools And Feedback
+#### P2-T4: Add Environmental Tools And Feedback ✅ Complete
 - **Description:** Introduce the fan and smash tools plus baseline sound, animation, and particle feedback so every interaction feels toy-like rather than purely physical.
 - **Priority:** P1
 - **Dependencies:** P2-T2, P2-T3
@@ -86,7 +86,7 @@
   - Each player action produces motion, sound, or visual feedback
   - Fragile and soft reactions are visibly distinct from rigid behavior
 
-#### P2-T5: Fix Drag Inertia And Pointer Alignment Regression (macOS)
+#### P2-T5: Fix Drag Inertia And Pointer Alignment Regression (macOS) ✅ Complete
 - **Description:** Resolve unresolved drag-release physics issues observed on macOS trackpad where release inertia is inconsistent and dragged bodies can appear vertically offset/underlapping near the ground.
 - **Priority:** P0
 - **Dependencies:** P2-T3
@@ -108,6 +108,18 @@
   - A dedicated script/module encapsulates interaction state transitions (pointer down/move/up, active toy selection, release behavior)
   - Existing interaction behavior remains functionally equivalent for mouse and touch input paths
   - Validation confirms no regression in drag, duplicate, resize, and reset interactions
+
+#### P2-T7: Add Physics Materials For Elastic Collision Feedback
+- **Description:** Introduce per-archetype and world-boundary physics materials (bounce/friction) so fan-driven and throw-driven collisions feel toy-like, including visible rebound from floor/walls for bouncy toys.
+- **Priority:** P1
+- **Dependencies:** P2-T4
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - Toys can be assigned collision materials by archetype without duplicating scene files per toy
+  - Floor and wall colliders have explicit physics material settings (not engine defaults)
+  - Bouncy toys (e.g., Ball) visibly rebound from floor/walls after fan or throw impact
+  - Heavy/sticky toys remain comparatively less elastic than bouncy toys under the same test setup
+  - Validation report documents before/after behavior and tuning values used
 
 ## Phase 3: Toy Catalog
 

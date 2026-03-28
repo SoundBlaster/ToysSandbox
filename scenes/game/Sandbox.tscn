@@ -65,7 +65,7 @@ text = "Sandbox shell booting..."
 [node name="HintLabel" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
 layout_mode = 2
 autowrap_mode = 3
-text = "Tap empty space to spawn. Tap a toy to drag. Use buttons (or D, +/-, R) for duplicate, resize, and reset."
+text = "Tap empty space to spawn. Tap a toy to drag. Use buttons (or D, +/-, R, F, S) for duplicate, resize, reset, fan, and smash."
 
 [node name="SelectedLabel" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
 layout_mode = 2
@@ -96,6 +96,14 @@ text = "Shrink"
 [node name="ResetButton" type="Button" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow"]
 layout_mode = 2
 text = "Reset"
+
+[node name="FanButton" type="Button" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow"]
+layout_mode = 2
+text = "Fan"
+
+[node name="SmashButton" type="Button" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow"]
+layout_mode = 2
+text = "Smash"
 
 [node name="BackButton" type="Button" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
 layout_mode = 2
