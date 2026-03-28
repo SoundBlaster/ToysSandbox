@@ -1,15 +1,21 @@
-# Next Task: P2-T6 — Extract Interaction Controller From Sandbox Orchestration
+# Next Task: Unassigned
 
-**Priority:** P1
+**Priority:** TBD
 **Phase:** Core Sandbox
-**Effort:** 6-8 hours
-**Dependencies:** P2-T3, P2-T5
-**Status:** Selected
+**Effort:** TBD
+**Dependencies:** TBD
+**Status:** Ready for SELECT
 
 ## Description
 
-Reduce maintenance risk by moving pointer/drag/action orchestration out of `Sandbox.gd` into a dedicated interaction controller while preserving current behavior for spawn, drag, duplicate, resize, and reset verbs.
+P2-T6 has been archived successfully. Choose the next highest-priority unblocked task from the workplan.
 
 ## Next Step
 
-Run the PLAN command to generate the implementation-ready PRD.
+Run SELECT for `P2-T7` or `P2-T8` (or the next unblocked task) and then PLAN.
+
+## Recently Archived
+
+- `2026-03-28` — `P2-T6` archived with verdict `PASS`
+- `2026-03-28` — `P3-T2` archived with verdict `PASS`
+- `2026-03-28` — `P3-T1` archived with verdict `PASS`
