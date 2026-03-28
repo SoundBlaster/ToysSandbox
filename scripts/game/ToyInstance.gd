@@ -12,6 +12,26 @@ var size_scale := 1.0
 
 const MIN_SIZE_SCALE := 0.6
 const MAX_SIZE_SCALE := 1.8
+const FAN_FORCE_BY_ARCHETYPE := {
+	&"bouncy": 1.0,
+	&"soft": 0.75,
+	&"heavy": 0.45,
+	&"fragile": 0.7,
+	&"air": 1.7,
+	&"deformable": 0.8,
+	&"metal": 0.55,
+	&"sticky": 0.35,
+}
+const SMASH_FORCE_BY_ARCHETYPE := {
+	&"bouncy": 0.85,
+	&"soft": 0.65,
+	&"heavy": 1.2,
+	&"fragile": 1.35,
+	&"air": 0.5,
+	&"deformable": 0.7,
+	&"metal": 1.05,
+	&"sticky": 0.55,
+}
 
 
 func _ready() -> void:
@@ -64,6 +84,47 @@ func resize_by_step(step: float) -> bool:
 	_apply_visuals()
 	_apply_selection_visuals()
 	return true
+
+
+func apply_fan_tool(direction: Vector2, base_force: float = 900.0) -> void:
+	if toy_definition.is_empty():
+		return
+
+	var wind_direction := direction.normalized()
+	if wind_direction == Vector2.ZERO:
+		wind_direction = Vector2.RIGHT
+
+	var archetype: StringName = toy_definition.get("archetype", &"bouncy")
+	var force_scale: float = float(FAN_FORCE_BY_ARCHETYPE.get(archetype, 1.0))
+	var fan_impulse := wind_direction * base_force * force_scale
+
+	apply_central_impulse(fan_impulse)
+	sleeping = false
+	_apply_tool_feedback(archetype, &"fan")
+
+
+func apply_smash_tool(direction: Vector2, base_force: float = 1200.0) -> void:
+	if toy_definition.is_empty():
+		return
+
+	var smash_direction := direction.normalized()
+	if smash_direction == Vector2.ZERO:
+		smash_direction = Vector2.DOWN
+
+	var archetype: StringName = toy_definition.get("archetype", &"bouncy")
+	var force_scale: float = float(SMASH_FORCE_BY_ARCHETYPE.get(archetype, 1.0))
+	var smash_impulse := smash_direction * base_force * force_scale
+
+	apply_central_impulse(smash_impulse)
+	if archetype == &"fragile":
+		angular_velocity += 5.0
+	elif archetype == &"soft" or archetype == &"deformable":
+		angular_velocity *= 0.5
+	else:
+		angular_velocity += 1.5
+
+	sleeping = false
+	_apply_tool_feedback(archetype, &"smash")
 
 
 func _apply_shape() -> void:
@@ -175,3 +236,35 @@ func _apply_selection_visuals() -> void:
 		body_polygon.color = base_color
 		name_label.modulate = Color(1.0, 1.0, 1.0)
 		world_sprite.modulate = Color(1.0, 1.0, 1.0)
+
+
+func _apply_tool_feedback(archetype: StringName, tool: StringName) -> void:
+	match archetype:
+		&"fragile":
+			_play_feedback_flash(Color(0.7, 0.9, 1.2), 0.22)
+			if tool == &"smash":
+				_play_feedback_flash(Color(1.2, 0.85, 0.85), 0.16)
+		&"soft", &"deformable":
+			_play_feedback_flash(Color(1.1, 0.95, 1.2), 0.18)
+			var original_scale := world_sprite.scale
+			world_sprite.scale = original_scale * Vector2(1.12, 0.86)
+			var squash_tween := create_tween()
+			squash_tween.tween_property(world_sprite, "scale", original_scale, 0.14)
+		&"heavy", &"metal":
+			_play_feedback_flash(Color(1.15, 1.08, 0.9), 0.14)
+			name_label.modulate = Color(1.0, 0.92, 0.72)
+			var rigid_tween := create_tween()
+			rigid_tween.tween_property(name_label, "modulate", Color(1.0, 1.0, 1.0), 0.14)
+		_:
+			_play_feedback_flash(Color(1.08, 1.08, 1.08), 0.12)
+
+
+func _play_feedback_flash(boost_modulate: Color, duration: float) -> void:
+	var source_body_color := body_polygon.color
+	var source_world_modulate := world_sprite.modulate
+	body_polygon.color = source_body_color * boost_modulate
+	world_sprite.modulate = source_world_modulate * boost_modulate
+
+	var tween := create_tween()
+	tween.tween_property(body_polygon, "color", source_body_color, duration)
+	tween.parallel().tween_property(world_sprite, "modulate", source_world_modulate, duration)
