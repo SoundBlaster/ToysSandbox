@@ -144,6 +144,10 @@ visible = false
 layout_mode = 2
 text = "Selected toy: Ball"
 
+[node name="StatsLabel" type="Label" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
+layout_mode = 2
+text = "FPS: 0 | Toys: 0/25"
+
 [node name="ActionsRow" type="HBoxContainer" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
 layout_mode = 2
 theme_override_constants/separation = 8
