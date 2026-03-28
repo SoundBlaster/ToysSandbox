@@ -121,6 +121,17 @@
   - Heavy/sticky toys remain comparatively less elastic than bouncy toys under the same test setup
   - Validation report documents before/after behavior and tuning values used
 
+#### P2-T8: Draw Bodies Perimeter For Debug Build
+- **Description:** Render toy collision/body perimeters only in debug builds to simplify interaction and physics troubleshooting without affecting release visuals.
+- **Priority:** P2
+- **Dependencies:** P2-T3
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - Body perimeter overlays are visible in debug runs for spawned toy instances
+  - Overlay rendering is disabled in non-debug/export gameplay builds
+  - Overlay does not alter physics behavior, selection, or drag interactions
+  - Visual style remains readable over existing toy sprites and fallback polygons
+
 ## Phase 3: Toy Catalog
 
 #### P3-T1: Ship The First Four Toy Archetypes With Final Silhouettes ✅ Complete
