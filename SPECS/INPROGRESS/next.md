@@ -1,18 +1,18 @@
-# Next Task: Unassigned
+# Next Task: P2-T5 — Fix Drag Inertia And Pointer Alignment Regression (macOS)
 
-**Priority:** TBD
+**Priority:** P0
 **Phase:** Core Sandbox
-**Effort:** TBD
-**Dependencies:** TBD
-**Status:** Ready for SELECT
+**Effort:** 4-6 hours
+**Dependencies:** P2-T3
+**Status:** Selected
 
 ## Description
 
-P2-T3 has been archived successfully. Choose the next highest-priority unblocked task from the workplan.
+Resolve drag-release inertia inconsistency on macOS and remove pointer alignment/underlap artifacts during drag so throw behavior is deterministic and visually correct.
 
 ## Next Step
 
-Run SELECT for `P2-T4` (or another unblocked P1 task) and then PLAN.
+Run the PLAN command to generate the implementation-ready PRD.
 
 ## Recently Archived
 

@@ -86,7 +86,7 @@
   - Each player action produces motion, sound, or visual feedback
   - Fragile and soft reactions are visibly distinct from rigid behavior
 
-#### P2-T5: Fix Drag Inertia And Pointer Alignment Regression (macOS)
+#### P2-T5: Fix Drag Inertia And Pointer Alignment Regression (macOS) **INPROGRESS**
 - **Description:** Resolve unresolved drag-release physics issues observed on macOS trackpad where release inertia is inconsistent and dragged bodies can appear vertically offset/underlapping near the ground.
 - **Priority:** P0
 - **Dependencies:** P2-T3
