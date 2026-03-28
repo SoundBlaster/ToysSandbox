@@ -22,6 +22,7 @@ var active_toy: RigidBody2D = null
 var dragging_toy: RigidBody2D = null
 var drag_pointer_id := POINTER_NONE
 var drag_offset := Vector2.ZERO
+var drag_previous_freeze_mode := RigidBody2D.FREEZE_MODE_STATIC
 
 
 func _ready() -> void:
@@ -47,7 +48,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.pressed:
 			_handle_pointer_pressed(-1, event.position)
 		else:
-			_handle_pointer_released(-1)
+			_handle_pointer_released(-1, event.position)
 		return
 
 	if event is InputEventMouseMotion and drag_pointer_id == -1:
@@ -58,7 +59,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.pressed:
 			_handle_pointer_pressed(event.index, event.position)
 		else:
-			_handle_pointer_released(event.index)
+			_handle_pointer_released(event.index, event.position)
 		return
 
 	if event is InputEventScreenDrag:
@@ -97,17 +98,23 @@ func _handle_pointer_dragged(pointer_id: int, screen_position: Vector2) -> void:
 		return
 
 	var world_position := _screen_to_world(screen_position)
-	var target_position := world_position + drag_offset
-	dragging_toy.global_position = _clamp_to_play_area(target_position, _get_toy_half_extents(dragging_toy))
+	_set_dragging_toy_position(world_position)
 
 
-func _handle_pointer_released(pointer_id: int) -> void:
+func _handle_pointer_released(pointer_id: int, screen_position: Vector2) -> void:
 	if dragging_toy == null or pointer_id != drag_pointer_id:
 		return
 
-	dragging_toy.freeze = false
+	_set_dragging_toy_position(_screen_to_world(screen_position))
+	dragging_toy.linear_velocity = Vector2.ZERO
+	dragging_toy.angular_velocity = 0.0
+
+	var released_toy := dragging_toy
 	dragging_toy = null
 	drag_pointer_id = POINTER_NONE
+	released_toy.set_deferred("freeze_mode", drag_previous_freeze_mode)
+	released_toy.set_deferred("freeze", false)
+	released_toy.sleeping = false
 	status_label.text = "Released active toy."
 
 
@@ -191,10 +198,20 @@ func _begin_drag(pointer_id: int, world_position: Vector2, toy: RigidBody2D) -> 
 	dragging_toy = toy
 	drag_pointer_id = pointer_id
 	drag_offset = toy.global_position - world_position
+	drag_previous_freeze_mode = dragging_toy.freeze_mode
+	dragging_toy.freeze_mode = RigidBody2D.FREEZE_MODE_KINEMATIC
 	dragging_toy.freeze = true
 	dragging_toy.linear_velocity = Vector2.ZERO
 	dragging_toy.angular_velocity = 0.0
 	status_label.text = "Dragging active toy. Release to drop it."
+
+
+func _set_dragging_toy_position(world_position: Vector2) -> void:
+	if dragging_toy == null:
+		return
+
+	var target_position := world_position + drag_offset
+	dragging_toy.global_position = _clamp_to_play_area(target_position, _get_toy_half_extents(dragging_toy))
 
 
 func _pick_toy_at(world_position: Vector2) -> RigidBody2D:
@@ -256,6 +273,7 @@ func _resize_active_toy(step: float) -> void:
 
 func _clear_spawned_toys() -> void:
 	if dragging_toy != null and is_instance_valid(dragging_toy):
+		dragging_toy.freeze_mode = drag_previous_freeze_mode
 		dragging_toy.freeze = false
 
 	for child in spawn_root.get_children():
