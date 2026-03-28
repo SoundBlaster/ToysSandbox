@@ -82,7 +82,7 @@ const TOY_DEFINITIONS := {
 		"scale_preset": &"small",
 		"shape": &"circle",
 		"icon_texture": "res://cartoon-kids-ball-game-sprite-colorful-rubber-ball-20260328-001752.png",
-		"world_texture": "res://cartoon-kids-ball-game-sprite-colorful-rubber-ball-20260328-001752.png",
+		"world_texture": "res://ball.png",
 		"color": Color("ff8a3d"),
 	},
 	&"pillow": {
