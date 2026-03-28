@@ -1,7 +1,7 @@
 extends Node2D
 
 const TOY_INSTANCE_SCENE := preload("res://scenes/game/ToyInstance.tscn")
-const PLAY_AREA_RECT := Rect2(Vector2(0.0, 72.0), Vector2(1280.0, 580.0))
+const PLAY_AREA_RECT := Rect2(Vector2(72.0, 72.0), Vector2(836.0, 560.0))
 const POINTER_NONE := -999
 const RESIZE_STEP := 0.15
 const MIN_THROW_SAMPLE_DT := 0.0001
@@ -13,8 +13,6 @@ const THROW_DAMPING := 0.9
 @onready var grow_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow/GrowButton
 @onready var shrink_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow/ShrinkButton
 @onready var reset_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow/ResetButton
-@onready var fan_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow/FanButton
-@onready var smash_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/ActionsRow/SmashButton
 @onready var status_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/StatusLabel
 @onready var selected_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/SelectedLabel
 @onready var selected_preview: TextureRect = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/SelectedPreview
@@ -28,7 +26,6 @@ var dragging_toy: RigidBody2D = null
 var drag_pointer_id := POINTER_NONE
 var drag_offset := Vector2.ZERO
 var drag_previous_freeze_mode := RigidBody2D.FREEZE_MODE_STATIC
-var drag_previous_z_index := 0
 var drag_last_target_position := Vector2.ZERO
 var drag_last_sample_usec := 0
 var drag_release_velocity := Vector2.ZERO
@@ -40,8 +37,6 @@ func _ready() -> void:
 	grow_button.pressed.connect(_on_grow_pressed)
 	shrink_button.pressed.connect(_on_shrink_pressed)
 	reset_button.pressed.connect(_on_reset_pressed)
-	fan_button.pressed.connect(_on_fan_pressed)
-	smash_button.pressed.connect(_on_smash_pressed)
 	toy_list.item_selected.connect(_on_toy_selected)
 
 	_ensure_selected_toy()
@@ -87,10 +82,6 @@ func _handle_key_shortcut(event: InputEventKey) -> void:
 			_resize_active_toy(RESIZE_STEP)
 		KEY_MINUS, KEY_KP_SUBTRACT:
 			_resize_active_toy(-RESIZE_STEP)
-		KEY_F:
-			_apply_fan_to_active_toy()
-		KEY_S:
-			_apply_smash_to_active_toy()
 		_:
 			pass
 
@@ -126,7 +117,7 @@ func _handle_pointer_released(pointer_id: int, screen_position: Vector2) -> void
 	if dragging_toy == null or pointer_id != drag_pointer_id:
 		return
 
-	_set_dragging_toy_position(_screen_to_world(screen_position), false)
+	_set_dragging_toy_position(_screen_to_world(screen_position))
 	dragging_toy.angular_velocity = 0.0
 	var release_velocity := drag_release_velocity * THROW_DAMPING
 	if release_velocity.length() > MAX_THROW_SPEED:
@@ -137,8 +128,10 @@ func _handle_pointer_released(pointer_id: int, screen_position: Vector2) -> void
 	drag_pointer_id = POINTER_NONE
 	drag_last_sample_usec = 0
 	drag_release_velocity = Vector2.ZERO
-	call_deferred("_finalize_drag_release", released_toy, drag_previous_freeze_mode, release_velocity, drag_previous_z_index)
-	AudioService.play_feedback(&"drag_release")
+	released_toy.set_deferred("freeze_mode", drag_previous_freeze_mode)
+	released_toy.set_deferred("freeze", false)
+	released_toy.set_deferred("linear_velocity", release_velocity)
+	released_toy.sleeping = false
 	status_label.text = "Released active toy."
 
 
@@ -162,14 +155,6 @@ func _on_reset_pressed() -> void:
 	_clear_spawned_toys()
 
 
-func _on_fan_pressed() -> void:
-	_apply_fan_to_active_toy()
-
-
-func _on_smash_pressed() -> void:
-	_apply_smash_to_active_toy()
-
-
 func _spawn_selected_toy(spawn_position: Vector2) -> RigidBody2D:
 	var toy_id := GameState.selected_toy_id
 	var definition := ToyCatalog.get_toy_definition(toy_id)
@@ -185,7 +170,6 @@ func _spawn_selected_toy(spawn_position: Vector2) -> RigidBody2D:
 	toy_instance.call("configure", definition)
 
 	status_label.text = "Spawned %s. Drag, duplicate, resize, or reset." % definition.get("display_name", "Toy")
-	AudioService.play_feedback(&"spawn")
 	return toy_instance
 
 
@@ -230,26 +214,19 @@ func _set_active_toy(next_active_toy: RigidBody2D) -> void:
 func _begin_drag(pointer_id: int, world_position: Vector2, toy: RigidBody2D) -> void:
 	dragging_toy = toy
 	drag_pointer_id = pointer_id
-	# Keep the toy center under the pointer to avoid perceived half-height vertical offset.
-	drag_offset = Vector2.ZERO
+	drag_offset = toy.global_position - world_position
 	drag_previous_freeze_mode = dragging_toy.freeze_mode
-	drag_previous_z_index = dragging_toy.z_index
 	drag_last_target_position = toy.global_position
 	drag_last_sample_usec = Time.get_ticks_usec()
 	drag_release_velocity = Vector2.ZERO
 	dragging_toy.freeze_mode = RigidBody2D.FREEZE_MODE_KINEMATIC
 	dragging_toy.freeze = true
-	dragging_toy.z_index = 100
 	dragging_toy.linear_velocity = Vector2.ZERO
 	dragging_toy.angular_velocity = 0.0
-	_set_dragging_toy_position(world_position)
 	status_label.text = "Dragging active toy. Release to drop it."
 
 
-func _set_dragging_toy_position(
-	world_position: Vector2,
-	update_release_velocity: bool = true
-) -> void:
+func _set_dragging_toy_position(world_position: Vector2) -> void:
 	if dragging_toy == null:
 		return
 
@@ -257,23 +234,12 @@ func _set_dragging_toy_position(
 	var clamped_target_position := _clamp_to_play_area(target_position, _get_toy_half_extents(dragging_toy))
 	var now_usec := Time.get_ticks_usec()
 	var dt := float(now_usec - drag_last_sample_usec) / 1000000.0
-	if update_release_velocity and drag_last_sample_usec > 0 and dt >= MIN_THROW_SAMPLE_DT:
+	if drag_last_sample_usec > 0 and dt >= MIN_THROW_SAMPLE_DT:
 		drag_release_velocity = (clamped_target_position - drag_last_target_position) / dt
 
 	drag_last_target_position = clamped_target_position
 	drag_last_sample_usec = now_usec
 	dragging_toy.global_position = clamped_target_position
-
-
-func _finalize_drag_release(released_toy: RigidBody2D, restore_freeze_mode: int, release_velocity: Vector2, restore_z_index: int) -> void:
-	if released_toy == null or not is_instance_valid(released_toy):
-		return
-
-	released_toy.freeze_mode = restore_freeze_mode
-	released_toy.freeze = false
-	released_toy.linear_velocity = release_velocity
-	released_toy.sleeping = false
-	released_toy.z_index = restore_z_index
 
 
 func _pick_toy_at(world_position: Vector2) -> RigidBody2D:
@@ -312,7 +278,6 @@ func _duplicate_active_toy() -> void:
 	var target_position := active_toy.global_position + Vector2(56.0, -36.0)
 	clone.global_position = _clamp_to_play_area(target_position, _get_toy_half_extents(clone))
 	_set_active_toy(clone)
-	AudioService.play_feedback(&"duplicate")
 	status_label.text = "Duplicated active toy."
 
 
@@ -331,13 +296,11 @@ func _resize_active_toy(step: float) -> void:
 		return
 
 	active_toy.global_position = _clamp_to_play_area(active_toy.global_position, _get_toy_half_extents(active_toy))
-	AudioService.play_feedback(&"resize")
 	status_label.text = "Resized active toy."
 
 
 func _clear_spawned_toys() -> void:
 	if dragging_toy != null and is_instance_valid(dragging_toy):
-		dragging_toy.z_index = drag_previous_z_index
 		dragging_toy.freeze_mode = drag_previous_freeze_mode
 		dragging_toy.freeze = false
 
@@ -349,36 +312,7 @@ func _clear_spawned_toys() -> void:
 	drag_last_sample_usec = 0
 	drag_release_velocity = Vector2.ZERO
 	_set_active_toy(null)
-	AudioService.play_feedback(&"reset")
 	status_label.text = "Reset sandbox toys. Shelf selection is unchanged."
-
-
-func _apply_fan_to_active_toy() -> void:
-	if active_toy == null or not is_instance_valid(active_toy):
-		status_label.text = "Pick a toy first, then use Fan."
-		return
-
-	if not active_toy.has_method("apply_fan_tool"):
-		status_label.text = "Active toy does not support Fan yet."
-		return
-
-	active_toy.call("apply_fan_tool", Vector2.RIGHT, 900.0)
-	AudioService.play_feedback(&"fan")
-	status_label.text = "Fan pushed the active toy."
-
-
-func _apply_smash_to_active_toy() -> void:
-	if active_toy == null or not is_instance_valid(active_toy):
-		status_label.text = "Pick a toy first, then use Smash."
-		return
-
-	if not active_toy.has_method("apply_smash_tool"):
-		status_label.text = "Active toy does not support Smash yet."
-		return
-
-	active_toy.call("apply_smash_tool", Vector2.DOWN, 1200.0)
-	AudioService.play_feedback(&"smash")
-	status_label.text = "Smash hit the active toy."
 
 
 func _ensure_selected_toy() -> void:
