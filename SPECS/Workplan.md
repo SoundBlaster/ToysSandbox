@@ -234,7 +234,7 @@
   - The project exports to an Xcode project and launches successfully on at least one physical iPad
   - iOS/iPad deployment steps are documented as a reproducible checklist
 
-#### P4-T4: Add Toy Styles/Skins With Settings Selection
+#### P4-T4: Add Toy Styles/Skins With Settings Selection ✅ Complete
 - **Description:** Introduce configurable toy visual styles (skins) and let players choose the active skin set from Settings, with the selected skin applied in gameplay and persisted between sessions.
 - **Priority:** P1
 - **Dependencies:** P3-T2, P4-T1

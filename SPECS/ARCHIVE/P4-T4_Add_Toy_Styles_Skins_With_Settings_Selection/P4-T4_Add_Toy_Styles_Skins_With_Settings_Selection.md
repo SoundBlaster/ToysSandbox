@@ -76,3 +76,7 @@ The implementation target is a small set of curated style presets that remap toy
 ## Notes
 
 - If a future art pass needs fully bespoke textures per skin, capture that as follow-up work. This task only needs a robust MVP skin-selection system on top of the current assets.
+
+---
+**Archived:** 2026-03-28
+**Verdict:** PASS

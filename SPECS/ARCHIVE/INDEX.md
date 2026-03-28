@@ -6,6 +6,7 @@
 
 | Task ID | Folder | Archived | Verdict |
 |---------|--------|----------|---------|
+| P4-T4 | [P4-T4_Add_Toy_Styles_Skins_With_Settings_Selection/](P4-T4_Add_Toy_Styles_Skins_With_Settings_Selection/) | 2026-03-28 | PASS |
 | P2-T9 | [P2-T9_Select_Spawned_Toys_By_Clicking_In-World_Instances/](P2-T9_Select_Spawned_Toys_By_Clicking_In-World_Instances/) | 2026-03-28 | PASS |
 | P4-T2 | [P4-T2_Performance_Pass_Asset_Cleanup_And_Export_Validation/](P4-T2_Performance_Pass_Asset_Cleanup_And_Export_Validation/) | 2026-03-28 | PARTIAL |
 | P3-T3 | [P3-T3_Finalize_Backgrounds_Effects_And_UI_Polish/](P3-T3_Finalize_Backgrounds_Effects_And_UI_Polish/) | 2026-03-28 | PASS |
@@ -33,6 +34,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P4-T4 | Archived `Add Toy Styles/Skins With Settings Selection` with verdict `PASS` |
 | 2026-03-28 | P2-T9 | Archived review report `REVIEW_p2-t9-in-world-selection-sync.md` |
 | 2026-03-28 | P2-T9 | Archived `Select Spawned Toys By Clicking In-World Instances` with verdict `PASS` |
 | 2026-03-28 | P4-T2 | Archived review report `REVIEW_p4-t2-performance-pass-asset-cleanup-and-export-validation.md` |
