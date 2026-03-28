@@ -1,7 +1,7 @@
 extends Node2D
 
 const TOY_INSTANCE_SCENE := preload("res://scenes/game/ToyInstance.tscn")
-const PLAY_AREA_RECT := Rect2(Vector2(0.0, 72.0), Vector2(1000.0, 560.0))
+const PLAY_AREA_RECT := Rect2(Vector2(0.0, 72.0), Vector2(1280.0, 560.0))
 const POINTER_NONE := -999
 const RESIZE_STEP := 0.15
 const MIN_THROW_SAMPLE_DT := 0.0001
