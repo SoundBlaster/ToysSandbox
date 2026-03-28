@@ -4,7 +4,7 @@
 **Phase:** Core Sandbox
 **Effort:** 6-10 hours
 **Dependencies:** P1-T2
-**Status:** Suggested
+**Status:** Selected
 
 ## Description
 
@@ -12,7 +12,7 @@ Implement the playable sandbox view with stable camera framing, side and floor b
 
 ## Next Step
 
-Run SELECT and PLAN for `P2-T1`.
+Run PLAN for `P2-T1`.
 
 ## Recently Archived
 
