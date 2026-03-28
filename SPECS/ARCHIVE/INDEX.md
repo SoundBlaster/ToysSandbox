@@ -6,6 +6,7 @@
 
 | Task ID | Folder | Archived | Verdict |
 |---------|--------|----------|---------|
+| P2-T1 | [P2-T1_Build_Sandbox_Scene_Camera_Bounds_And_Shelf_UI/](P2-T1_Build_Sandbox_Scene_Camera_Bounds_And_Shelf_UI/) | 2026-03-28 | PASS |
 | P1-T4 | [P1-T4_Add_Godot_Validation_And_Flow_Quality_Gates/](P1-T4_Add_Godot_Validation_And_Flow_Quality_Gates/) | 2026-03-28 | PASS |
 | P1-T3 | [P1-T3_Add_Godot_Validation_And_Flow_Quality_Gates/](P1-T3_Add_Godot_Validation_And_Flow_Quality_Gates/) | 2026-03-28 | PASS |
 | P1-T2 | [P1-T2_Define_Toy_Data_Model_And_Spawn_Pipeline/](P1-T2_Define_Toy_Data_Model_And_Spawn_Pipeline/) | 2026-03-28 | PARTIAL |
@@ -21,6 +22,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P2-T1 | Archived `Build Sandbox Scene, Camera, Bounds, And Shelf UI` with verdict `PASS` |
 | 2026-03-28 | P1-T4 | Archived review report `REVIEW_p1-t4-add-godot-validation-and-flow-quality-gates.md` |
 | 2026-03-28 | P1-T4 | Archived `Add Godot Validation And Flow Quality Gates` with verdict `PASS` |
 | 2026-03-28 | P1-T3 | Archived review report `REVIEW_p1-t3-add-godot-validation-and-flow-quality-gates.md` |

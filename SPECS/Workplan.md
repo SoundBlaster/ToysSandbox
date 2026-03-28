@@ -45,7 +45,7 @@
 
 ## Phase 2: Core Sandbox
 
-#### P2-T1: Build Sandbox Scene, Camera, Bounds, And Shelf UI
+#### P2-T1: Build Sandbox Scene, Camera, Bounds, And Shelf UI ✅ Complete
 - **Description:** Implement the playable sandbox view with a stable framing camera, floor and side bounds, and a minimal main menu flow that gets the player into play quickly.
 - **Priority:** P0
 - **Dependencies:** P1-T2

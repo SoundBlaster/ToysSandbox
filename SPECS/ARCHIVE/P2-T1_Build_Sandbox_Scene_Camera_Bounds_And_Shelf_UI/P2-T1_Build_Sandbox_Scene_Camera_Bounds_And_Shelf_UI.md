@@ -83,3 +83,7 @@ Implement a playable sandbox baseline that is reachable from the main menu, fram
 
 - `P2-T2` will refine icon-first presentation and visual fallback behavior.
 - `P2-T3` will layer interaction verbs on top of this baseline shelf + spawn flow.
+
+---
+**Archived:** 2026-03-28
+**Verdict:** PASS
