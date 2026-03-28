@@ -66,7 +66,7 @@
   - Missing art falls back to a simple placeholder silhouette without breaking gameplay
   - Toy selection state is shared between shelf, spawn logic, and persistence hooks
 
-#### P2-T3: Implement Core Interaction Verbs
+#### P2-T3: Implement Core Interaction Verbs ✅ Complete
 - **Description:** Add the core player actions for spawn, grab, duplicate, resize, and reset using one interaction model across desktop and touch devices.
 - **Priority:** P0
 - **Dependencies:** P2-T1
@@ -85,6 +85,29 @@
   - Fan and smash tools trigger deterministic reactions by archetype
   - Each player action produces motion, sound, or visual feedback
   - Fragile and soft reactions are visibly distinct from rigid behavior
+
+#### P2-T5: Fix Drag Inertia And Pointer Alignment Regression (macOS)
+- **Description:** Resolve unresolved drag-release physics issues observed on macOS trackpad where release inertia is inconsistent and dragged bodies can appear vertically offset/underlapping near the ground.
+- **Priority:** P0
+- **Dependencies:** P2-T3
+- **Parallelizable:** no
+- **Acceptance Criteria:**
+  - Drag release inertia is reproducible and consistent across repeated drags in one session on macOS
+  - Released toys preserve expected throw momentum (not immediate stop + pure gravity fall)
+  - Dragged toy center remains aligned with pointer/finger during drag
+  - Dragged toy does not visually underlap floor/other toys due to incorrect Y/ordering during drag
+  - Validation includes a short reproducible manual test protocol documented in the task report
+
+#### P2-T6: Extract Interaction Controller From Sandbox Orchestration
+- **Description:** Reduce maintenance risk by moving pointer/drag/action orchestration out of `Sandbox.gd` into a dedicated interaction controller while preserving current behavior for spawn, drag, duplicate, resize, and reset verbs.
+- **Priority:** P1
+- **Dependencies:** P2-T3, P2-T5
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - `Sandbox.gd` no longer directly owns full drag lifecycle and verb dispatch logic
+  - A dedicated script/module encapsulates interaction state transitions (pointer down/move/up, active toy selection, release behavior)
+  - Existing interaction behavior remains functionally equivalent for mouse and touch input paths
+  - Validation confirms no regression in drag, duplicate, resize, and reset interactions
 
 ## Phase 3: Toy Catalog
 

@@ -6,10 +6,21 @@ extends RigidBody2D
 @onready var name_label: Label = $NameLabel
 
 var toy_definition: Dictionary = {}
+var base_color: Color = Color.WHITE
+var is_selected := false
+var size_scale := 1.0
+
+const MIN_SIZE_SCALE := 0.6
+const MAX_SIZE_SCALE := 1.8
+
+
+func _ready() -> void:
+	add_to_group("toy_instances")
 
 
 func configure(definition: Dictionary) -> void:
 	toy_definition = definition.duplicate(true)
+	size_scale = 1.0
 
 	if toy_definition.is_empty():
 		return
@@ -28,10 +39,35 @@ func configure(definition: Dictionary) -> void:
 
 	_apply_shape()
 	_apply_visuals()
+	set_selected(false)
+
+
+func get_definition_copy() -> Dictionary:
+	return toy_definition.duplicate(true)
+
+
+func set_selected(selected: bool) -> void:
+	is_selected = selected
+	_apply_selection_visuals()
+
+
+func resize_by_step(step: float) -> bool:
+	if toy_definition.is_empty():
+		return false
+
+	var next_scale := clampf(size_scale + step, MIN_SIZE_SCALE, MAX_SIZE_SCALE)
+	if is_equal_approx(next_scale, size_scale):
+		return false
+
+	size_scale = next_scale
+	_apply_shape()
+	_apply_visuals()
+	_apply_selection_visuals()
+	return true
 
 
 func _apply_shape() -> void:
-	var size: Vector2 = toy_definition.get("size", Vector2(72.0, 72.0))
+	var size: Vector2 = _get_scaled_size()
 	var shape_name: StringName = toy_definition.get("shape", &"rectangle")
 
 	match shape_name:
@@ -80,9 +116,10 @@ func _apply_shape() -> void:
 
 
 func _apply_visuals() -> void:
-	body_polygon.color = toy_definition.get("color", Color.WHITE)
+	base_color = toy_definition.get("color", Color.WHITE)
+	body_polygon.color = base_color
 	name_label.text = toy_definition.get("display_name", "Toy")
-	var size: Vector2 = toy_definition.get("size", Vector2(72.0, 72.0))
+	var size: Vector2 = _get_scaled_size()
 	name_label.position = Vector2(-64.0, -size.y * 0.9)
 
 	var toy_id: StringName = toy_definition.get("id", &"")
@@ -96,6 +133,11 @@ func _apply_visuals() -> void:
 		world_sprite.texture = null
 		world_sprite.visible = false
 		body_polygon.visible = true
+
+
+func _get_scaled_size() -> Vector2:
+	var base_size: Vector2 = toy_definition.get("size", Vector2(72.0, 72.0))
+	return base_size * size_scale
 
 
 func _build_circle_polygon(radius: float) -> PackedVector2Array:
@@ -122,3 +164,14 @@ func _fit_world_texture(target_size: Vector2, texture: Texture2D) -> void:
 	var scale_x := target_size.x / source_size.x
 	var scale_y := target_size.y / source_size.y
 	world_sprite.scale = Vector2(scale_x, scale_y)
+
+
+func _apply_selection_visuals() -> void:
+	if is_selected:
+		body_polygon.color = base_color.lightened(0.2)
+		name_label.modulate = Color(1.0, 0.95, 0.7)
+		world_sprite.modulate = Color(1.1, 1.1, 1.1)
+	else:
+		body_polygon.color = base_color
+		name_label.modulate = Color(1.0, 1.0, 1.0)
+		world_sprite.modulate = Color(1.0, 1.0, 1.0)
