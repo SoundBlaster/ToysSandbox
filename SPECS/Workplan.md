@@ -86,6 +86,18 @@
   - Each player action produces motion, sound, or visual feedback
   - Fragile and soft reactions are visibly distinct from rigid behavior
 
+#### P2-T5: Fix Drag Inertia And Pointer Alignment Regression (macOS)
+- **Description:** Resolve unresolved drag-release physics issues observed on macOS trackpad where release inertia is inconsistent and dragged bodies can appear vertically offset/underlapping near the ground.
+- **Priority:** P0
+- **Dependencies:** P2-T3
+- **Parallelizable:** no
+- **Acceptance Criteria:**
+  - Drag release inertia is reproducible and consistent across repeated drags in one session on macOS
+  - Released toys preserve expected throw momentum (not immediate stop + pure gravity fall)
+  - Dragged toy center remains aligned with pointer/finger during drag
+  - Dragged toy does not visually underlap floor/other toys due to incorrect Y/ordering during drag
+  - Validation includes a short reproducible manual test protocol documented in the task report
+
 ## Phase 3: Toy Catalog
 
 #### P3-T1: Ship The First Four Toy Archetypes With Final Silhouettes
