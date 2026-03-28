@@ -259,22 +259,24 @@ func _apply_tool_feedback(archetype: StringName, tool: StringName) -> void:
 				_play_feedback_flash(Color(1.2, 0.85, 0.85), 0.16)
 		&"soft", &"deformable":
 			_play_feedback_flash(Color(1.1, 0.95, 1.2), 0.18)
-			var original_scale := world_sprite.scale
-			world_sprite.scale = original_scale * Vector2(1.12, 0.86)
-			var squash_tween := create_tween()
-			squash_tween.tween_property(world_sprite, "scale", original_scale, 0.14)
+			if world_sprite.visible:
+				var canonical_scale := _get_canonical_world_sprite_scale()
+				world_sprite.scale = canonical_scale * Vector2(1.12, 0.86)
+				var squash_tween := create_tween()
+				squash_tween.tween_property(world_sprite, "scale", canonical_scale, 0.14)
 		&"heavy", &"metal":
 			_play_feedback_flash(Color(1.15, 1.08, 0.9), 0.14)
 			name_label.modulate = Color(1.0, 0.92, 0.72)
+			var base_label_modulate := _get_name_label_base_modulate()
 			var rigid_tween := create_tween()
-			rigid_tween.tween_property(name_label, "modulate", Color(1.0, 1.0, 1.0), 0.14)
+			rigid_tween.tween_property(name_label, "modulate", base_label_modulate, 0.14)
 		_:
 			_play_feedback_flash(Color(1.08, 1.08, 1.08), 0.12)
 
 
 func _play_impact_punch() -> void:
 	var polygon_base_scale := body_polygon.scale
-	var sprite_base_scale := world_sprite.scale
+	var sprite_base_scale := _get_canonical_world_sprite_scale()
 	var punch_scale := Vector2(1.15, 0.84)
 
 	body_polygon.scale = polygon_base_scale * punch_scale
@@ -285,6 +287,22 @@ func _play_impact_punch() -> void:
 	punch_tween.tween_property(body_polygon, "scale", polygon_base_scale, 0.12)
 	if world_sprite.visible:
 		punch_tween.parallel().tween_property(world_sprite, "scale", sprite_base_scale, 0.12)
+
+
+func _get_name_label_base_modulate() -> Color:
+	return Color(1.0, 0.95, 0.7) if is_selected else Color(1.0, 1.0, 1.0)
+
+
+func _get_canonical_world_sprite_scale() -> Vector2:
+	if not world_sprite.visible or world_sprite.texture == null:
+		return world_sprite.scale
+
+	var source_size := world_sprite.texture.get_size()
+	if source_size.x <= 0.0 or source_size.y <= 0.0:
+		return world_sprite.scale
+
+	var target_size := _get_scaled_size()
+	return Vector2(target_size.x / source_size.x, target_size.y / source_size.y)
 
 
 func _play_feedback_flash(boost_modulate: Color, duration: float) -> void:
