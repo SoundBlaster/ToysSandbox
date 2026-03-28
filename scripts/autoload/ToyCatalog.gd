@@ -81,6 +81,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"bouncy",
 		"scale_preset": &"small",
 		"shape": &"circle",
+		"icon_texture": "res://cartoon-kids-ball-game-sprite-colorful-rubber-ball-20260328-001752.png",
+		"world_texture": "res://cartoon-kids-ball-game-sprite-colorful-rubber-ball-20260328-001752.png",
 		"color": Color("ff8a3d"),
 	},
 	&"pillow": {
@@ -89,6 +91,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"soft",
 		"scale_preset": &"medium",
 		"shape": &"pillow",
+		"icon_texture": "",
+		"world_texture": "",
 		"color": Color("8dd9c2"),
 	},
 	&"brick": {
@@ -97,6 +101,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"heavy",
 		"scale_preset": &"medium",
 		"shape": &"rectangle",
+		"icon_texture": "",
+		"world_texture": "",
 		"color": Color("b65a3a"),
 	},
 	&"vase": {
@@ -105,6 +111,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"fragile",
 		"scale_preset": &"large",
 		"shape": &"vase",
+		"icon_texture": "",
+		"world_texture": "",
 		"color": Color("7ca7ff"),
 	},
 	&"balloon": {
@@ -113,6 +121,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"air",
 		"scale_preset": &"large",
 		"shape": &"circle",
+		"icon_texture": "",
+		"world_texture": "",
 		"color": Color("ff7fb5"),
 	},
 	&"jelly_cube": {
@@ -121,6 +131,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"deformable",
 		"scale_preset": &"medium",
 		"shape": &"rectangle",
+		"icon_texture": "",
+		"world_texture": "",
 		"color": Color("9b9bff"),
 	},
 	&"pot": {
@@ -129,6 +141,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"metal",
 		"scale_preset": &"medium",
 		"shape": &"vase",
+		"icon_texture": "",
+		"world_texture": "",
 		"color": Color("c7935d"),
 	},
 	&"sticky_block": {
@@ -137,6 +151,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"sticky",
 		"scale_preset": &"wide",
 		"shape": &"rectangle",
+		"icon_texture": "",
+		"world_texture": "",
 		"color": Color("7fd24a"),
 	},
 }
@@ -181,3 +197,27 @@ func get_toy_definition(toy_id: StringName) -> Dictionary:
 	definition.merge(scale_defaults, true)
 	definition.merge(base_definition, true)
 	return definition
+
+
+func get_icon_texture(toy_id: StringName) -> Texture2D:
+	var definition := get_toy_definition(toy_id)
+	return _load_texture_from_path(String(definition.get("icon_texture", "")))
+
+
+func get_world_texture(toy_id: StringName) -> Texture2D:
+	var definition := get_toy_definition(toy_id)
+	return _load_texture_from_path(String(definition.get("world_texture", "")))
+
+
+func _load_texture_from_path(path: String) -> Texture2D:
+	if path.is_empty():
+		return null
+
+	if not ResourceLoader.exists(path):
+		return null
+
+	var resource := ResourceLoader.load(path)
+	if resource is Texture2D:
+		return resource as Texture2D
+
+	return null

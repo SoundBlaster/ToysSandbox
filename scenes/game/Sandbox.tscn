@@ -70,6 +70,12 @@ text = "Tap or click in the play area to spawn the selected toy."
 layout_mode = 2
 text = "Selected toy: Ball"
 
+[node name="SelectedPreview" type="TextureRect" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
 [node name="BackButton" type="Button" parent="CanvasLayer/MarginContainer/HBoxContainer/InfoPanel"]
 layout_mode = 2
 text = "Back to Menu"
@@ -103,4 +109,5 @@ text = "Select a toy, then click the play area to spawn it."
 [node name="ToyList" type="ItemList" parent="CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel/ShelfMargin/ShelfVBox"]
 layout_mode = 2
 size_flags_vertical = 3
+fixed_icon_size = Vector2i(48, 48)
 select_mode = 0
