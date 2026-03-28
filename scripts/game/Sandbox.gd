@@ -26,6 +26,7 @@ var dragging_toy: RigidBody2D = null
 var drag_pointer_id := POINTER_NONE
 var drag_offset := Vector2.ZERO
 var drag_previous_freeze_mode := RigidBody2D.FREEZE_MODE_STATIC
+var drag_previous_z_index := 0
 var drag_last_target_position := Vector2.ZERO
 var drag_last_sample_usec := 0
 var drag_release_velocity := Vector2.ZERO
@@ -58,7 +59,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	if event is InputEventMouseMotion and drag_pointer_id == -1:
-		_handle_pointer_dragged(-1, event.position)
+		_handle_pointer_dragged(-1, event.position, event.velocity, true)
 		return
 
 	if event is InputEventScreenTouch:
@@ -69,7 +70,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	if event is InputEventScreenDrag:
-		_handle_pointer_dragged(event.index, event.position)
+		_handle_pointer_dragged(event.index, event.position, event.velocity, true)
 
 
 func _handle_key_shortcut(event: InputEventKey) -> void:
@@ -105,19 +106,19 @@ func _handle_pointer_pressed(pointer_id: int, screen_position: Vector2) -> void:
 	_set_active_toy(spawned)
 
 
-func _handle_pointer_dragged(pointer_id: int, screen_position: Vector2) -> void:
+func _handle_pointer_dragged(pointer_id: int, screen_position: Vector2, screen_velocity: Vector2 = Vector2.ZERO, velocity_valid: bool = false) -> void:
 	if dragging_toy == null or pointer_id != drag_pointer_id:
 		return
 
 	var world_position := _screen_to_world(screen_position)
-	_set_dragging_toy_position(world_position)
+	_set_dragging_toy_position(world_position, screen_velocity, velocity_valid)
 
 
 func _handle_pointer_released(pointer_id: int, screen_position: Vector2) -> void:
 	if dragging_toy == null or pointer_id != drag_pointer_id:
 		return
 
-	_set_dragging_toy_position(_screen_to_world(screen_position))
+	_set_dragging_toy_position(_screen_to_world(screen_position), Vector2.ZERO, false)
 	dragging_toy.angular_velocity = 0.0
 	var release_velocity := drag_release_velocity * THROW_DAMPING
 	if release_velocity.length() > MAX_THROW_SPEED:
@@ -128,10 +129,7 @@ func _handle_pointer_released(pointer_id: int, screen_position: Vector2) -> void
 	drag_pointer_id = POINTER_NONE
 	drag_last_sample_usec = 0
 	drag_release_velocity = Vector2.ZERO
-	released_toy.set_deferred("freeze_mode", drag_previous_freeze_mode)
-	released_toy.set_deferred("freeze", false)
-	released_toy.set_deferred("linear_velocity", release_velocity)
-	released_toy.sleeping = false
+	call_deferred("_finalize_drag_release", released_toy, drag_previous_freeze_mode, release_velocity, drag_previous_z_index)
 	status_label.text = "Released active toy."
 
 
@@ -214,32 +212,55 @@ func _set_active_toy(next_active_toy: RigidBody2D) -> void:
 func _begin_drag(pointer_id: int, world_position: Vector2, toy: RigidBody2D) -> void:
 	dragging_toy = toy
 	drag_pointer_id = pointer_id
-	drag_offset = toy.global_position - world_position
+	# Keep the toy center under the pointer to avoid perceived half-height vertical offset.
+	drag_offset = Vector2.ZERO
 	drag_previous_freeze_mode = dragging_toy.freeze_mode
+	drag_previous_z_index = dragging_toy.z_index
 	drag_last_target_position = toy.global_position
 	drag_last_sample_usec = Time.get_ticks_usec()
 	drag_release_velocity = Vector2.ZERO
 	dragging_toy.freeze_mode = RigidBody2D.FREEZE_MODE_KINEMATIC
 	dragging_toy.freeze = true
+	dragging_toy.z_index = 100
 	dragging_toy.linear_velocity = Vector2.ZERO
 	dragging_toy.angular_velocity = 0.0
+	_set_dragging_toy_position(world_position, Vector2.ZERO, false)
 	status_label.text = "Dragging active toy. Release to drop it."
 
 
-func _set_dragging_toy_position(world_position: Vector2) -> void:
+func _set_dragging_toy_position(world_position: Vector2, screen_velocity: Vector2 = Vector2.ZERO, velocity_valid: bool = false) -> void:
 	if dragging_toy == null:
 		return
 
 	var target_position := world_position + drag_offset
 	var clamped_target_position := _clamp_to_play_area(target_position, _get_toy_half_extents(dragging_toy))
+	if velocity_valid:
+		drag_release_velocity = _screen_velocity_to_world_velocity(screen_velocity)
+
 	var now_usec := Time.get_ticks_usec()
 	var dt := float(now_usec - drag_last_sample_usec) / 1000000.0
-	if drag_last_sample_usec > 0 and dt >= MIN_THROW_SAMPLE_DT:
+	if drag_last_sample_usec > 0 and dt >= MIN_THROW_SAMPLE_DT and not velocity_valid:
 		drag_release_velocity = (clamped_target_position - drag_last_target_position) / dt
 
 	drag_last_target_position = clamped_target_position
 	drag_last_sample_usec = now_usec
 	dragging_toy.global_position = clamped_target_position
+
+
+func _screen_velocity_to_world_velocity(screen_velocity: Vector2) -> Vector2:
+	var inverse := get_viewport().get_canvas_transform().affine_inverse()
+	return inverse.basis_xform(screen_velocity)
+
+
+func _finalize_drag_release(released_toy: RigidBody2D, restore_freeze_mode: int, release_velocity: Vector2, restore_z_index: int) -> void:
+	if released_toy == null or not is_instance_valid(released_toy):
+		return
+
+	released_toy.freeze_mode = restore_freeze_mode
+	released_toy.freeze = false
+	released_toy.linear_velocity = release_velocity
+	released_toy.sleeping = false
+	released_toy.z_index = restore_z_index
 
 
 func _pick_toy_at(world_position: Vector2) -> RigidBody2D:
@@ -301,6 +322,7 @@ func _resize_active_toy(step: float) -> void:
 
 func _clear_spawned_toys() -> void:
 	if dragging_toy != null and is_instance_valid(dragging_toy):
+		dragging_toy.z_index = drag_previous_z_index
 		dragging_toy.freeze_mode = drag_previous_freeze_mode
 		dragging_toy.freeze = false
 
