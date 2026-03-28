@@ -1,18 +1,18 @@
-# Next Task: Unassigned
+# Next Task: P2-T3 — Implement Core Interaction Verbs
 
-**Priority:** TBD
+**Priority:** P0
 **Phase:** Core Sandbox
-**Effort:** TBD
-**Dependencies:** TBD
-**Status:** Ready for SELECT
+**Effort:** 8-14 hours
+**Dependencies:** P2-T1
+**Status:** Selected
 
 ## Description
 
-P2-T2 has been archived successfully. Choose the next highest-priority unblocked task from the workplan.
+Add direct manipulation controls so players can grab, duplicate, resize, and reset toys using one interaction model that works for desktop and touch-first play.
 
 ## Next Step
 
-Run SELECT for `P2-T3` (or another unblocked P0 task) and then PLAN.
+Run PLAN for `P2-T3`.
 
 ## Recently Archived
 
