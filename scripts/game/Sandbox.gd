@@ -157,8 +157,7 @@ func _build_toy_shelf() -> void:
 		selected_index = 0
 		GameState.set_selected_toy_id(shelf_toy_ids[0])
 
-	if selected_index >= 0:
-		toy_list.select(selected_index)
+	_select_shelf_index(selected_index)
 
 
 func _on_toy_selected(index: int) -> void:
@@ -179,6 +178,7 @@ func _set_active_toy(next_active_toy: RigidBody2D) -> void:
 
 	if active_toy != null and is_instance_valid(active_toy) and active_toy.has_method("set_selected"):
 		active_toy.call("set_selected", true)
+		_sync_shelf_selection_from_active_toy(active_toy)
 
 
 func _get_active_toy() -> RigidBody2D:
@@ -230,6 +230,35 @@ func _dismiss_onboarding_overlay(status_message: String) -> void:
 func _refresh_selected_label() -> void:
 	var definition := ToyCatalog.get_toy_definition(GameState.selected_toy_id)
 	selected_label.text = "Selected toy: %s" % definition.get("display_name", "None")
+
+
+func _sync_shelf_selection_from_active_toy(toy: RigidBody2D) -> void:
+	if toy == null or not is_instance_valid(toy):
+		return
+
+	var toy_id := &""
+	if toy.has_method("get_toy_id"):
+		toy_id = toy.call("get_toy_id")
+	elif toy.has_method("get_definition_copy"):
+		var definition: Dictionary = toy.call("get_definition_copy")
+		toy_id = definition.get("id", &"")
+
+	if not ToyCatalog.has_toy(toy_id):
+		return
+
+	GameState.set_selected_toy_id(toy_id)
+	_select_shelf_index(shelf_toy_ids.find(toy_id))
+	_refresh_selected_label()
+
+
+func _select_shelf_index(index: int) -> void:
+	if index < 0 or index >= shelf_toy_ids.size():
+		return
+
+	var signals_were_blocked := toy_list.is_blocking_signals()
+	toy_list.set_block_signals(true)
+	toy_list.select(index)
+	toy_list.set_block_signals(signals_were_blocked)
 
 
 func _refresh_stats_overlay() -> void:
