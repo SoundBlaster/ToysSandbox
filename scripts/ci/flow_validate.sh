@@ -44,4 +44,9 @@ if [[ -z "${godot_binary}" ]]; then
 fi
 
 cd "${repo_root}"
+
+# Ensure imported resources (for textures/SVGs) exist in clean CI checkouts
+# before loading scenes/scripts in validation mode.
+"${godot_binary}" --headless --import --quit --path "${repo_root}"
+
 exec "${godot_binary}" --headless --path "${repo_root}" res://scenes/ci/FlowValidation.tscn -- "${mode}"
