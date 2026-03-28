@@ -253,6 +253,14 @@ func _apply_tool_feedback(archetype: StringName, tool: StringName) -> void:
 		_play_impact_punch()
 
 	match archetype:
+		&"bouncy":
+			_play_feedback_flash(Color(1.2, 1.15, 0.95), 0.12)
+			if world_sprite.visible:
+				var canonical_scale := _get_canonical_world_sprite_scale()
+				world_sprite.scale = canonical_scale * Vector2(0.9, 1.12)
+				var bouncy_tween := create_tween()
+				bouncy_tween.tween_property(world_sprite, "scale", canonical_scale, 0.1)
+			angular_velocity += 2.2 if tool == &"fan" else 3.4
 		&"fragile":
 			_play_feedback_flash(Color(0.7, 0.9, 1.2), 0.22)
 			if tool == &"smash":

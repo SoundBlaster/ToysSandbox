@@ -81,8 +81,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"bouncy",
 		"scale_preset": &"small",
 		"shape": &"circle",
-		"icon_texture": "res://cartoon-kids-ball-game-sprite-colorful-rubber-ball-20260328-001752.png",
-		"world_texture": "res://ball.png",
+		"icon_texture": "res://assets/toys/icons/ball_icon.svg",
+		"world_texture": "res://assets/toys/world/ball_world.svg",
 		"color": Color("ff8a3d"),
 	},
 	&"pillow": {
@@ -91,8 +91,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"soft",
 		"scale_preset": &"medium",
 		"shape": &"pillow",
-		"icon_texture": "",
-		"world_texture": "",
+		"icon_texture": "res://assets/toys/icons/pillow_icon.svg",
+		"world_texture": "res://assets/toys/world/pillow_world.svg",
 		"color": Color("8dd9c2"),
 	},
 	&"brick": {
@@ -101,8 +101,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"heavy",
 		"scale_preset": &"medium",
 		"shape": &"rectangle",
-		"icon_texture": "",
-		"world_texture": "",
+		"icon_texture": "res://assets/toys/icons/brick_icon.svg",
+		"world_texture": "res://assets/toys/world/brick_world.svg",
 		"color": Color("b65a3a"),
 	},
 	&"vase": {
@@ -111,8 +111,8 @@ const TOY_DEFINITIONS := {
 		"archetype": &"fragile",
 		"scale_preset": &"large",
 		"shape": &"vase",
-		"icon_texture": "",
-		"world_texture": "",
+		"icon_texture": "res://assets/toys/icons/vase_icon.svg",
+		"world_texture": "res://assets/toys/world/vase_world.svg",
 		"color": Color("7ca7ff"),
 	},
 	&"balloon": {
