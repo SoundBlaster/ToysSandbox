@@ -1,0 +1,38 @@
+name: Validation
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  flow-validation:
+    name: Flow Validation (tests + lint)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Godot 4.6.1
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          GODOT_VERSION="4.6.1-stable"
+          GODOT_ZIP="Godot_v${GODOT_VERSION}_linux.x86_64.zip"
+          GODOT_BIN="Godot_v${GODOT_VERSION}_linux.x86_64"
+
+          wget -q "https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}/${GODOT_ZIP}"
+          unzip -q "${GODOT_ZIP}"
+          chmod +x "${GODOT_BIN}"
+          sudo mv "${GODOT_BIN}" /usr/local/bin/godot
+
+          godot --version
+
+      - name: Validate (tests)
+        run: bash scripts/ci/flow_validate.sh tests
+
+      - name: Validate (lint)
+        run: bash scripts/ci/flow_validate.sh lint
