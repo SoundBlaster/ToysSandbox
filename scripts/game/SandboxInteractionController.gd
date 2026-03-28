@@ -9,7 +9,8 @@ const MIN_THROW_DISTANCE := 8.0
 const MAX_THROW_SPEED := 1400.0
 const THROW_DAMPING := 0.9
 const EMULATED_MOUSE_SUPPRESS_MS := 120
-const EMULATED_MOUSE_SUPPRESS_DISTANCE := 32.0
+const DUPLICATE_SPAWN_PRESS_SUPPRESS_MS := 100
+const DUPLICATE_SPAWN_PRESS_SUPPRESS_DISTANCE := 20.0
 
 var _status_label: Label = null
 var _spawn_root: Node2D = null
@@ -36,8 +37,10 @@ var _drag_start_usec := 0
 var _pending_drag_toy: RigidBody2D = null
 var _pending_drag_pointer_id := POINTER_NONE
 var _pending_drag_start_world := Vector2.ZERO
-var _last_touch_screen_position := Vector2.ZERO
+var _active_touch_ids: Dictionary = {}
 var _last_touch_timestamp_msec := -1
+var _last_spawn_press_world_position := Vector2.ZERO
+var _last_spawn_press_timestamp_msec := -1
 
 
 func setup(
@@ -87,31 +90,56 @@ func handle_input(event: InputEvent) -> void:
 		return
 
 	if event is InputEventScreenTouch:
-		_register_touch_input(event.position)
 		if event.pressed:
+			_register_touch_press(event.index)
 			_handle_pointer_pressed(event.index, event.position)
 		else:
+			_register_touch_release(event.index)
 			_handle_pointer_released(event.index, event.position)
 		return
 
 	if event is InputEventScreenDrag:
-		_register_touch_input(event.position)
+		_register_touch_press(event.index)
 		_handle_pointer_dragged(event.index, event.position)
 
 
-func _register_touch_input(screen_position: Vector2) -> void:
-	_last_touch_screen_position = screen_position
+func _register_touch_press(pointer_id: int) -> void:
+	_active_touch_ids[pointer_id] = true
 	_last_touch_timestamp_msec = Time.get_ticks_msec()
 
 
-func _should_ignore_emulated_mouse(screen_position: Vector2) -> bool:
-	if not OS.has_feature("mobile"):
+func _register_touch_release(pointer_id: int) -> void:
+	_active_touch_ids.erase(pointer_id)
+	_last_touch_timestamp_msec = Time.get_ticks_msec()
+
+
+func _should_ignore_emulated_mouse(_screen_position: Vector2) -> bool:
+	if not _is_mobile_runtime():
 		return false
+	if not _active_touch_ids.is_empty():
+		return true
 	if _last_touch_timestamp_msec < 0:
 		return false
-	if Time.get_ticks_msec() - _last_touch_timestamp_msec > EMULATED_MOUSE_SUPPRESS_MS:
+	return Time.get_ticks_msec() - _last_touch_timestamp_msec <= EMULATED_MOUSE_SUPPRESS_MS
+
+
+func _is_mobile_runtime() -> bool:
+	return OS.has_feature("ios") or OS.has_feature("android") or OS.has_feature("mobile")
+
+
+func _should_suppress_duplicate_spawn_press(world_position: Vector2) -> bool:
+	if not _is_mobile_runtime():
 		return false
-	return _last_touch_screen_position.distance_to(screen_position) <= EMULATED_MOUSE_SUPPRESS_DISTANCE
+	if _last_spawn_press_timestamp_msec < 0:
+		return false
+	if Time.get_ticks_msec() - _last_spawn_press_timestamp_msec > DUPLICATE_SPAWN_PRESS_SUPPRESS_MS:
+		return false
+	return _last_spawn_press_world_position.distance_to(world_position) <= DUPLICATE_SPAWN_PRESS_SUPPRESS_DISTANCE
+
+
+func _record_spawn_press(world_position: Vector2) -> void:
+	_last_spawn_press_world_position = world_position
+	_last_spawn_press_timestamp_msec = Time.get_ticks_msec()
 
 
 func on_duplicate_pressed() -> void:
@@ -175,6 +203,9 @@ func _handle_pointer_pressed(pointer_id: int, screen_position: Vector2) -> void:
 		return
 
 	_clear_pending_drag()
+	if _should_suppress_duplicate_spawn_press(world_position):
+		return
+	_record_spawn_press(world_position)
 	var spawned := _spawn_selected_toy(world_position)
 	if spawned != null:
 		_set_active_toy(spawned)
