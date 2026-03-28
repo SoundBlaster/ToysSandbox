@@ -37,6 +37,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-29 | P4-T5 | Archived review report `REVIEW_p4-t5-real-hardware-export-and-performance-validation.md` |
 | 2026-03-29 | P4-T5 | Archived `Complete Real Hardware Export And Performance Validation` with verdict `PARTIAL` |
 | 2026-03-29 | P4-T7 | Archived review report `REVIEW_p4-t7-ios-single-touch-double-spawn.md` |
 | 2026-03-29 | P4-T7 | Archived `Fix iOS/iPadOS Single-Touch Double Spawn Regression` with verdict `PARTIAL` |
