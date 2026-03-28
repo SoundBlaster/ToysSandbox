@@ -6,10 +6,12 @@ const PLAY_AREA_RECT := Rect2(Vector2(72.0, 72.0), Vector2(836.0, 560.0))
 @onready var back_button: Button = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/BackButton
 @onready var status_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/StatusLabel
 @onready var selected_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/SelectedLabel
+@onready var selected_preview: TextureRect = $CanvasLayer/MarginContainer/HBoxContainer/InfoPanel/SelectedPreview
 @onready var toy_list: ItemList = $CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel/ShelfMargin/ShelfVBox/ToyList
 @onready var spawn_root: Node2D = $SpawnedToys
 
 var shelf_toy_ids: Array[StringName] = []
+var fallback_icons: Dictionary = {}
 
 
 func _ready() -> void:
@@ -58,7 +60,8 @@ func _build_toy_shelf() -> void:
 
 	for toy_id in shelf_toy_ids:
 		var definition := ToyCatalog.get_toy_definition(toy_id)
-		toy_list.add_item(String(definition.get("display_name", "Toy")))
+		var icon := _resolve_toy_icon(toy_id, definition)
+		toy_list.add_item(String(definition.get("display_name", "Toy")), icon)
 
 	var selected_index := shelf_toy_ids.find(GameState.selected_toy_id)
 	if selected_index == -1 and not shelf_toy_ids.is_empty():
@@ -94,6 +97,7 @@ func _ensure_selected_toy() -> void:
 func _refresh_selected_label() -> void:
 	var definition := ToyCatalog.get_toy_definition(GameState.selected_toy_id)
 	selected_label.text = "Selected toy: %s" % definition.get("display_name", "None")
+	selected_preview.texture = _resolve_toy_icon(GameState.selected_toy_id, definition)
 
 
 func _get_spawn_position(event: InputEvent) -> Variant:
@@ -118,3 +122,73 @@ func _clamp_to_play_area(point: Vector2, half_extents: Vector2 = Vector2.ZERO) -
 		clampf(point.x, min_point.x, max_point.x),
 		clampf(point.y, min_point.y, max_point.y)
 	)
+
+
+func _resolve_toy_icon(toy_id: StringName, definition: Dictionary = {}) -> Texture2D:
+	var texture := ToyCatalog.get_icon_texture(toy_id)
+	if texture != null:
+		return texture
+
+	if fallback_icons.has(toy_id):
+		return fallback_icons[toy_id]
+
+	var source_definition := definition
+	if source_definition.is_empty():
+		source_definition = ToyCatalog.get_toy_definition(toy_id)
+
+	var fallback_icon := _build_placeholder_icon(source_definition)
+	fallback_icons[toy_id] = fallback_icon
+	return fallback_icon
+
+
+func _build_placeholder_icon(definition: Dictionary) -> Texture2D:
+	var image_size := 64
+	var image := Image.create(image_size, image_size, false, Image.FORMAT_RGBA8)
+	image.fill(Color(0.0, 0.0, 0.0, 0.0))
+
+	var fill_color: Color = definition.get("color", Color.WHITE)
+	fill_color.a = 1.0
+	var border_color := fill_color.darkened(0.35)
+
+	var shape_name: StringName = definition.get("shape", &"rectangle")
+	match shape_name:
+		&"circle":
+			_draw_circle_icon(image, Vector2i(32, 32), 22, fill_color, border_color)
+		&"vase":
+			_draw_rect_icon(image, Rect2i(22, 12, 20, 40), fill_color, border_color)
+			_draw_rect_icon(image, Rect2i(18, 28, 28, 28), fill_color, border_color)
+		&"pillow":
+			_draw_rect_icon(image, Rect2i(10, 18, 44, 28), fill_color.lightened(0.08), border_color)
+		_:
+			_draw_rect_icon(image, Rect2i(10, 14, 44, 36), fill_color, border_color)
+
+	return ImageTexture.create_from_image(image)
+
+
+func _draw_rect_icon(image: Image, rect: Rect2i, fill_color: Color, border_color: Color) -> void:
+	for y in range(rect.position.y, rect.end.y):
+		for x in range(rect.position.x, rect.end.x):
+			if x < 0 or x >= image.get_width() or y < 0 or y >= image.get_height():
+				continue
+
+			var is_border := x == rect.position.x or x == rect.end.x - 1 or y == rect.position.y or y == rect.end.y - 1
+			image.set_pixel(x, y, border_color if is_border else fill_color)
+
+
+func _draw_circle_icon(image: Image, center: Vector2i, radius: int, fill_color: Color, border_color: Color) -> void:
+	var radius_sq: int = radius * radius
+	var inner_radius: int = maxi(radius - 2, 1)
+	var inner_radius_sq: int = inner_radius * inner_radius
+
+	for y in range(center.y - radius, center.y + radius + 1):
+		for x in range(center.x - radius, center.x + radius + 1):
+			if x < 0 or x >= image.get_width() or y < 0 or y >= image.get_height():
+				continue
+
+			var dx := x - center.x
+			var dy := y - center.y
+			var distance_sq := dx * dx + dy * dy
+			if distance_sq > radius_sq:
+				continue
+
+			image.set_pixel(x, y, border_color if distance_sq >= inner_radius_sq else fill_color)
