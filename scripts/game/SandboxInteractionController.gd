@@ -9,6 +9,8 @@ const MIN_THROW_DISTANCE := 8.0
 const MAX_THROW_SPEED := 1400.0
 const THROW_DAMPING := 0.9
 const EMULATED_MOUSE_SUPPRESS_MS := 120
+const DUPLICATE_SPAWN_PRESS_SUPPRESS_MS := 100
+const DUPLICATE_SPAWN_PRESS_SUPPRESS_DISTANCE := 20.0
 
 var _status_label: Label = null
 var _spawn_root: Node2D = null
@@ -37,6 +39,8 @@ var _pending_drag_pointer_id := POINTER_NONE
 var _pending_drag_start_world := Vector2.ZERO
 var _active_touch_ids: Dictionary = {}
 var _last_touch_timestamp_msec := -1
+var _last_spawn_press_world_position := Vector2.ZERO
+var _last_spawn_press_timestamp_msec := -1
 
 
 func setup(
@@ -110,13 +114,32 @@ func _register_touch_release(pointer_id: int) -> void:
 
 
 func _should_ignore_emulated_mouse(_screen_position: Vector2) -> bool:
-	if not OS.has_feature("mobile"):
+	if not _is_mobile_runtime():
 		return false
 	if not _active_touch_ids.is_empty():
 		return true
 	if _last_touch_timestamp_msec < 0:
 		return false
 	return Time.get_ticks_msec() - _last_touch_timestamp_msec <= EMULATED_MOUSE_SUPPRESS_MS
+
+
+func _is_mobile_runtime() -> bool:
+	return OS.has_feature("ios") or OS.has_feature("android") or OS.has_feature("mobile")
+
+
+func _should_suppress_duplicate_spawn_press(world_position: Vector2) -> bool:
+	if not _is_mobile_runtime():
+		return false
+	if _last_spawn_press_timestamp_msec < 0:
+		return false
+	if Time.get_ticks_msec() - _last_spawn_press_timestamp_msec > DUPLICATE_SPAWN_PRESS_SUPPRESS_MS:
+		return false
+	return _last_spawn_press_world_position.distance_to(world_position) <= DUPLICATE_SPAWN_PRESS_SUPPRESS_DISTANCE
+
+
+func _record_spawn_press(world_position: Vector2) -> void:
+	_last_spawn_press_world_position = world_position
+	_last_spawn_press_timestamp_msec = Time.get_ticks_msec()
 
 
 func on_duplicate_pressed() -> void:
@@ -180,6 +203,9 @@ func _handle_pointer_pressed(pointer_id: int, screen_position: Vector2) -> void:
 		return
 
 	_clear_pending_drag()
+	if _should_suppress_duplicate_spawn_press(world_position):
+		return
+	_record_spawn_press(world_position)
 	var spawned := _spawn_selected_toy(world_position)
 	if spawned != null:
 		_set_active_toy(spawned)
