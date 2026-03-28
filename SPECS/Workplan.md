@@ -256,3 +256,14 @@
   - Android SDK/signing prerequisites are configured well enough to produce an installable APK
   - Desktop and Android validation captures measured FPS with `25` active toys using the sandbox stats panel
   - Export smoke-test outcomes and performance measurements are documented in an archived validation report
+
+#### P4-T6: Complete Physical iPad Launch Validation For iOS Export
+- **Description:** Finish the remaining acceptance proof from `P4-T3` by launching the exported iOS build on a connected physical iPad with local signing enabled and recording the exact deployment evidence.
+- **Priority:** P2
+- **Dependencies:** P4-T3
+- **Parallelizable:** no
+- **Acceptance Criteria:**
+  - A physical iPad is connected, trusted, and selectable in Xcode during validation
+  - The generated `ToysSandbox-ios.xcodeproj` is signed with local development credentials without committing secrets to the repo
+  - The app installs and launches successfully on the physical iPad
+  - The validation report records device model, iOS version, signing mode, and observed launch outcome
