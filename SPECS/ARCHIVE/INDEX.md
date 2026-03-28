@@ -6,6 +6,7 @@
 
 | Task ID | Folder | Archived | Verdict |
 |---------|--------|----------|---------|
+| P2-T3 | [P2-T3_Implement_Core_Interaction_Verbs/](P2-T3_Implement_Core_Interaction_Verbs/) | 2026-03-28 | PASS |
 | P2-T2 | [P2-T2_Wire_Toy_Presentation_Selection_And_Spawn_Preview/](P2-T2_Wire_Toy_Presentation_Selection_And_Spawn_Preview/) | 2026-03-28 | PASS |
 | P2-T1 | [P2-T1_Build_Sandbox_Scene_Camera_Bounds_And_Shelf_UI/](P2-T1_Build_Sandbox_Scene_Camera_Bounds_And_Shelf_UI/) | 2026-03-28 | PASS |
 | P1-T4 | [P1-T4_Add_Godot_Validation_And_Flow_Quality_Gates/](P1-T4_Add_Godot_Validation_And_Flow_Quality_Gates/) | 2026-03-28 | PASS |
@@ -23,6 +24,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P2-T3 | Archived `Implement Core Interaction Verbs` with verdict `PASS` |
 | 2026-03-28 | P2-T2 | Archived review report `REVIEW_p2-t2-toy-presentation-selection-and-spawn-preview.md` |
 | 2026-03-28 | P2-T2 | Archived `Wire Toy Presentation, Selection, And Spawn Preview` with verdict `PASS` |
 | 2026-03-28 | P2-T1 | Archived review report `REVIEW_p2-t1-sandbox-camera-bounds-and-shelf-ui.md` |

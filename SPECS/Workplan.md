@@ -66,7 +66,7 @@
   - Missing art falls back to a simple placeholder silhouette without breaking gameplay
   - Toy selection state is shared between shelf, spawn logic, and persistence hooks
 
-#### P2-T3: Implement Core Interaction Verbs **INPROGRESS**
+#### P2-T3: Implement Core Interaction Verbs ✅ Complete
 - **Description:** Add the core player actions for spawn, grab, duplicate, resize, and reset using one interaction model across desktop and touch devices.
 - **Priority:** P0
 - **Dependencies:** P2-T1

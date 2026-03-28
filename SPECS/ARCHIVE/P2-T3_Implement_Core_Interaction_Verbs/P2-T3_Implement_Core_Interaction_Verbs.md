@@ -75,3 +75,7 @@ Design intent is to keep `Sandbox.gd` as the orchestration layer and `ToyInstanc
 
 - If interaction complexity grows, consider splitting pointer handling into a dedicated helper script in a later task.
 - Future persistence task (`P4-T1`) can optionally store last active toy metadata, but that is out of scope here.
+
+---
+**Archived:** 2026-03-28
+**Verdict:** PASS
