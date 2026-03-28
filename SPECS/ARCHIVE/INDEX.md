@@ -28,6 +28,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P2-T6 | Archived review report `REVIEW_p2-t6-interaction-controller-extraction.md` |
 | 2026-03-28 | P2-T6 | Archived `Extract Interaction Controller From Sandbox Orchestration` with verdict `PASS` |
 | 2026-03-28 | P3-T2 | Archived review report `REVIEW_p3-t2-full-eight-toy-catalog.md` |
 | 2026-03-28 | P3-T2 | Archived `Complete The Full Eight-Toy MVP Catalog And Remaining Asset Variants` with verdict `PASS` |
