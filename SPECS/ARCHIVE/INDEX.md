@@ -23,6 +23,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-28 | P2-T2 | Archived review report `REVIEW_p2-t2-toy-presentation-selection-and-spawn-preview.md` |
 | 2026-03-28 | P2-T2 | Archived `Wire Toy Presentation, Selection, And Spawn Preview` with verdict `PASS` |
 | 2026-03-28 | P2-T1 | Archived review report `REVIEW_p2-t1-sandbox-camera-bounds-and-shelf-ui.md` |
 | 2026-03-28 | P2-T1 | Archived `Build Sandbox Scene, Camera, Bounds, And Shelf UI` with verdict `PASS` |
