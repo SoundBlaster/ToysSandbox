@@ -98,6 +98,17 @@
   - Dragged toy does not visually underlap floor/other toys due to incorrect Y/ordering during drag
   - Validation includes a short reproducible manual test protocol documented in the task report
 
+#### P2-T6: Extract Interaction Controller From Sandbox Orchestration
+- **Description:** Reduce maintenance risk by moving pointer/drag/action orchestration out of `Sandbox.gd` into a dedicated interaction controller while preserving current behavior for spawn, drag, duplicate, resize, and reset verbs.
+- **Priority:** P1
+- **Dependencies:** P2-T3, P2-T5
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - `Sandbox.gd` no longer directly owns full drag lifecycle and verb dispatch logic
+  - A dedicated script/module encapsulates interaction state transitions (pointer down/move/up, active toy selection, release behavior)
+  - Existing interaction behavior remains functionally equivalent for mouse and touch input paths
+  - Validation confirms no regression in drag, duplicate, resize, and reset interactions
+
 ## Phase 3: Toy Catalog
 
 #### P3-T1: Ship The First Four Toy Archetypes With Final Silhouettes

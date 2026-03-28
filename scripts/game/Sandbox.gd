@@ -118,7 +118,7 @@ func _handle_pointer_released(pointer_id: int, screen_position: Vector2) -> void
 	if dragging_toy == null or pointer_id != drag_pointer_id:
 		return
 
-	_set_dragging_toy_position(_screen_to_world(screen_position), Vector2.ZERO, false)
+	_set_dragging_toy_position(_screen_to_world(screen_position), Vector2.ZERO, false, false)
 	dragging_toy.angular_velocity = 0.0
 	var release_velocity := drag_release_velocity * THROW_DAMPING
 	if release_velocity.length() > MAX_THROW_SPEED:
@@ -228,18 +228,23 @@ func _begin_drag(pointer_id: int, world_position: Vector2, toy: RigidBody2D) -> 
 	status_label.text = "Dragging active toy. Release to drop it."
 
 
-func _set_dragging_toy_position(world_position: Vector2, screen_velocity: Vector2 = Vector2.ZERO, velocity_valid: bool = false) -> void:
+func _set_dragging_toy_position(
+	world_position: Vector2,
+	screen_velocity: Vector2 = Vector2.ZERO,
+	velocity_valid: bool = false,
+	update_release_velocity: bool = true
+) -> void:
 	if dragging_toy == null:
 		return
 
 	var target_position := world_position + drag_offset
 	var clamped_target_position := _clamp_to_play_area(target_position, _get_toy_half_extents(dragging_toy))
-	if velocity_valid:
+	if update_release_velocity and velocity_valid:
 		drag_release_velocity = _screen_velocity_to_world_velocity(screen_velocity)
 
 	var now_usec := Time.get_ticks_usec()
 	var dt := float(now_usec - drag_last_sample_usec) / 1000000.0
-	if drag_last_sample_usec > 0 and dt >= MIN_THROW_SAMPLE_DT and not velocity_valid:
+	if update_release_velocity and drag_last_sample_usec > 0 and dt >= MIN_THROW_SAMPLE_DT and not velocity_valid:
 		drag_release_velocity = (clamped_target_position - drag_last_target_position) / dt
 
 	drag_last_target_position = clamped_target_position

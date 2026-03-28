@@ -26,8 +26,8 @@ func _input_event(viewport, event, shape_idx):
         else:
             dragging = false
             freeze = false
-            # Apply impulse based on mouse speed upon release
-            apply_central_impulse(get_last_mouse_speed())
+            # Set linear velocity based on mouse speed upon release
+            linear_velocity = get_last_mouse_speed()
 
 func _physics_process(delta):
     if dragging:
