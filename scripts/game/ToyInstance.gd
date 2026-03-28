@@ -9,6 +9,9 @@ var toy_definition: Dictionary = {}
 var base_color: Color = Color.WHITE
 var is_selected := false
 var size_scale := 1.0
+var _buoyancy_force := 0.0
+var _upright_strength := 0.0
+var _upright_damping := 0.0
 
 const MIN_SIZE_SCALE := 0.6
 const MAX_SIZE_SCALE := 1.8
@@ -42,11 +45,30 @@ func _ready() -> void:
 	add_to_group("toy_instances")
 
 
+func _physics_process(_delta: float) -> void:
+	if toy_definition.is_empty() or freeze:
+		return
+
+	if _buoyancy_force > 0.0:
+		apply_central_force(Vector2.UP * _buoyancy_force)
+
+	if _upright_strength > 0.0:
+		var angle_error := wrapf(rotation, -PI, PI)
+		var corrective_torque := (-angle_error * _upright_strength) - (angular_velocity * _upright_damping)
+		apply_torque(corrective_torque)
+
+
 func configure(definition: Dictionary) -> void:
 	toy_definition = definition.duplicate(true)
 	size_scale = 1.0
 
 	if toy_definition.is_empty():
+		physics_material_override = null
+		center_of_mass_mode = RigidBody2D.CENTER_OF_MASS_MODE_AUTO
+		center_of_mass = Vector2.ZERO
+		_buoyancy_force = 0.0
+		_upright_strength = 0.0
+		_upright_damping = 0.0
 		return
 
 	if collision_shape == null:
@@ -60,10 +82,34 @@ func configure(definition: Dictionary) -> void:
 	gravity_scale = float(toy_definition.get("gravity_scale", 1.0))
 	linear_damp = float(toy_definition.get("linear_damp", 0.2))
 	angular_damp = float(toy_definition.get("angular_damp", 0.2))
+	_buoyancy_force = float(toy_definition.get("buoyancy_force", 0.0))
+	_upright_strength = float(toy_definition.get("upright_strength", 0.0))
+	_upright_damping = float(toy_definition.get("upright_damping", 0.0))
+	_apply_center_of_mass()
+	_apply_physics_material()
 
 	_apply_shape()
 	_apply_visuals()
 	set_selected(false)
+
+
+func _apply_center_of_mass() -> void:
+	var mode_name := String(toy_definition.get("center_of_mass_mode", "auto")).to_lower()
+	if mode_name == "custom":
+		center_of_mass_mode = RigidBody2D.CENTER_OF_MASS_MODE_CUSTOM
+		var custom_center: Variant = toy_definition.get("center_of_mass", Vector2.ZERO)
+		center_of_mass = custom_center if custom_center is Vector2 else Vector2.ZERO
+		return
+
+	center_of_mass_mode = RigidBody2D.CENTER_OF_MASS_MODE_AUTO
+	center_of_mass = Vector2.ZERO
+
+
+func _apply_physics_material() -> void:
+	var material := PhysicsMaterial.new()
+	material.bounce = clampf(float(toy_definition.get("physics_bounce", 0.0)), 0.0, 1.0)
+	material.friction = maxf(float(toy_definition.get("physics_friction", 1.0)), 0.0)
+	physics_material_override = material
 
 
 func get_definition_copy() -> Dictionary:
