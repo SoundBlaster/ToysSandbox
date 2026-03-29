@@ -10,4 +10,4 @@
 
 ## Suggested Next Tasks
 
-1. Run `REVIEW` for archived `P2-T12` implementation scope.
+1. Archive `REVIEW_p2-t12-double-tap-delete-tuning.md` (FOLLOW-UP had no actionable issues).
