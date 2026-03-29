@@ -41,6 +41,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-29 | P2-T11 | Archived review report `REVIEW_p2-t11-double-click-double-tap-delete.md` |
 | 2026-03-29 | P2-T11 | Archived `Delete Toys With Double Click Or Double Tap` with verdict `PARTIAL` |
 | 2026-03-29 | P2-T10 | Archived review report `REVIEW_p2-t10-menu-collapse-expand.md` |
 | 2026-03-29 | P2-T10 | Archived `Add Top-Right Collapse/Expand Menu Button` with verdict `PARTIAL` |
