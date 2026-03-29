@@ -74,3 +74,7 @@ After completion, update:
 - `SPECS/Workplan.md` (mark `P2-T8` complete).
 - `SPECS/ARCHIVE/INDEX.md` via ARCHIVE step.
 - Any troubleshooting doc if overlay usage should be discoverable for future physics debugging.
+
+---
+**Archived:** 2026-03-29
+**Verdict:** PARTIAL
