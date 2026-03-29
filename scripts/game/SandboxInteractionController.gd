@@ -11,6 +11,8 @@ const THROW_DAMPING := 0.9
 const EMULATED_MOUSE_SUPPRESS_MS := 120
 const DUPLICATE_SPAWN_PRESS_SUPPRESS_MS := 100
 const DUPLICATE_SPAWN_PRESS_SUPPRESS_DISTANCE := 20.0
+const DELETE_DOUBLE_TAP_WINDOW_MS := 320
+const DELETE_DOUBLE_TAP_MAX_DISTANCE := 28.0
 
 var _status_label: Label = null
 var _spawn_root: Node2D = null
@@ -41,6 +43,9 @@ var _active_touch_ids: Dictionary = {}
 var _last_touch_timestamp_msec := -1
 var _last_spawn_press_world_position := Vector2.ZERO
 var _last_spawn_press_timestamp_msec := -1
+var _last_tap_toy_instance_id := -1
+var _last_tap_timestamp_msec := -1
+var _last_tap_world_position := Vector2.ZERO
 
 
 func setup(
@@ -203,6 +208,7 @@ func _handle_pointer_pressed(pointer_id: int, screen_position: Vector2) -> void:
 		return
 
 	_clear_pending_drag()
+	_clear_last_tap_record()
 	if _should_suppress_duplicate_spawn_press(world_position):
 		return
 	_record_spawn_press(world_position)
@@ -237,12 +243,21 @@ func _handle_pointer_dragged(pointer_id: int, screen_position: Vector2) -> void:
 
 
 func _handle_pointer_released(pointer_id: int, screen_position: Vector2) -> void:
+	var world_position := _screen_to_world(screen_position)
+
 	if _dragging_toy == null or pointer_id != _drag_pointer_id:
-		if pointer_id == _pending_drag_pointer_id:
+		if pointer_id == _pending_drag_pointer_id and is_instance_valid(_pending_drag_toy):
+			var tapped_toy := _pending_drag_toy
 			_clear_pending_drag()
+			if _is_double_tap_delete(tapped_toy, world_position):
+				_delete_toy_instance(tapped_toy)
+				_clear_last_tap_record()
+				return
+			_record_tap_on_toy(tapped_toy, world_position)
 		return
 
-	_set_dragging_toy_position(_screen_to_world(screen_position))
+	_clear_last_tap_record()
+	_set_dragging_toy_position(world_position)
 	_dragging_toy.angular_velocity = 0.0
 	var drag_duration := float(Time.get_ticks_usec() - _drag_start_usec) / 1000000.0
 	var drag_distance := _drag_start_position.distance_to(_dragging_toy.global_position)
@@ -381,6 +396,7 @@ func _apply_smash_to_active_toy() -> void:
 
 func _clear_spawned_toys() -> void:
 	_clear_pending_drag()
+	_clear_last_tap_record()
 
 	if _dragging_toy != null and is_instance_valid(_dragging_toy):
 		_dragging_toy.freeze_mode = _drag_previous_freeze_mode
@@ -397,6 +413,61 @@ func _clear_spawned_toys() -> void:
 	_drag_start_usec = 0
 	_set_active_toy(null)
 	_set_status("Reset sandbox toys. Shelf selection is unchanged.")
+
+
+func _delete_toy_instance(toy: RigidBody2D) -> void:
+	if toy == null or not is_instance_valid(toy):
+		return
+
+	if toy == _dragging_toy:
+		_dragging_toy = null
+		_drag_pointer_id = POINTER_NONE
+		_drag_last_sample_usec = 0
+		_drag_release_velocity = Vector2.ZERO
+		_drag_start_usec = 0
+
+	if toy == _pending_drag_toy:
+		_clear_pending_drag()
+
+	var active_toy := _get_active_toy()
+	var deleted_toy_name := "Toy"
+	if toy.has_method("get_definition_copy"):
+		var definition: Dictionary = toy.call("get_definition_copy")
+		deleted_toy_name = String(definition.get("display_name", "Toy"))
+
+	toy.queue_free()
+	if active_toy == toy:
+		_set_active_toy(null)
+
+	_set_status("Deleted %s." % deleted_toy_name)
+
+
+func _record_tap_on_toy(toy: RigidBody2D, world_position: Vector2) -> void:
+	if toy == null or not is_instance_valid(toy):
+		return
+
+	_last_tap_toy_instance_id = toy.get_instance_id()
+	_last_tap_timestamp_msec = Time.get_ticks_msec()
+	_last_tap_world_position = world_position
+
+
+func _is_double_tap_delete(toy: RigidBody2D, world_position: Vector2) -> bool:
+	if toy == null or not is_instance_valid(toy):
+		return false
+	if _last_tap_toy_instance_id < 0 or _last_tap_timestamp_msec < 0:
+		return false
+	if Time.get_ticks_msec() - _last_tap_timestamp_msec > DELETE_DOUBLE_TAP_WINDOW_MS:
+		return false
+	if _last_tap_world_position.distance_to(world_position) > DELETE_DOUBLE_TAP_MAX_DISTANCE:
+		return false
+
+	return toy.get_instance_id() == _last_tap_toy_instance_id
+
+
+func _clear_last_tap_record() -> void:
+	_last_tap_toy_instance_id = -1
+	_last_tap_timestamp_msec = -1
+	_last_tap_world_position = Vector2.ZERO
 
 
 func _clear_pending_drag() -> void:

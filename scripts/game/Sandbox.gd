@@ -57,7 +57,7 @@ func _ready() -> void:
 	_set_menu_collapsed(false)
 	_ensure_selected_toy()
 	_build_toy_shelf()
-	status_label.text = "Tap a toy to drag it. Tap empty space to spawn the selected toy."
+	status_label.text = "Tap a toy to select/drag. Double tap/click a toy to delete it. Tap empty space to spawn."
 	_refresh_selected_label()
 	_refresh_onboarding_overlay()
 	_refresh_stats_overlay()

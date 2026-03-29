@@ -154,7 +154,7 @@
   - Expanding restores the full menu state and controls without losing selection context
   - Behavior works consistently for mouse and touch input paths
 
-#### P2-T11: Delete Toys With Double Click Or Double Tap
+#### P2-T11: Delete Toys With Double Click Or Double Tap ✅ Complete
 - **Description:** Let players remove an existing toy directly from the sandbox by double clicking or double tapping it, without affecting other toys or shelf selection flow.
 - **Priority:** P3
 - **Dependencies:** P2-T6, P2-T9
