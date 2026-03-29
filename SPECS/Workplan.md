@@ -121,7 +121,7 @@
   - Heavy/sticky toys remain comparatively less elastic than bouncy toys under the same test setup
   - Validation report documents before/after behavior and tuning values used
 
-#### P2-T8: Draw Bodies Perimeter For Debug Build **INPROGRESS**
+#### P2-T8: Draw Bodies Perimeter For Debug Build ✅ Complete
 - **Description:** Render toy collision/body perimeters only in debug builds to simplify interaction and physics troubleshooting without affecting release visuals.
 - **Priority:** P2
 - **Dependencies:** P2-T3
