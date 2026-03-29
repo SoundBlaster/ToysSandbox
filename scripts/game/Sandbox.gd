@@ -31,11 +31,14 @@ const HUD_TEXT_SECONDARY := Color("d3e2ff")
 @onready var onboarding_controls_hint_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingControlsHint
 @onready var dismiss_onboarding_button: Button = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/DismissOnboardingButton
 @onready var stats_overlay_label: Label = $CanvasLayer/StatsOverlay
+@onready var menu_container: MarginContainer = $CanvasLayer/MarginContainer
+@onready var menu_toggle_button: Button = $CanvasLayer/MenuToggleButton
 
 var shelf_toy_ids: Array[StringName] = []
 var fallback_icons: Dictionary = {}
 var active_toy: RigidBody2D = null
 var interaction_controller = null
+var is_menu_collapsed := false
 
 
 func _ready() -> void:
@@ -48,8 +51,10 @@ func _ready() -> void:
 	smash_button.pressed.connect(_on_smash_pressed)
 	toy_list.item_selected.connect(_on_toy_selected)
 	dismiss_onboarding_button.pressed.connect(_on_dismiss_onboarding_pressed)
+	menu_toggle_button.pressed.connect(_on_menu_toggle_pressed)
 
 	_apply_visual_polish()
+	_set_menu_collapsed(false)
 	_ensure_selected_toy()
 	_build_toy_shelf()
 	status_label.text = "Tap a toy to drag it. Tap empty space to spawn the selected toy."
@@ -84,6 +89,14 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_back_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/menu/MainMenu.tscn")
+
+
+func _on_menu_toggle_pressed() -> void:
+	_set_menu_collapsed(not is_menu_collapsed)
+	if is_menu_collapsed:
+		status_label.text = "Menu collapsed. Tap Expand Menu to restore controls."
+	else:
+		status_label.text = "Menu expanded. Sandbox controls restored."
 
 
 func _on_duplicate_pressed() -> void:
@@ -411,6 +424,14 @@ func _apply_visual_polish() -> void:
 	_style_action_button(smash_button, Color("d090ec"))
 	_style_action_button(back_button, Color("8f9ed8"))
 	_style_action_button(dismiss_onboarding_button, Color("f1a95d"))
+	_style_action_button(menu_toggle_button, Color("87b7f5"))
+
+
+func _set_menu_collapsed(collapsed: bool) -> void:
+	is_menu_collapsed = collapsed
+	menu_container.visible = not collapsed
+	menu_toggle_button.text = "Expand Menu" if collapsed else "Collapse Menu"
+	menu_toggle_button.tooltip_text = "Show in-game controls" if collapsed else "Hide in-game controls"
 
 func _build_panel_style(accent: Color, alpha: float) -> StyleBoxFlat:
 	var panel_style := StyleBoxFlat.new()

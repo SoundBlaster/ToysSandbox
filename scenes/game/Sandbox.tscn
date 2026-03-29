@@ -69,6 +69,15 @@ offset_top = 24.0
 offset_right = -24.0
 offset_bottom = -24.0
 
+[node name="MenuToggleButton" type="Button" parent="CanvasLayer"]
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -184.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = 62.0
+text = "Collapse Menu"
+
 [node name="OnboardingOverlay" type="PanelContainer" parent="CanvasLayer"]
 visible = false
 custom_minimum_size = Vector2(460, 0)
