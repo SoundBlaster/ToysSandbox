@@ -39,6 +39,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-29 | P2-T8 | Archived review report `REVIEW_p2-t8-debug-body-perimeter.md` |
 | 2026-03-29 | P2-T8 | Archived `Draw Bodies Perimeter For Debug Build` with verdict `PARTIAL` |
 | 2026-03-29 | P4-T6 | Archived review report `REVIEW_p4-t6-physical-ipad-launch-validation.md` |
 | 2026-03-29 | P4-T5 | Archived review report `REVIEW_p4-t5-real-hardware-export-and-performance-validation.md` |
