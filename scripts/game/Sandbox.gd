@@ -430,8 +430,8 @@ func _apply_visual_polish() -> void:
 func _set_menu_collapsed(collapsed: bool) -> void:
 	is_menu_collapsed = collapsed
 	menu_container.visible = not collapsed
-	menu_toggle_button.text = "Expand Menu" if collapsed else "Collapse Menu"
-	menu_toggle_button.tooltip_text = "Show in-game controls" if collapsed else "Hide in-game controls"
+	menu_toggle_button.text = "Menu" if collapsed else "Hide"
+	menu_toggle_button.tooltip_text = "Show menu" if collapsed else "Hide menu"
 
 func _build_panel_style(accent: Color, alpha: float) -> StyleBoxFlat:
 	var panel_style := StyleBoxFlat.new()
