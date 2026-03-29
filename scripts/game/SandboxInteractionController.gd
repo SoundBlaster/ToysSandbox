@@ -11,8 +11,8 @@ const THROW_DAMPING := 0.9
 const EMULATED_MOUSE_SUPPRESS_MS := 120
 const DUPLICATE_SPAWN_PRESS_SUPPRESS_MS := 100
 const DUPLICATE_SPAWN_PRESS_SUPPRESS_DISTANCE := 20.0
-const DELETE_DOUBLE_TAP_WINDOW_MS := 320
-const DELETE_DOUBLE_TAP_MAX_DISTANCE := 28.0
+const DEFAULT_DELETE_DOUBLE_TAP_WINDOW_MS := 320
+const DEFAULT_DELETE_DOUBLE_TAP_MAX_DISTANCE := 28.0
 
 var _status_label: Label = null
 var _spawn_root: Node2D = null
@@ -46,6 +46,8 @@ var _last_spawn_press_timestamp_msec := -1
 var _last_tap_toy_instance_id := -1
 var _last_tap_timestamp_msec := -1
 var _last_tap_world_position := Vector2.ZERO
+var _delete_double_tap_window_ms := DEFAULT_DELETE_DOUBLE_TAP_WINDOW_MS
+var _delete_double_tap_max_distance := DEFAULT_DELETE_DOUBLE_TAP_MAX_DISTANCE
 
 
 func setup(
@@ -59,7 +61,8 @@ func setup(
 	spawn_selected_toy_fn: Callable,
 	screen_to_world_fn: Callable,
 	clamp_to_play_area_fn: Callable,
-	get_toy_half_extents_fn: Callable
+	get_toy_half_extents_fn: Callable,
+	interaction_tuning: Dictionary = {}
 ) -> void:
 	_status_label = status_label
 	_spawn_root = spawn_root
@@ -72,6 +75,24 @@ func setup(
 	_screen_to_world_fn = screen_to_world_fn
 	_clamp_to_play_area_fn = clamp_to_play_area_fn
 	_get_toy_half_extents_fn = get_toy_half_extents_fn
+	_apply_interaction_tuning(interaction_tuning)
+
+
+func _apply_interaction_tuning(interaction_tuning: Dictionary) -> void:
+	_delete_double_tap_window_ms = DEFAULT_DELETE_DOUBLE_TAP_WINDOW_MS
+	_delete_double_tap_max_distance = DEFAULT_DELETE_DOUBLE_TAP_MAX_DISTANCE
+	if interaction_tuning.is_empty():
+		return
+
+	if interaction_tuning.has("delete_double_tap_window_ms"):
+		var configured_window := int(interaction_tuning.get("delete_double_tap_window_ms", DEFAULT_DELETE_DOUBLE_TAP_WINDOW_MS))
+		if configured_window > 0:
+			_delete_double_tap_window_ms = configured_window
+
+	if interaction_tuning.has("delete_double_tap_max_distance"):
+		var configured_distance := float(interaction_tuning.get("delete_double_tap_max_distance", DEFAULT_DELETE_DOUBLE_TAP_MAX_DISTANCE))
+		if configured_distance > 0.0:
+			_delete_double_tap_max_distance = configured_distance
 
 
 func handle_input(event: InputEvent) -> void:
@@ -456,9 +477,9 @@ func _is_double_tap_delete(toy: RigidBody2D, world_position: Vector2) -> bool:
 		return false
 	if _last_tap_toy_instance_id < 0 or _last_tap_timestamp_msec < 0:
 		return false
-	if Time.get_ticks_msec() - _last_tap_timestamp_msec > DELETE_DOUBLE_TAP_WINDOW_MS:
+	if Time.get_ticks_msec() - _last_tap_timestamp_msec > _delete_double_tap_window_ms:
 		return false
-	if _last_tap_world_position.distance_to(world_position) > DELETE_DOUBLE_TAP_MAX_DISTANCE:
+	if _last_tap_world_position.distance_to(world_position) > _delete_double_tap_max_distance:
 		return false
 
 	return toy.get_instance_id() == _last_tap_toy_instance_id
