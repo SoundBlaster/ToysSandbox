@@ -165,6 +165,16 @@
   - Single click/tap behavior for selection and drag start remains unchanged
   - Deleting a toy this way does not break active selection state, sandbox stats, or subsequent spawn/interaction flow
 
+#### P2-T12: Expose Double-Tap Delete Tuning Configuration
+- **Description:** Externalize double-click/double-tap delete timing and distance thresholds so UX tuning can be adjusted in one configuration location instead of hard-coded controller constants.
+- **Priority:** P2
+- **Dependencies:** P2-T11
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - Double-tap delete window and distance are read from one shared tuning config path with safe defaults
+  - Existing desktop and mobile delete behavior remains unchanged at default values
+  - Validation confirms tests/lint pass and that tuned values are surfaced in project docs
+
 ## Phase 3: Toy Catalog
 
 #### P3-T1: Ship The First Four Toy Archetypes With Final Silhouettes ✅ Complete
