@@ -32,7 +32,13 @@
    - Retried with `DEVELOPMENT_TEAM=Y7D2JBHZU2`
      - Failed with the same account/profile errors
    - `~/Library/MobileDevice/Provisioning Profiles` was empty during validation
-4. Flow gates
+4. Simulator investigation
+   - `xcodebuild -project build/ios/ToysSandbox.xcodeproj -scheme ToysSandbox -configuration Debug -destination 'platform=iOS Simulator,id=DB4E2D9A-01A7-4D78-8E0A-4C54972EC00B' -derivedDataPath build/ios/DerivedData-sim build`
+     - Built the simulator target for `arm64`, but link failed with `Undefined symbols for architecture arm64: _main`
+   - `lipo -info build/ios/ToysSandbox.xcframework/ios-arm64_x86_64-simulator/libgodot.a`
+     - Reported `architecture: x86_64`
+   - The booted iPhone Air simulator on this Apple Silicon host requires an arm64 simulator slice, so the exported Godot template cannot launch there as-is
+5. Flow gates
    - `bash scripts/ci/flow_validate.sh tests` -> PASS
    - `bash scripts/ci/flow_validate.sh lint` -> PASS
 
@@ -49,9 +55,11 @@
   - No Xcode account is configured for either attempted development team
   - No provisioning profile exists locally for `org.toyssandbox.game.ios`
   - Because the app cannot be signed, the physical iPad launch could not be completed
+- Simulator launch on the Apple Silicon host is also blocked by the exported Godot iOS template shipping an x86_64-only simulator archive instead of an arm64 simulator slice.
 
 ## Notes
 
 - The connected iPad is a real device, not a simulator, so this task is blocked by signing state rather than hardware visibility.
 - The committed repo should keep the iOS preset placeholders unchanged; the required team/provisioning values are machine-local.
 - Godot export and Flow validation both passed, so the remaining issue is isolated to local Apple signing configuration.
+- The simulator issue is environment/template-specific and does not change the device-launch verdict, but it is useful context for anyone validating the export on Apple Silicon.
