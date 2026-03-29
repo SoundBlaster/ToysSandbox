@@ -16,9 +16,15 @@ var _upright_strength := 0.0
 var _upright_damping := 0.0
 var _primary_effect_tween: Tween = null
 var _secondary_effect_tween: Tween = null
+var _debug_overlay_enabled := false
+var _debug_perimeter_points := PackedVector2Array()
 
 const MIN_SIZE_SCALE := 0.6
 const MAX_SIZE_SCALE := 1.8
+const DEBUG_PERIMETER_SEGMENTS := 32
+const DEBUG_PERIMETER_PRIMARY_COLOR := Color(0.43, 0.98, 0.62, 0.9)
+const DEBUG_PERIMETER_SELECTED_COLOR := Color(1.0, 0.9, 0.45, 0.95)
+const DEBUG_PERIMETER_SHADOW_COLOR := Color(0.0, 0.0, 0.0, 0.75)
 const EFFECT_TEXTURES := {
 	&"fragment": preload("res://assets/effects/fragment_effect.svg"),
 	&"crack": preload("res://assets/effects/crack_effect.svg"),
@@ -54,6 +60,17 @@ const SMASH_REBOUND_BY_ARCHETYPE := {
 func _ready() -> void:
 	add_to_group("toy_instances")
 	set_physics_process(false)
+	_debug_overlay_enabled = OS.is_debug_build()
+	queue_redraw()
+
+
+func _draw() -> void:
+	if not _debug_overlay_enabled or _debug_perimeter_points.size() < 2:
+		return
+
+	var perimeter_color := DEBUG_PERIMETER_SELECTED_COLOR if is_selected else DEBUG_PERIMETER_PRIMARY_COLOR
+	draw_polyline(_debug_perimeter_points, DEBUG_PERIMETER_SHADOW_COLOR, 3.5, true)
+	draw_polyline(_debug_perimeter_points, perimeter_color, 1.75, true)
 
 
 func _physics_process(_delta: float) -> void:
@@ -80,6 +97,8 @@ func configure(definition: Dictionary) -> void:
 		_buoyancy_force = 0.0
 		_upright_strength = 0.0
 		_upright_damping = 0.0
+		_debug_perimeter_points = PackedVector2Array()
+		queue_redraw()
 		set_physics_process(false)
 		return
 
@@ -141,6 +160,8 @@ func get_toy_id() -> StringName:
 func set_selected(selected: bool) -> void:
 	is_selected = selected
 	_apply_selection_visuals()
+	if _debug_overlay_enabled:
+		queue_redraw()
 
 
 func resize_by_step(step: float) -> bool:
@@ -253,6 +274,8 @@ func _apply_shape() -> void:
 				Vector2(-size.x * 0.5, size.y * 0.5),
 			])
 
+	_refresh_debug_perimeter()
+
 
 func _apply_visuals() -> void:
 	base_color = toy_definition.get("color", Color.WHITE)
@@ -288,6 +311,54 @@ func _build_circle_polygon(radius: float) -> PackedVector2Array:
 		points.append(Vector2.RIGHT.rotated(angle) * radius)
 
 	return points
+
+
+func _build_debug_circle_outline(radius: float) -> PackedVector2Array:
+	var points := PackedVector2Array()
+	for index in range(DEBUG_PERIMETER_SEGMENTS):
+		var angle := TAU * float(index) / float(DEBUG_PERIMETER_SEGMENTS)
+		points.append(Vector2.RIGHT.rotated(angle) * radius)
+
+	if points.size() > 0:
+		points.append(points[0])
+
+	return points
+
+
+func _refresh_debug_perimeter() -> void:
+	if not _debug_overlay_enabled:
+		return
+
+	if collision_shape == null or collision_shape.shape == null:
+		_debug_perimeter_points = PackedVector2Array()
+		queue_redraw()
+		return
+
+	var shape := collision_shape.shape
+	if shape is CircleShape2D:
+		_debug_perimeter_points = _build_debug_circle_outline((shape as CircleShape2D).radius)
+	elif shape is RectangleShape2D:
+		var rectangle_size := (shape as RectangleShape2D).size
+		var half := rectangle_size * 0.5
+		_debug_perimeter_points = PackedVector2Array([
+			Vector2(-half.x, -half.y),
+			Vector2(half.x, -half.y),
+			Vector2(half.x, half.y),
+			Vector2(-half.x, half.y),
+			Vector2(-half.x, -half.y),
+		])
+	elif shape is ConvexPolygonShape2D:
+		var polygon_points := (shape as ConvexPolygonShape2D).points
+		_debug_perimeter_points = polygon_points.duplicate()
+		if _debug_perimeter_points.size() > 0:
+			_debug_perimeter_points.append(_debug_perimeter_points[0])
+	else:
+		var fallback_outline := body_polygon.polygon.duplicate()
+		if fallback_outline.size() > 0:
+			fallback_outline.append(fallback_outline[0])
+		_debug_perimeter_points = fallback_outline
+
+	queue_redraw()
 
 
 func _fit_world_texture(target_size: Vector2, texture: Texture2D) -> void:
