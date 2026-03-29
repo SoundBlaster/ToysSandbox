@@ -34,3 +34,12 @@ Prerequisites:
 - macOS/Xcode toolchain available for signing and device deployment
 
 After export, open the generated `.xcodeproj` in Xcode and complete signing there. For the full setup and deployment checklist, see [docs/ios-ipad-export-checklist.md](/Users/egor/Development/GitHub/ToysSandbox/docs/ios-ipad-export-checklist.md).
+
+## Interaction Tuning
+
+Double-click/double-tap delete thresholds are centralized in [scripts/game/Sandbox.gd](/Users/egor/Development/GitHub/ToysSandbox/scripts/game/Sandbox.gd) via `INTERACTION_TUNING`.
+
+- `delete_double_tap_window_ms`: `320`
+- `delete_double_tap_max_distance`: `28.0`
+
+These values are injected into `SandboxInteractionController.setup(...)` and default to the same numbers if tuning data is omitted or invalid.

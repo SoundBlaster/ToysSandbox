@@ -4,6 +4,10 @@ const TOY_INSTANCE_SCENE := preload("res://scenes/game/ToyInstance.tscn")
 const SANDBOX_INTERACTION_CONTROLLER := preload("res://scripts/game/SandboxInteractionController.gd")
 const PLAY_AREA_RECT := Rect2(Vector2(0.0, 72.0), Vector2(1280.0, 580.0))
 const MAX_ACTIVE_TOYS := 25
+const INTERACTION_TUNING := {
+	"delete_double_tap_window_ms": 320,
+	"delete_double_tap_max_distance": 28.0,
+}
 const PANEL_BASE_COLOR := Color("1a2742")
 const HUD_TEXT_PRIMARY := Color("f4f8ff")
 const HUD_TEXT_SECONDARY := Color("d3e2ff")
@@ -73,7 +77,8 @@ func _ready() -> void:
 		Callable(self, "_spawn_selected_toy"),
 		Callable(self, "_screen_to_world"),
 		Callable(self, "_clamp_to_play_area"),
-		Callable(self, "_get_toy_half_extents")
+		Callable(self, "_get_toy_half_extents"),
+		INTERACTION_TUNING
 	)
 
 

@@ -6,6 +6,7 @@
 
 | Task ID | Folder | Archived | Verdict |
 |---------|--------|----------|---------|
+| P2-T12 | [P2-T12_Expose_Double-Tap_Delete_Tuning_Configuration/](P2-T12_Expose_Double-Tap_Delete_Tuning_Configuration/) | 2026-03-29 | PASS |
 | P2-T11 | [P2-T11_Delete_Toys_With_Double_Click_Or_Double_Tap/](P2-T11_Delete_Toys_With_Double_Click_Or_Double_Tap/) | 2026-03-29 | PARTIAL |
 | P2-T10 | [P2-T10_Add_Top-Right_Collapse_Expand_Menu_Button/](P2-T10_Add_Top-Right_Collapse_Expand_Menu_Button/) | 2026-03-29 | PARTIAL |
 | P2-T8 | [P2-T8_Draw_Bodies_Perimeter_For_Debug_Build/](P2-T8_Draw_Bodies_Perimeter_For_Debug_Build/) | 2026-03-29 | PARTIAL |
@@ -41,6 +42,8 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-29 | P2-T12 | Archived review report `REVIEW_p2-t12-double-tap-delete-tuning.md` |
+| 2026-03-29 | P2-T12 | Archived `Expose Double-Tap Delete Tuning Configuration` with verdict `PASS` |
 | 2026-03-29 | P2-T11 | Archived review report `REVIEW_p2-t11-double-click-double-tap-delete.md` |
 | 2026-03-29 | P2-T11 | Archived `Delete Toys With Double Click Or Double Tap` with verdict `PARTIAL` |
 | 2026-03-29 | P2-T10 | Archived review report `REVIEW_p2-t10-menu-collapse-expand.md` |
