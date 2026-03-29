@@ -10,4 +10,4 @@
 
 ## Suggested Next Tasks
 
-1. Archive `REVIEW_p2-t12-double-tap-delete-tuning.md` (FOLLOW-UP had no actionable issues).
+1. No pending task selected. Use `SELECT` to choose the next workplan item.

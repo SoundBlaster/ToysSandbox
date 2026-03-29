@@ -42,6 +42,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-29 | P2-T12 | Archived review report `REVIEW_p2-t12-double-tap-delete-tuning.md` |
 | 2026-03-29 | P2-T12 | Archived `Expose Double-Tap Delete Tuning Configuration` with verdict `PASS` |
 | 2026-03-29 | P2-T11 | Archived review report `REVIEW_p2-t11-double-click-double-tap-delete.md` |
 | 2026-03-29 | P2-T11 | Archived `Delete Toys With Double Click Or Double Tap` with verdict `PARTIAL` |
