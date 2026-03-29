@@ -1,6 +1,10 @@
 # Current Task
 
-- _None selected_
+- **Task ID:** `P5-T1`
+- **Task Name:** `Harden Pull Request Template And Validation Guidance`
+- **Priority:** `P2`
+- **Status:** `Selected`
+- **Source:** `SPECS/Workplan.md`
 
 ## Recently Archived
 
@@ -10,4 +14,4 @@
 
 ## Suggested Next Tasks
 
-1. No pending task selected. Use `SELECT` to choose the next workplan item.
+1. `P5-T1` — Harden Pull Request Template And Validation Guidance

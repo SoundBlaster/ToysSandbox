@@ -293,3 +293,16 @@
   - **Task:** Find why one tap turns into two spawn requests without regressing shared desktop/mobile interaction behavior.
   - **Action:** Trace the input flow through `Sandbox._unhandled_input()` into `SandboxInteractionController.handle_input()`. The current controller calls `_handle_pointer_pressed()` for both `InputEventScreenTouch` and `InputEventMouseButton`, and empty-space presses spawn immediately inside `_handle_pointer_pressed()`. Mobile deduplication currently relies on `_should_ignore_emulated_mouse()`, a time/distance heuristic that only works when the synthesized mouse event arrives close enough to a previously registered touch event.
   - **Result:** The most likely root cause is duplicate handling of the same physical tap through two event classes on iOS/iPadOS: the real touch event and an emulated left-mouse event. Because spawn happens on press and the suppression is heuristic rather than authoritative, one tap can produce two toy spawns.
+
+## Phase 5: Workflow And Documentation Quality
+
+#### P5-T1: Harden Pull Request Template And Validation Guidance
+- **Description:** Upgrade the pull request template so each change set includes a concise scope summary, explicit FLOW artifact links, and a reproducible validation checklist aligned with existing CI and manual verification expectations.
+- **Priority:** P2
+- **Dependencies:** P1-T4
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - `.github/PULL_REQUEST_TEMPLATE.md` contains structured sections for summary, implementation details, validation evidence, and workflow artifact references
+  - The validation section includes concrete checkboxes that match repository practices (automation plus runtime/editor checks)
+  - The template remains concise and usable for both code and documentation-only tasks
+  - Existing documentation references remain accurate and no stale placeholders are introduced
