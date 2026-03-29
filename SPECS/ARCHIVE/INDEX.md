@@ -40,6 +40,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-29 | P2-T10 | Archived review report `REVIEW_p2-t10-menu-collapse-expand.md` |
 | 2026-03-29 | P2-T10 | Archived `Add Top-Right Collapse/Expand Menu Button` with verdict `PARTIAL` |
 | 2026-03-29 | P2-T8 | Archived review report `REVIEW_p2-t8-debug-body-perimeter.md` |
 | 2026-03-29 | P2-T8 | Archived `Draw Bodies Perimeter For Debug Build` with verdict `PARTIAL` |
