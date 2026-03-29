@@ -300,10 +300,19 @@ func _get_toy_half_extents(toy: RigidBody2D) -> Vector2:
 	var shape_node: CollisionShape2D = toy.get_node_or_null("CollisionShape2D")
 	if shape_node != null and shape_node.shape != null:
 		if shape_node.shape is RectangleShape2D:
-			return (shape_node.shape as RectangleShape2D).size * 0.5
+			var rectangle_half := (shape_node.shape as RectangleShape2D).size * 0.5
+			return rectangle_half + Vector2(absf(shape_node.position.x), absf(shape_node.position.y))
 		if shape_node.shape is CircleShape2D:
 			var radius := (shape_node.shape as CircleShape2D).radius
-			return Vector2(radius, radius)
+			return Vector2(radius, radius) + Vector2(absf(shape_node.position.x), absf(shape_node.position.y))
+		if shape_node.shape is ConvexPolygonShape2D:
+			var points := (shape_node.shape as ConvexPolygonShape2D).points
+			if not points.is_empty():
+				var bounds := Rect2(points[0], Vector2.ZERO)
+				for point in points:
+					bounds = bounds.expand(point)
+				var half := bounds.size * 0.5
+				return half + Vector2(absf(shape_node.position.x), absf(shape_node.position.y))
 
 	return Vector2(36.0, 36.0)
 

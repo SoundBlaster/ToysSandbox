@@ -1,5 +1,7 @@
 extends Node
 
+signal show_stats_overlay_changed(is_visible: bool)
+
 const DEFAULT_SELECTED_TOY_ID := &"ball"
 const DEFAULT_SELECTED_SKIN_ID := &"classic"
 
@@ -76,6 +78,12 @@ func set_unlimited_toys_unlocked(is_unlocked: bool, persist: bool = true) -> voi
 
 
 func set_show_stats_overlay(is_visible: bool, persist: bool = true) -> void:
+	if show_stats_overlay == is_visible:
+		if persist:
+			SaveService.update_state({"show_stats_overlay": show_stats_overlay})
+		return
+
 	show_stats_overlay = is_visible
+	emit_signal("show_stats_overlay_changed", show_stats_overlay)
 	if persist:
 		SaveService.update_state({"show_stats_overlay": show_stats_overlay})

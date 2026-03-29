@@ -31,3 +31,11 @@ offset_top = -72.0
 offset_right = 48.0
 offset_bottom = -48.0
 horizontal_alignment = 1
+
+[node name="DebugPerimeterLine" type="Line2D" parent="."]
+visible = false
+width = 1.0
+default_color = Color(1, 0.15, 0.15, 1)
+closed = true
+antialiased = true
+z_index = 6
