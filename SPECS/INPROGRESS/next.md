@@ -1,11 +1,10 @@
 # Recently Archived
 
-- `2026-03-29` - `P2-T8` archived with verdict `PARTIAL`
+- `2026-03-29` - `P2-T10` archived with verdict `PARTIAL`
 
 ## Suggested Next Tasks
 
-1. `P2-T10` — Add Top-Right Collapse/Expand Menu Button (P2)
-2. `P2-T11` — Delete Toys With Double Click Or Double Tap (P3)
+1. `P2-T11` — Delete Toys With Double Click Or Double Tap (P3)
 
 ## Next Step
 

@@ -6,6 +6,7 @@
 
 | Task ID | Folder | Archived | Verdict |
 |---------|--------|----------|---------|
+| P2-T10 | [P2-T10_Add_Top-Right_Collapse_Expand_Menu_Button/](P2-T10_Add_Top-Right_Collapse_Expand_Menu_Button/) | 2026-03-29 | PARTIAL |
 | P2-T8 | [P2-T8_Draw_Bodies_Perimeter_For_Debug_Build/](P2-T8_Draw_Bodies_Perimeter_For_Debug_Build/) | 2026-03-29 | PARTIAL |
 | P4-T6 | [P4-T6_Complete_Physical_iPad_Launch_Validation_For_iOS_Export/](P4-T6_Complete_Physical_iPad_Launch_Validation_For_iOS_Export/) | 2026-03-29 | PARTIAL |
 | P4-T5 | [P4-T5_Complete_Real_Hardware_Export_And_Performance_Validation/](P4-T5_Complete_Real_Hardware_Export_And_Performance_Validation/) | 2026-03-29 | PARTIAL |
@@ -39,6 +40,8 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-29 | P2-T10 | Archived review report `REVIEW_p2-t10-menu-collapse-expand.md` |
+| 2026-03-29 | P2-T10 | Archived `Add Top-Right Collapse/Expand Menu Button` with verdict `PARTIAL` |
 | 2026-03-29 | P2-T8 | Archived review report `REVIEW_p2-t8-debug-body-perimeter.md` |
 | 2026-03-29 | P2-T8 | Archived `Draw Bodies Perimeter For Debug Build` with verdict `PARTIAL` |
 | 2026-03-29 | P4-T6 | Archived review report `REVIEW_p4-t6-physical-ipad-launch-validation.md` |
