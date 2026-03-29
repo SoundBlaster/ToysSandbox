@@ -78,3 +78,7 @@ The work must stay evidence-based. If the connected iPad is missing, untrusted, 
 
 - If the iPad is unavailable or untrusted, the validation report should explicitly say so and stop short of claiming launch completion.
 - If export succeeds but Xcode signing fails, capture the exact local signing mismatch rather than changing repo-level iOS configuration.
+
+---
+**Archived:** 2026-03-29
+**Verdict:** PARTIAL
