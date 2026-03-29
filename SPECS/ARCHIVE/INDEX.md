@@ -43,6 +43,8 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-30 | P5-T1 | Archived follow-up report `FOLLOWUP_p5-t1-pr-template-validation-guidance.md` |
+| 2026-03-30 | P5-T1 | Archived review report `REVIEW_p5-t1-pr-template-validation-guidance.md` |
 | 2026-03-30 | P5-T1 | Archived `Harden Pull Request Template And Validation Guidance` with verdict `PASS` |
 | 2026-03-29 | P2-T12 | Archived review report `REVIEW_p2-t12-double-tap-delete-tuning.md` |
 | 2026-03-29 | P2-T12 | Archived `Expose Double-Tap Delete Tuning Configuration` with verdict `PASS` |
