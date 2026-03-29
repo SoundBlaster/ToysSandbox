@@ -21,6 +21,7 @@ Replace the Team ID and bundle identifier locally in Godot before device deploym
 3. An Apple Developer team capable of signing development builds.
 4. A unique bundle identifier for the local signing account.
 5. A physical iPad connected, trusted, and visible to Xcode for final validation.
+6. If you want simulator validation on Apple Silicon, confirm the exported Godot iOS template actually contains an `arm64` simulator slice. A folder name like `ios-arm64_x86_64-simulator` is not enough by itself.
 
 ## Toolchain Smoke Checks
 
@@ -78,3 +79,4 @@ Record these in the Flow validation report:
 - If export fails before `.xcodeproj` generation, capture the exact Godot/template blocker.
 - If Xcode opens the project but signing fails, record the team/provisioning mismatch and keep credentials out of git.
 - If the iPad is offline or unavailable, treat physical-device launch as the remaining blocker rather than marking the task complete.
+- If simulator launch fails on Apple Silicon with `Undefined symbols for architecture arm64: _main`, inspect the simulator slice inside the exported `libgodot.a` before changing app code.
