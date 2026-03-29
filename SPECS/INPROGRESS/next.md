@@ -1,7 +1,15 @@
-# Recently Archived
+# Next Task: P2-T8 — Draw Bodies Perimeter For Debug Build
 
-- `2026-03-29` - `P4-T6` archived with verdict `PARTIAL`
+**Priority:** P2
+**Phase:** Phase 2: Core Sandbox
+**Effort:** 4 hours
+**Dependencies:** P2-T3
+**Status:** Selected
+
+## Description
+
+Render toy collision/body perimeters only in debug builds to simplify interaction and physics troubleshooting without affecting release visuals.
 
 ## Next Step
 
-Run SELECT to choose the next task from `SPECS/Workplan.md`.
+Run the PLAN command to generate the implementation-ready PRD.
