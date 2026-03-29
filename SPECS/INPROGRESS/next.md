@@ -1,15 +1,11 @@
-# Next Task: P2-T10 — Add Top-Right Collapse/Expand Menu Button
+# Recently Archived
 
-**Priority:** P2
-**Phase:** Phase 2 — Core Sandbox
-**Effort:** 3-5 hours
-**Dependencies:** P2-T1, P3-T3
-**Status:** Selected
+- `2026-03-29` - `P2-T10` archived with verdict `PARTIAL`
 
-## Description
+## Suggested Next Tasks
 
-Add a top-right collapse/expand control for the in-game menu panel so players can hide UI obstruction and restore full controls without losing selection context.
+1. `P2-T11` — Delete Toys With Double Click Or Double Tap (P3)
 
 ## Next Step
 
-Run the PLAN command to generate the implementation-ready PRD.
+Run SELECT to choose the next task from `SPECS/Workplan.md`.

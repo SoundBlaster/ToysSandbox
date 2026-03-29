@@ -68,3 +68,7 @@ After completion, update:
 - `SPECS/Workplan.md` (mark `P2-T10` complete).
 - `SPECS/ARCHIVE/INDEX.md` during ARCHIVE step.
 - Any sandbox usage docs if the new control should be referenced for QA/playtests.
+
+---
+**Archived:** 2026-03-29
+**Verdict:** PARTIAL

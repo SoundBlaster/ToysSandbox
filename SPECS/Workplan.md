@@ -143,7 +143,7 @@
   - Shelf selection updates to the matching toy definition when an in-world instance is selected
   - Selection behavior remains consistent for both mouse and touch input paths
 
-#### P2-T10: Add Top-Right Collapse/Expand Menu Button **INPROGRESS**
+#### P2-T10: Add Top-Right Collapse/Expand Menu Button ✅ Complete
 - **Description:** Add a collapse/expand control on the menu panel’s top-right corner so players can quickly hide or restore the in-game menu while keeping sandbox interactions accessible.
 - **Priority:** P2
 - **Dependencies:** P2-T1, P3-T3
