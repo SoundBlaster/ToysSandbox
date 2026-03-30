@@ -1,0 +1,81 @@
+name: Feature request
+description: Propose a new capability or improvement for gameplay, tooling, or workflow.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please describe the user problem first, then the proposed change and how success will be validated.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: What player or contributor problem are we trying to solve?
+      placeholder: Reviewers do not consistently receive reproducible issue context.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the preferred approach.
+      placeholder: Add structured issue forms for bug and feature intake.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: List alternatives and why they are less preferred.
+      placeholder: Keep free-form issues only; rejected due to missing reproducibility details.
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Define observable outcomes for completion.
+      placeholder: |
+        - Bug reports require reproduction steps and expected behavior.
+        - Feature requests include a user problem and acceptance criteria.
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation plan
+      description: How will this be validated? Include automation and runtime/editor checks when applicable.
+      placeholder: |
+        - Run verify.tests and verify.lint commands from .flow/params.yaml.
+        - Confirm forms render in GitHub issue creation flow.
+    validations:
+      required: true
+
+  - type: textarea
+    id: artifacts
+    attributes:
+      label: Related artifacts
+      description: Link FLOW docs and task references when available.
+      placeholder: |
+        - SPECS/INPROGRESS/next.md
+        - Task PRD path
+        - Validation report path
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmations
+      options:
+        - label: I checked existing issues and discussions for duplicates.
+          required: true
+        - label: I can help validate this change if implemented.
+          required: false

@@ -306,3 +306,14 @@
   - The validation section includes concrete checkboxes that match repository practices (automation plus runtime/editor checks)
   - The template remains concise and usable for both code and documentation-only tasks
   - Existing documentation references remain accurate and no stale placeholders are introduced
+
+#### P5-T2: Add Issue Templates For Bug Reports And Feature Requests ✅ Complete
+- **Description:** Create structured GitHub issue templates so bug reports and feature requests arrive with reproducible context, expected behavior, and validation evidence aligned with this repository's FLOW process.
+- **Priority:** P2
+- **Dependencies:** P5-T1
+- **Parallelizable:** yes
+- **Acceptance Criteria:**
+  - `.github/ISSUE_TEMPLATE/bug_report.yml` exists with required fields for reproduction steps, expected behavior, and environment details
+  - `.github/ISSUE_TEMPLATE/feature_request.yml` exists with required fields for user problem, proposed change, and acceptance criteria
+  - `.github/ISSUE_TEMPLATE/config.yml` guides reporters toward discussions and keeps template UX concise
+  - Template wording references repository artifacts and validation practices without adding stale links
