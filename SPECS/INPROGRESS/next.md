@@ -1,6 +1,11 @@
 # Current Task
 
-- _None selected_
+- **Task ID:** P4-T8
+- **Task Name:** Fix iPad Viewport Framing To Fit Full Screen
+- **Priority:** P1
+- **Dependencies:** P2-T1, P4-T3
+- **Selected On:** 2026-03-30
+- **Status:** Selected (PLAN pending)
 
 ## Recently Archived
 
@@ -12,4 +17,4 @@
 
 ## Suggested Next Tasks
 
-1. No pending task selected. Use `SELECT` to choose the next workplan item.
+1. P4-T8 is active. Revisit suggestions after ARCHIVE.
