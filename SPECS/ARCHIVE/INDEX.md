@@ -45,6 +45,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-30 | P4-T8 | Archived review report `REVIEW_p4-t8-ipad-viewport-framing.md` |
 | 2026-03-30 | P4-T8 | Archived `Fix iPad Viewport Framing To Fit Full Screen` with verdict `PARTIAL` |
 | 2026-03-30 | P5-T2 | Archived review report `REVIEW_p5-t2-issue-template-intake.md` |
 | 2026-03-30 | P5-T2 | Archived `Add Issue Templates For Bug Reports And Feature Requests` with verdict `PASS` |
