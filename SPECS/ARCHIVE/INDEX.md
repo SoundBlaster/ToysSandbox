@@ -1,11 +1,12 @@
 # Tasks Archive
 
-**Last Updated:** 2026-03-29
+**Last Updated:** 2026-03-30
 
 ## Archived Tasks
 
 | Task ID | Folder | Archived | Verdict |
 |---------|--------|----------|---------|
+| P5-T1 | [P5-T1_Harden_Pull_Request_Template_And_Validation_Guidance/](P5-T1_Harden_Pull_Request_Template_And_Validation_Guidance/) | 2026-03-30 | PASS |
 | P2-T12 | [P2-T12_Expose_Double-Tap_Delete_Tuning_Configuration/](P2-T12_Expose_Double-Tap_Delete_Tuning_Configuration/) | 2026-03-29 | PASS |
 | P2-T11 | [P2-T11_Delete_Toys_With_Double_Click_Or_Double_Tap/](P2-T11_Delete_Toys_With_Double_Click_Or_Double_Tap/) | 2026-03-29 | PARTIAL |
 | P2-T10 | [P2-T10_Add_Top-Right_Collapse_Expand_Menu_Button/](P2-T10_Add_Top-Right_Collapse_Expand_Menu_Button/) | 2026-03-29 | PARTIAL |
@@ -42,6 +43,9 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-30 | P5-T1 | Archived follow-up report `FOLLOWUP_p5-t1-pr-template-validation-guidance.md` |
+| 2026-03-30 | P5-T1 | Archived review report `REVIEW_p5-t1-pr-template-validation-guidance.md` |
+| 2026-03-30 | P5-T1 | Archived `Harden Pull Request Template And Validation Guidance` with verdict `PASS` |
 | 2026-03-29 | P2-T12 | Archived review report `REVIEW_p2-t12-double-tap-delete-tuning.md` |
 | 2026-03-29 | P2-T12 | Archived `Expose Double-Tap Delete Tuning Configuration` with verdict `PASS` |
 | 2026-03-29 | P2-T11 | Archived review report `REVIEW_p2-t11-double-click-double-tap-delete.md` |
