@@ -6,6 +6,7 @@
 
 | Task ID | Folder | Archived | Verdict |
 |---------|--------|----------|---------|
+| P4-T8 | [P4-T8_Fix_iPad_Viewport_Framing_To_Fit_Full_Screen/](P4-T8_Fix_iPad_Viewport_Framing_To_Fit_Full_Screen/) | 2026-03-30 | PARTIAL |
 | P5-T2 | [P5-T2_Add_Issue_Templates_For_Bug_Reports_And_Feature_Requests/](P5-T2_Add_Issue_Templates_For_Bug_Reports_And_Feature_Requests/) | 2026-03-30 | PASS |
 | P5-T1 | [P5-T1_Harden_Pull_Request_Template_And_Validation_Guidance/](P5-T1_Harden_Pull_Request_Template_And_Validation_Guidance/) | 2026-03-30 | PASS |
 | P2-T12 | [P2-T12_Expose_Double-Tap_Delete_Tuning_Configuration/](P2-T12_Expose_Double-Tap_Delete_Tuning_Configuration/) | 2026-03-29 | PASS |
@@ -44,6 +45,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-30 | P4-T8 | Archived `Fix iPad Viewport Framing To Fit Full Screen` with verdict `PARTIAL` |
 | 2026-03-30 | P5-T2 | Archived review report `REVIEW_p5-t2-issue-template-intake.md` |
 | 2026-03-30 | P5-T2 | Archived `Add Issue Templates For Bug Reports And Feature Requests` with verdict `PASS` |
 | 2026-03-30 | P5-T1 | Archived follow-up report `FOLLOWUP_p5-t1-pr-template-validation-guidance.md` |
