@@ -1,0 +1,95 @@
+name: Bug report
+description: Report a reproducible defect in gameplay, tooling, docs, or workflow artifacts.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug report. Please include enough detail for another contributor to reproduce and validate a fix.
+
+  - type: input
+    id: summary
+    attributes:
+      label: Short summary
+      description: One sentence describing the bug.
+      placeholder: Toy spawns twice after one tap on iPad
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Describe who is affected and how this blocks gameplay or development.
+      placeholder: Prevents reliable single-touch spawn behavior on iOS validation devices.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: List exact steps from a clean starting point.
+      placeholder: |
+        1. Open the sandbox scene.
+        2. Ensure no toy is selected for drag.
+        3. Tap empty space once.
+        4. Observe two toys spawn.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should happen instead?
+      placeholder: Exactly one toy spawns per single touch input.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What happens now? Include any errors or unusual output.
+      placeholder: Two toys spawn; no script errors in output panel.
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Provide platform and build details.
+      placeholder: |
+        - OS/device:
+        - Godot version:
+        - Branch/commit:
+        - Input mode (mouse/touch):
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation
+    attributes:
+      label: Validation evidence
+      description: Mention checks you ran and any relevant artifacts.
+      placeholder: |
+        - Command outputs (if any):
+        - Related FLOW artifact paths:
+          - SPECS/INPROGRESS/next.md
+          - validation report path (if available)
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Confirmations
+      options:
+        - label: I searched existing issues before submitting this report.
+          required: true
+        - label: I can reproduce this issue on the steps above.
+          required: true

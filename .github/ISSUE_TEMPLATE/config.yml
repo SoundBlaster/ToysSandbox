@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Gameplay and design discussion
+    url: https://github.com/SoundBlaster/ToysSandbox/discussions
+    about: Use discussions for open-ended ideas, balancing feedback, and design exploration.
+  - name: FLOW process and contribution guidance
+    url: https://github.com/SoundBlaster/ToysSandbox/blob/main/README.md
+    about: Review contribution context, workflow artifacts, and validation expectations before opening an issue.
