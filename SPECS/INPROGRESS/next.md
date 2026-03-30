@@ -1,6 +1,10 @@
 # Current Task
 
-- _None selected_
+- **Task ID:** `P5-T2`
+- **Task Name:** `Add Issue Templates For Bug Reports And Feature Requests`
+- **Status:** `Selected`
+- **Selected On:** `2026-03-30`
+- **Branch:** `feature/P5-T2-issue-template-intake`
 
 ## Recently Archived
 
@@ -11,4 +15,4 @@
 
 ## Suggested Next Tasks
 
-1. No pending task selected. Use `SELECT` to choose the next workplan item.
+1. Continue with `PLAN` for `P5-T2` and create `SPECS/INPROGRESS/P5-T2_Add_Issue_Templates_For_Bug_Reports_And_Feature_Requests.md`.
