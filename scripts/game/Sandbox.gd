@@ -2,7 +2,11 @@ extends Node2D
 
 const TOY_INSTANCE_SCENE := preload("res://scenes/game/ToyInstance.tscn")
 const SANDBOX_INTERACTION_CONTROLLER := preload("res://scripts/game/SandboxInteractionController.gd")
-const PLAY_AREA_RECT := Rect2(Vector2(0.0, 72.0), Vector2(1280.0, 580.0))
+const PLAY_AREA_TOP_MARGIN := 72.0
+const PLAY_AREA_BOTTOM_MARGIN := 68.0
+const MIN_PLAY_AREA_HEIGHT := 220.0
+const FLOOR_HEIGHT := 48.0
+const WALL_WIDTH := 32.0
 const MAX_ACTIVE_TOYS := 25
 const INTERACTION_TUNING := {
 	"delete_double_tap_window_ms": 320,
@@ -27,6 +31,14 @@ const HUD_TEXT_SECONDARY := Color("d3e2ff")
 @onready var shelf_title_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel/ShelfMargin/ShelfVBox/ShelfTitleLabel
 @onready var shelf_hint_label: Label = $CanvasLayer/MarginContainer/HBoxContainer/ShelfPanel/ShelfMargin/ShelfVBox/ShelfHintLabel
 @onready var spawn_root: Node2D = $SpawnedToys
+@onready var background: TextureRect = $Background
+@onready var camera_node: Camera2D = $Camera2D
+@onready var floor_body: StaticBody2D = $Floor
+@onready var floor_collision_shape: CollisionShape2D = $Floor/CollisionShape2D
+@onready var left_wall_body: StaticBody2D = $LeftWall
+@onready var left_wall_collision_shape: CollisionShape2D = $LeftWall/CollisionShape2D
+@onready var right_wall_body: StaticBody2D = $RightWall
+@onready var right_wall_collision_shape: CollisionShape2D = $RightWall/CollisionShape2D
 @onready var onboarding_overlay: PanelContainer = $CanvasLayer/OnboardingOverlay
 @onready var onboarding_title_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingTitle
 @onready var onboarding_spawn_hint_label: Label = $CanvasLayer/OnboardingOverlay/OnboardingMargin/OnboardingVBox/OnboardingSpawnHint
@@ -43,6 +55,7 @@ var fallback_icons: Dictionary = {}
 var active_toy: RigidBody2D = null
 var interaction_controller = null
 var is_menu_collapsed := false
+var play_area_rect := Rect2(Vector2(0.0, PLAY_AREA_TOP_MARGIN), Vector2(1280.0, 580.0))
 
 
 func _ready() -> void:
@@ -56,8 +69,10 @@ func _ready() -> void:
 	toy_list.item_selected.connect(_on_toy_selected)
 	dismiss_onboarding_button.pressed.connect(_on_dismiss_onboarding_pressed)
 	menu_toggle_button.pressed.connect(_on_menu_toggle_pressed)
+	get_viewport().size_changed.connect(_on_viewport_size_changed)
 
 	_apply_visual_polish()
+	_update_runtime_layout()
 	_set_menu_collapsed(false)
 	_ensure_selected_toy()
 	_build_toy_shelf()
@@ -94,6 +109,10 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_back_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/menu/MainMenu.tscn")
+
+
+func _on_viewport_size_changed() -> void:
+	_update_runtime_layout()
 
 
 func _on_menu_toggle_pressed() -> void:
@@ -305,12 +324,44 @@ func _screen_to_world(screen_position: Vector2) -> Vector2:
 
 
 func _clamp_to_play_area(point: Vector2, half_extents: Vector2 = Vector2.ZERO) -> Vector2:
-	var min_point := PLAY_AREA_RECT.position + half_extents
-	var max_point := PLAY_AREA_RECT.end - half_extents
+	var min_point := play_area_rect.position + half_extents
+	var max_point := play_area_rect.end - half_extents
 
 	return Vector2(
 		clampf(point.x, min_point.x, max_point.x),
 		clampf(point.y, min_point.y, max_point.y)
+	)
+
+
+func _update_runtime_layout() -> void:
+	var viewport_size := get_viewport_rect().size
+	if viewport_size.x <= 0.0 or viewport_size.y <= 0.0:
+		return
+
+	background.offset_right = viewport_size.x
+	background.offset_bottom = viewport_size.y
+	camera_node.position = viewport_size * 0.5
+
+	floor_body.position = Vector2(viewport_size.x * 0.5, viewport_size.y - FLOOR_HEIGHT * 0.5)
+	left_wall_body.position = Vector2(-WALL_WIDTH * 0.5, viewport_size.y * 0.5)
+	right_wall_body.position = Vector2(viewport_size.x + WALL_WIDTH * 0.5, viewport_size.y * 0.5)
+
+	if floor_collision_shape.shape is RectangleShape2D:
+		var floor_shape := floor_collision_shape.shape as RectangleShape2D
+		floor_shape.size = Vector2(viewport_size.x, FLOOR_HEIGHT)
+
+	if left_wall_collision_shape.shape is RectangleShape2D:
+		var left_wall_shape := left_wall_collision_shape.shape as RectangleShape2D
+		left_wall_shape.size = Vector2(WALL_WIDTH, viewport_size.y)
+
+	if right_wall_collision_shape.shape is RectangleShape2D:
+		var right_wall_shape := right_wall_collision_shape.shape as RectangleShape2D
+		right_wall_shape.size = Vector2(WALL_WIDTH, viewport_size.y)
+
+	var available_height := viewport_size.y - PLAY_AREA_TOP_MARGIN - PLAY_AREA_BOTTOM_MARGIN
+	play_area_rect = Rect2(
+		Vector2(0.0, PLAY_AREA_TOP_MARGIN),
+		Vector2(viewport_size.x, maxf(available_height, MIN_PLAY_AREA_HEIGHT))
 	)
 
 
