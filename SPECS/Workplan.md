@@ -294,6 +294,17 @@
   - **Action:** Trace the input flow through `Sandbox._unhandled_input()` into `SandboxInteractionController.handle_input()`. The current controller calls `_handle_pointer_pressed()` for both `InputEventScreenTouch` and `InputEventMouseButton`, and empty-space presses spawn immediately inside `_handle_pointer_pressed()`. Mobile deduplication currently relies on `_should_ignore_emulated_mouse()`, a time/distance heuristic that only works when the synthesized mouse event arrives close enough to a previously registered touch event.
   - **Result:** The most likely root cause is duplicate handling of the same physical tap through two event classes on iOS/iPadOS: the real touch event and an emulated left-mouse event. Because spawn happens on press and the suppression is heuristic rather than authoritative, one tap can produce two toy spawns.
 
+#### P4-T8: Fix iPad Viewport Framing To Fit Full Screen ✅ Complete
+- **Description:** Resolve the iPad layout issue where the sandbox world appears letterboxed in a 16:9-like frame instead of adapting to the real device/window aspect ratio.
+- **Priority:** P1
+- **Dependencies:** P2-T1, P4-T3
+- **Parallelizable:** no
+- **Acceptance Criteria:**
+  - On physical iPad, the sandbox scene fills the available screen area without unintended 16:9 framing
+  - Camera, world bounds, and shelf/menu layout adapt correctly to portrait and landscape aspect ratios
+  - Desktop window resize keeps scene framing responsive and does not break input alignment
+  - Validation includes before/after screenshots from iPad and a short resize test protocol
+
 ## Phase 5: Workflow And Documentation Quality
 
 #### P5-T1: Harden Pull Request Template And Validation Guidance ✅ Complete

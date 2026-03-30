@@ -29,12 +29,8 @@ window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
-[input_devices]
-
-pointing/emulate_mouse_from_touch=true
-
 [rendering]
 
-renderer/rendering_method="mobile"
 rendering_device/driver.ios="vulkan"
+renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
