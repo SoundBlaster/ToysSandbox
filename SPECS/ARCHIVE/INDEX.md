@@ -44,6 +44,7 @@
 
 | Date | Task ID | Action |
 |------|---------|--------|
+| 2026-03-30 | P5-T2 | Archived review report `REVIEW_p5-t2-issue-template-intake.md` |
 | 2026-03-30 | P5-T2 | Archived `Add Issue Templates For Bug Reports And Feature Requests` with verdict `PASS` |
 | 2026-03-30 | P5-T1 | Archived follow-up report `FOLLOWUP_p5-t1-pr-template-validation-guidance.md` |
 | 2026-03-30 | P5-T1 | Archived review report `REVIEW_p5-t1-pr-template-validation-guidance.md` |
